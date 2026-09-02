@@ -10,6 +10,10 @@
 
 本仓聚合了大量真实项目实践中打磨出的 Spec 模板、流程与案例，是作品集中**最能体现方法论深度**的资产。
 
+## 🧩 DeepSeek Harness（DSH）兼容
+
+本仓 SDD 规格工作流（先 Spec、后 Code）可与 DeepSeek Harness 的 Agent 编排结合使用：用规格驱动 DSH 插件组合的产出可预期、可审计、可复现。
+
 ## 📦 用法
 
 ```bash
