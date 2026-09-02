@@ -38,9 +38,9 @@ cp specs/_TEMPLATE/00_README.md my-task/
 
 | Spec | 说明 | 状态 |
 |------|------|:---:|
-| _TEMPLATE | 新 spec 模板 | ✅ |
+| specs/_TEMPLATE | SDD 六文件模板（requirements / design / tasks / estimation / validator / README）| ✅ 可用 |
 
-> 逐个审阅填充中。
+> 使用方法：复制 `_TEMPLATE` 到新任务目录 → 依次填 requirements → design → tasks/estimation → validator 门禁 → 交付。
 
 ## 🧠 为什么重要
 
