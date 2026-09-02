@@ -1,0 +1,34 @@
+***REMOVED*** OS
+.DS_Store
+Thumbs.db
+
+***REMOVED*** Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+***REMOVED*** Env & Secrets
+.env
+.env.*
+*.key
+*.pem
+config.local.json
+secrets.json
+
+***REMOVED*** Build
+node_modules/
+dist/
+build/
+__pycache__/
+*.pyc
+
+***REMOVED*** Logs
+*.log
+logs/
+
+***REMOVED*** Backup
+*.bak
+*.backup
+.backups/
+.trash/
