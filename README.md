@@ -2,7 +2,8 @@
 
 > 一套可复现的 AI 工程化规格工作流：先 Spec、后 Code，从实践中蒸馏。
 
-![CC BY-NC-SA 4.0](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey.svg)
+![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)
+![SDD Template](https://img.shields.io/badge/SDD%20template-6%20files-orange.svg)
 
 ## 🎯 这是什么
 
@@ -61,10 +62,6 @@ cp specs/_TEMPLATE/00_README.md my-task/
 - **相同方式共享**：演绎作品须以相同协议发布
 
 完整条款见 [LICENSE](./LICENSE)。商业使用 / 出版合作请联系作者。
-
----
-
-> AI 辅助创作 · 内容基于真实工程实践
 
 ---
 
