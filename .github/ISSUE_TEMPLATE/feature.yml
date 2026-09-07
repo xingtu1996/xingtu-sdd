@@ -1,0 +1,45 @@
+name: 功能建议
+description: 新能力 / 新 Skill / 新 preset / 改进建议
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 你想解决什么问题
+      description: 说场景，别说方案。场景越具体，越可能被采纳
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: 现在你是怎么绕过去的
+      description: 有没有临时方案？为什么不够用？
+    validations:
+      required: false
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 你设想的方案
+      description: 可选。有想法就写，没想法留空也行
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: 参与意愿
+      options:
+        - label: 我愿意自己提 PR 实现
+        - label: 我只是提建议，等作者决定
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 轻量性确认（本项目偏好零依赖 / 轻量）
+      description: 若方案会引入新依赖，请在上面说明为什么值得
+      options:
+        - label: 我确认这个建议不需要新增依赖，或已在上面说明理由
+          required: true

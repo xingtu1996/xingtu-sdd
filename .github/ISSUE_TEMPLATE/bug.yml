@@ -1,0 +1,54 @@
+name: 问题反馈
+description: 报错 / 跑不通 / 文档看不懂
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    value: |
+      感谢反馈。请尽量给足信息，否则我大概率要来回问你三轮。
+
+  - type: textarea
+    id: what
+    attributes:
+      label: 发生了什么
+      description: 现象 + 期望结果
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: 复现步骤
+      description: 1. … 2. … 3. …
+      placeholder: |
+        1. 执行 `xxx`
+        2. 打开 …
+        3. 看到 …
+    validations:
+      required: true
+
+  - type: input
+    id: env
+    attributes:
+      label: 环境
+      description: 系统 / 运行时版本 / 项目版本
+      placeholder: macOS 15 · Node 22 · v0.1.0
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志或报错
+      description: 贴原文，**记得先删掉密钥、路径里的真名、公司域名**
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 隐私自检
+      options:
+        - label: 我已删除日志中的密钥、真实姓名、公司内网信息
+          required: true
