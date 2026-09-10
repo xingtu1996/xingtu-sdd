@@ -1,40 +1,40 @@
-***REMOVED*** XingTu SDD · Spec-Driven Development Methodology
+# XingTu SDD · Spec-Driven Development Methodology
 
 > A reproducible AI engineering workflow: spec first, code second. Distilled from real practice.
 
 ![CC BY-NC-SA 4.0](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey.svg)
 
-***REMOVED******REMOVED*** 🎯 What is this
+## 🎯 What is this
 
 `xingtu-sdd` is the **Spec-Driven Development (SDD) methodology** repository of the XingTu open-source matrix. Core idea: **no specs, no code**. For any non-trivial task, write a Spec first — clarifying goals, constraints, and acceptance criteria — before writing code. This makes AI output predictable, auditable, and reproducible.
 
 This repository aggregates Spec templates, workflows, and case studies polished through real project practice. It is the most methodology-heavy asset in the portfolio.
 
-***REMOVED******REMOVED*** 📦 Usage
+## 📦 Usage
 
 ```bash
-***REMOVED*** List all specs
+# List all specs
 ls specs/
 
-***REMOVED*** Start a new spec from template
+# Start a new spec from template
 cp specs/_TEMPLATE/00_README.md my-task/
 ```
 
-***REMOVED******REMOVED*** 📐 Standard Spec Structure
+## 📐 Standard Spec Structure
 
 Every spec follows a numbered structure:
 
 ```
-00_README.md        ***REMOVED*** Overview + one-line goal
-01_analysis.md      ***REMOVED*** Background / constraints / boundaries
-02_requirements.md  ***REMOVED*** Requirements spec
-03_design.md        ***REMOVED*** Solution design
-04_tasks.md         ***REMOVED*** Task breakdown
-05_validator.md     ***REMOVED*** Acceptance criteria
-06_execution-log.md ***REMOVED*** Execution log (optional)
+00_README.md        # Overview + one-line goal
+01_analysis.md      # Background / constraints / boundaries
+02_requirements.md  # Requirements spec
+03_design.md        # Solution design
+04_tasks.md         # Task breakdown
+05_validator.md     # Acceptance criteria
+06_execution-log.md # Execution log (optional)
 ```
 
-***REMOVED******REMOVED*** 🗂 Spec List
+## 🗂 Spec List
 
 | Spec | Description | Status |
 |------|-------------|:---:|
@@ -42,13 +42,13 @@ Every spec follows a numbered structure:
 
 > Filling in progress, reviewed one by one.
 
-***REMOVED******REMOVED*** 🧠 Why it matters
+## 🧠 Why it matters
 
 - **Reproducible**: same task via spec workflow → predictable results
 - **Auditable**: every step has evidence and verification
 - **Reusable**: methodology works across projects and teams
 
-***REMOVED******REMOVED*** 📄 License
+## 📄 License
 
 This repository is a **methodology/content asset**, licensed under **CC BY-NC-SA 4.0** (Attribution-NonCommercial-ShareAlike 4.0 International).
 

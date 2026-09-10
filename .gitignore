@@ -1,14 +1,14 @@
-***REMOVED*** OS
+# OS
 .DS_Store
 Thumbs.db
 
-***REMOVED*** Editor
+# Editor
 .vscode/
 .idea/
 *.swp
 *.swo
 
-***REMOVED*** Env & Secrets
+# Env & Secrets
 .env
 .env.*
 *.key
@@ -16,18 +16,18 @@ Thumbs.db
 config.local.json
 secrets.json
 
-***REMOVED*** Build
+# Build
 node_modules/
 dist/
 build/
 __pycache__/
 *.pyc
 
-***REMOVED*** Logs
+# Logs
 *.log
 logs/
 
-***REMOVED*** Backup
+# Backup
 *.bak
 *.backup
 .backups/

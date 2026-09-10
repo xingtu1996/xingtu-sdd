@@ -1,22 +1,22 @@
-***REMOVED*** execution-log：{Spec 标题}
+# execution-log：{Spec 标题}
 
 > 📜 append-only 事件日志 = spec 状态**事实源**（00_README 状态行仅缓存视图，冲突以本文件为准）。
 > 铁律：只追加不改历史；写错追加更正条；与动作同步落账，**禁止事后回填**。
 
-***REMOVED******REMOVED*** 条目规范
+## 条目规范
 
 - **粒度**：Phase 完成 / 关键产物落盘 / 打回与更正（微操作不记，防形式主义）
 - **五要素**：时间｜动作｜产物路径+大小｜验证方式（ls -la + 抽样回读）｜状态
 - **形态**：默认本文件追加节；多个执行体并行推同一 spec 时改用 `execution-log/` 目录（一事件一文件防写冲突），文件名 `{YYYYMMDD}-{HHMMSS}-{Phase}-{事项}.md`
 
-***REMOVED******REMOVED*** 事件记录
+## 事件记录
 
-***REMOVED******REMOVED******REMOVED*** {YYYY-MM-DD HH:MM} · 澄清状态（开工首条必记）
+### {YYYY-MM-DD HH:MM} · 澄清状态（开工首条必记）
 
 - 状态：已问 {N} 项 ｜ 豁免（信息来源：工单/PRD 已含影响面 + AC 口径）
 - 关键结论：
 
-***REMOVED******REMOVED******REMOVED*** {YYYY-MM-DD HH:MM} · {Phase/产物} · {事项}
+### {YYYY-MM-DD HH:MM} · {Phase/产物} · {事项}
 
 - 动作：
 - 产物：

@@ -3,12 +3,12 @@ name: specs-engine
 description: Spec 驱动开发(SDD)方法论引擎——意图路由、先规格后编码(三铁律 No Spec No Code/五阶段/深度裁减)。用户说"按 specs 标准推进/走 spec/需求澄清固化/写 analysis~validator/收口 0 draft/按宪法推进"等时用，把需求固化为结构化 Spec 再写代码；Bug 先写根因 analysis。轻量/标准/重量三档深度，多 Spec 并行走 orchestration。
 ---
 
-***REMOVED*** specs-engine — Spec 驱动开发方法论
+# specs-engine — Spec 驱动开发方法论
 
 > **SSOT**：本 skill 即方法论唯一事实源。改此处 → 所有项目即刻生效（全局 user-level skill）。
 > 每个 Spec 目录落盘的 `laws.md` 是该方法论的薄快照（自包含，供团队读者），冲突以本 skill 为准。
 
-***REMOVED******REMOVED*** 触发与路由
+## 触发与路由
 
 | 意图（说人话即可） | 走哪 |
 |------|------|
@@ -22,7 +22,7 @@ description: Spec 驱动开发(SDD)方法论引擎——意图路由、先规格
 **铁律一**：No Spec No Code。方案未文档化（对应文件≥完成）前不写实现代码。
 **意图路由是灵魂**：AI 读上述路由自适应深浅，非命令驱动——用户不用学命令。
 
-***REMOVED******REMOVED*** 深度裁减（SSOT 在此，00_README 模板仅落盘快照）
+## 深度裁减（SSOT 在此，00_README 模板仅落盘快照）
 
 | 深度 | 场景 | 必填 | 说明 |
 |:---:|------|------|------|
@@ -32,7 +32,7 @@ description: Spec 驱动开发(SDD)方法论引擎——意图路由、先规格
 
 > BDD 铁律：AI 定档并建议，**人确认后**执行。AI 不给自己当裁判。
 
-***REMOVED******REMOVED*** 工作流
+## 工作流
 
 ```
 意图 → 深度定档(人确认) → 01_analysis → 02_requirements(AC) → 03_design
@@ -42,21 +42,21 @@ description: Spec 驱动开发(SDD)方法论引擎——意图路由、先规格
 
 失败即回写：发现 Spec 遗漏 → 先补对应文件（Reverse Sync），再改代码。
 
-***REMOVED******REMOVED*** 读取导航
+## 读取导航
 
 - spec 时读：`references/core.md`（三铁律 + 五阶段 + 文件规范 + 门禁）——唯一需读的方法论正文
 - 仅并行场景：`references/orchestration.md`（依赖 DAG + 契约优先）
 - 写完 05_validator 跑：`scripts/validator-check.sh`（占位符残留检查，全局单份）
 
-***REMOVED******REMOVED*** 物化 Spec（scaffold）
+## 物化 Spec（scaffold）
 
 ```bash
-***REMOVED*** 每个新 Spec：父目录/README 索引自动建+加行
+# 每个新 Spec：父目录/README 索引自动建+加行
 bash ~/.claude/skills/specs-engine/scripts/scaffold.sh new <specs父目录> <TICKET>-{简述} [--depth light|standard|heavy]
 ```
 
 模板 `{占位符}`：TICKET 按项目编号（如 TICKET-123/GI-42），日期 `date "+%Y-%m-%d %H:%M"`，作者写实。
 
-***REMOVED******REMOVED*** 与项目宪法（Constitution）的关系
+## 与项目宪法（Constitution）的关系
 
 **项目宪法** = 项目专属护栏（企业/团队红线文件），与全局方法论铁律并行：spec 内 📜 Check 节同时对照两者。方法论铁律见 references/core.md 〇章；每个 spec 目录自带 `laws.md` 薄快照，自包含可读。
