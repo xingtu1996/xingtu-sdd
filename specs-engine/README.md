@@ -71,4 +71,4 @@ specs-engine/
 
 ## 相关
 
-- 姊妹文档：方法论演进与项目差异分析见 tfm-ng `specs-harness` spec（本项目为其收敛落地）。
+- 姊妹文档：方法论演进与项目差异分析见内部 `specs-harness` spec（未公开）（本项目为其收敛落地）。
