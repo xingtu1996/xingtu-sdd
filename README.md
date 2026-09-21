@@ -3,7 +3,7 @@
 > 一句话：**让 AI「先想清楚，再写代码」**——把需求固化为结构化 Spec（规格），验收标准先行，代码只是规格的执行产物。
 > 大白话：跟 AI 干活前先签一份「合同」（规格），写清要什么、怎么验收；AI 照做，做完拿合同逐条验收。可预期、可审计、可复现。
 
-![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 
 `xingtu-sdd` 是行途开源矩阵的 **SDD（Spec-Driven Development）方法论资产仓 + 可安装引擎**。核心：**no specs, no code**。任何复杂任务先写规格，明确目标/约束/验收标准，再动手编码。
 
@@ -50,7 +50,7 @@ xingtu-sdd/
 │   ├── references/          # 方法论：core(三铁律+五阶段+文件规范) / orchestration(并行)
 │   ├── templates/           # 编号制 8 骨架：00_README ~ 05_validator + execution-log + laws
 │   ├── scripts/             # scaffold.sh(new 建 Spec) + validator-check.sh(静态门禁)
-│   ├── examples/            # demo-bugfix：填好的轻量 Spec 样例
+│   ├── examples/           # demo-bugfix：填好的轻量 Spec 样例
 │   └── README.md            # 引擎使用手册
 ├── specs/                   # 历史 Spec 目录（_TEMPLATE.legacy-20260907 = 旧空模板归档）
 ├── SELF.md / README.en.md / LICENSE
@@ -93,7 +93,7 @@ execution-log.md    # 事件日志（append-only 事实源）
 
 ## 许可证与联系
 
-本仓库为**方法论/引擎型资产**，采用 **CC BY-NC-SA 4.0**（署名-非商业-相同方式共享）。署名：行途 / xingtu1996。商业使用 / 出版合作请联系作者。
+本仓库采用 **MIT License**。代码、模板、文档可自由使用、修改与商用，保留版权声明即可。署名：行途 / xingtu1996。出版合作 / 深度咨询请联系作者。
 
 完整方法论深度篇与实战案例 → 《行途 AI 工程化手册》（出版筹备中）
 深度答疑 / 定制陪跑 → 公众号「行途技术手记」留言

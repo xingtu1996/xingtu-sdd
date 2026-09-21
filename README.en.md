@@ -2,7 +2,7 @@
 
 > A reproducible AI engineering workflow: spec first, code second. Distilled from real practice.
 
-![CC BY-NC-SA 4.0](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey.svg)
+![MIT License](https://img.shields.io/badge/License-MIT-green.svg)
 
 ## 🎯 What is this
 
@@ -50,13 +50,11 @@ Every spec follows a numbered structure:
 
 ## 📄 License
 
-This repository is a **methodology/content asset**, licensed under **CC BY-NC-SA 4.0** (Attribution-NonCommercial-ShareAlike 4.0 International).
+This repository is licensed under the **MIT License**.
 
-- **Attribution**: You must give appropriate credit to the author (行途 / xingtu1996) and provide a link to the license.
-- **NonCommercial**: You may not use the material for commercial purposes (including but not limited to: paid courses, commercial publications, commercial products).
-- **ShareAlike**: If you remix, transform, or build upon the material, you must distribute your contributions under the same license.
+You are free to use, copy, modify, and distribute this code, templates, and documentation — even for commercial purposes — provided the copyright notice and this permission notice are retained in all copies.
 
-See [LICENSE](./LICENSE) for the full terms. For commercial use / publishing cooperation, contact the author.
+See [LICENSE](./LICENSE) for the full terms. For publishing cooperation / consulting, contact the author.
 
 ---
 
