@@ -52,6 +52,7 @@ xingtu-sdd/
 │   ├── scripts/             # scaffold.sh(new 建 Spec) + validator-check.sh(静态门禁)
 │   ├── examples/           # demo-bugfix：填好的轻量 Spec 样例
 │   └── README.md            # 引擎使用手册
+├── case-studies/            # 🆕 实践案例库（L1 索引 + 精选 5 案例全文：真实 Spec 长什么样）
 ├── specs/                   # 历史 Spec 目录（_TEMPLATE.legacy-20260907 = 旧空模板归档）
 ├── SELF.md / README.en.md / LICENSE
 ```
