@@ -92,6 +92,17 @@ execution-log.md    # 事件日志（append-only 事实源）
 - **纪律非强制**：护栏靠流程 + `validator-check.sh` 静态占位符门禁；不自动硬拦 git hook。
 - **不生产代码**：管"想清楚与验收"，不管"写实现"。
 
+## 关于作者
+
+我是**行途**，一线技术人 + 仍在写代码。xingtu-sdd 是我在 Vibe coding 实践中沉淀的规格驱动开发骨架——AI 写代码越快，spec 越要先对齐。
+
+- 🔔 公众号 **「行途技术手记」**：微信搜索关注，看 AI 工程化落地实战
+- 🐙 GitHub：[@xingtu1996](https://github.com/xingtu1996)
+- 📦 仓库：[xingtu1996/xingtu-sdd](https://github.com/xingtu1996/xingtu-sdd)
+
+---
+
+
 ## 许可证与联系
 
 本仓库采用 **MIT License**。代码、模板、文档可自由使用、修改与商用，保留版权声明即可。署名：行途 / xingtu1996。出版合作 / 深度咨询请联系作者。
