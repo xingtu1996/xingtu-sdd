@@ -5,6 +5,10 @@
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 
+## 📖 延伸阅读
+
+- [Vibe coding 出来的代码没人看了：我花 spec 的时间比写代码还多](https://github.com/xingtu1996/xingtu-articles/blob/main/articles/2026/09/2026-09-23-vibe-coding-nobody-reads-code.md) —— 为什么需要规格驱动
+
 `xingtu-sdd` 是行途开源矩阵的 **SDD（Spec-Driven Development）方法论资产仓 + 可安装引擎**。核心：**no specs, no code**。任何复杂任务先写规格，明确目标/约束/验收标准，再动手编码。
 
 > **2026-09-07 升级**：从"内容方法论仓"升级为**可用的 SDD 引擎**（`specs-engine/`）——内置 scaffold 物化骨架、validator 静态门禁、编号制模板、教程样例。从 40+ 真实工程 Spec 实战蒸馏后去业务绑定。
