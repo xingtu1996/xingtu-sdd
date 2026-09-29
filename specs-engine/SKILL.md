@@ -18,6 +18,8 @@ description: Spec 驱动开发(SDD)方法论引擎——意图路由、先规格
 | 单文件微调 / 配置调整 | Spec：轻量（analysis + validator 两文件） |
 | 一句话需求 → 先澄清再固化 | 需求澄清 → 人确认 → 写 requirements |
 | 批量/2+ 独立需求 | 读 orchestration.md（依赖 DAG + 契约优先） |
+| 换会话/换 agent 接着干 / 上次做到哪了 | `sdd resume <dir>`（断代续传，读 state.json + log 尾部） |
+| 调研/探索（无交付代码） | 用 research 档：analysis→findings 即可，不写 design/code |
 
 **铁律一**：No Spec No Code。方案未文档化（对应文件≥完成）前不写实现代码。
 **意图路由是灵魂**：AI 读上述路由自适应深浅，非命令驱动——用户不用学命令。
@@ -29,6 +31,7 @@ description: Spec 驱动开发(SDD)方法论引擎——意图路由、先规格
 | 轻量 | 单文件 Bug、配置 | 01_analysis + 05_validator | 02/03/04 可删；execution-log 并入 00_README |
 | 标准 | 功能开发、跨模块修改 | 01~05 + execution-log | 默认档 |
 | 重量 | 架构、计费/库存/权限 | 同标准 | 加方案对比 + 暂停点 |
+| research | 调研/探索/市场评估（无交付代码） | 01_analysis + findings | 不写 03/04/05；验收=结论可复现、来源可追溯 |
 
 > BDD 铁律：AI 定档并建议，**人确认后**执行。AI 不给自己当裁判。
 
@@ -45,8 +48,23 @@ description: Spec 驱动开发(SDD)方法论引擎——意图路由、先规格
 ## 读取导航
 
 - spec 时读：`references/core.md`（三铁律 + 五阶段 + 文件规范 + 门禁）——唯一需读的方法论正文
-- 仅并行场景：`references/orchestration.md`（依赖 DAG + 契约优先）
+- 跨会话/换 agent 接续：`references/continuity.md`（state.json 状态机 + 续传协议 + 假设台账）
+- 仅并行场景：`references/orchestration.md`（依赖 DAG + 契约优先 + worktree）
 - 写完 05_validator 跑：`scripts/validator-check.sh`（占位符残留检查，全局单份）
+
+## v2 命令（断代续传 / 并行 / 看板 / 复用）
+
+```bash
+scripts/sdd.sh resume   <spec_dir>     # 三行断点：上次到哪/挂什么/下一步
+scripts/sdd.sh status   <spec_dir>     # 机器可读状态总览
+scripts/sdd.sh touch    <spec_dir> --stage design --set-stage analysis=done --tail "..."
+scripts/sdd.sh start    <phase> [--worktree]   # 并行 phase（worktree 隔离）
+scripts/sdd.sh merge    <worktree_name>       # 合并回主线（先人工核对）
+scripts/sdd.sh dashboard <specs_parent> # 跨 spec 聚合看板
+scripts/sdd.sh recall   <关键词>        # 检索 case-studies + copy-points 复用
+```
+
+派子 agent 时角色包见 `agents/README.md`（resume/scout/redteam/executor/archivist）。
 
 ## 物化 Spec（scaffold）
 

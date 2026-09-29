@@ -124,3 +124,20 @@ execution-log.md    # 事件日志（append-only 事实源）
 - GitHub：[github.com/xingtu1996](https://github.com/xingtu1996)
 - 🌐 个人站：[xingtu1996.pages.dev](https://xingtu1996.pages.dev)
 - 📱 公众号：「行途技术手记」（深度长文 + 可抄作业的实战经验）
+
+## 🆕 v2：断代续传 × 并行 × 知识回流（2026-09-29）
+
+v1 解决"先想清楚"，v2 解决"模型跨会话不失忆、多 agent 不打架、经验能复用"——直接对抗大模型概率性失控：
+
+```bash
+bash specs-engine/scripts/sdd.sh resume   specs/<dir>   # 三行断点：上次到哪/挂什么/下一步
+bash specs-engine/scripts/sdd.sh start    design --worktree  # git worktree 隔离真并行
+bash specs-engine/scripts/sdd.sh dashboard specs/        # 跨 spec 聚合看板
+bash specs-engine/scripts/sdd.sh recall   门禁           # 检索案例库复用
+```
+
+- **state.json**：每个 spec 一份机器可读状态机（阶段/待拍板 D/假设 H/断点 tail）
+- **continuity.md**：跨会话/换 agent 续传协议 + 假设台账 H-* 结算
+- **agents/**：5 个可派子 agent 的角色包（resume/scout/redteam/executor/archivist）
+- **research 档**：调研类 spec 不写代码，只出可复现结论
+- **copy-points.md**：可直接抄的话术/金句库，复盘自动回流

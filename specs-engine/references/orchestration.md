@@ -49,3 +49,23 @@ Step 4: 独立组全并行推进（契约定了就能解耦）
 - 并发上限 ≤ 编排工具默认（建议 3-5，勿盲目开满）
 - **无并行价值时结论写「串行」，不强制并行**（并行是手段不是目的）
 - 跨 Spec 并行升级走 §一 契约优先
+
+## 五、worktree 真实并行（v2 新增）
+
+纸面 DAG 标注 ∥ 不够，真多 agent 并行需要 git 隔离：
+
+```bash
+# 主会话在主线 spec 目录里，给某 phase 开隔离 worktree
+bash scripts/sdd.sh start <phase> --worktree
+#   → git worktree add ../.worktrees/<spec>-<phase> -b sdd/<spec>/<phase>
+#   → 子 agent 在该 worktree 内跑，互不踩主线
+
+# 子 agent 完成、主会话磁盘验收后，合并回主线
+bash scripts/sdd.sh merge <spec>-<phase>
+#   → 合并前人工核对三项：未提交/共改冲突/磁盘产物
+```
+
+- **契约目录先行**：跨并行单元的接口/数据依赖，先定死契约（provider 签名 + consumer 幂等），再开 worktree。
+- **共改文件互斥**：两个 worktree 改同一文件 = 串行，不开并行。
+- **验收认磁盘**：合并前主会话对 worktree 产物实跑/grep，不轻信子 agent 自述。
+- 无 git 仓时 `start` 退化为非 worktree 模式（主线直接推进），不硬依赖。
