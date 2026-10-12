@@ -57,6 +57,51 @@ CURL=$(grep -c 'curl ' "$VALIDATOR_FILE" || true)
 echo ""
 echo "--- 用例统计: $CURL 条 curl（纯 SQL/单元场景可忽略） ---"
 
+# 子 Spec 索引对账（仅当本 Spec 是父 Spec 时触发；兼容 legacy `subspecs/`）
+SUBROOT=""
+for c in sub-specs subspecs; do [ -d "$SPEC_DIR/$c" ] && SUBROOT="$SPEC_DIR/$c" && break; done
+if [ -n "$SUBROOT" ]; then
+    echo ""
+    echo "--- 子 Spec 索引对账（父 README ↔ 实有子目录） ---"
+    ACTUAL=$(find "$SUBROOT" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+    PARENT_README="$SPEC_DIR/00_README.md"
+    if [ ! -f "$PARENT_README" ]; then
+        echo -e "${YELLOW}⚠️  父 00_README.md 不存在，无法对账${NC}"; WARNINGS=$((WARNINGS + 1))
+    else
+        # 只数「子 Spec 索引段」内的行；无该段（老写法把行混在主索引表里）则数全文
+        # 行内只要出现 sub-specs/ 路径即计数，兼容三列旧表与七列新表
+        SECTION=$(awk '/^## .*子 Spec/{f=1;next} /^## /{f=0} f' "$PARENT_README" || true)
+        if [ -n "$SECTION" ]; then
+            LISTED=$(printf '%s\n' "$SECTION" | grep -cE '^\|.*(sub-specs|subspecs)/' || true)
+        else
+            LISTED=$(grep -cE '^\|.*(sub-specs|subspecs)/' "$PARENT_README" || true)
+        fi
+        if [ "$ACTUAL" = "$LISTED" ]; then
+            echo -e "${GREEN}✅ 索引一致（实有 ${ACTUAL} / 列出 ${LISTED}）${NC}"
+        else
+            echo -e "${RED}❌ 索引漂移：实有 ${ACTUAL} 个子 Spec，父 README 只列 ${LISTED} 个 — 补齐索引行${NC}"
+            echo "      ↳ 该漂移在真实项目中发生过三次（只列 1 个 vs 实有 6/10 个）"
+            ERRORS=$((ERRORS + 1))
+        fi
+        # 导航指针（新增约定；存量子 Spec 多为历史写法 → WARN 不 ERROR，防假门禁）
+        NORMD=0; NOPTR=0
+        while IFS= read -r d; do
+            if [ ! -f "$d/00_README.md" ]; then
+                NORMD=$((NORMD + 1))
+            elif ! grep -qE '^>.*父 Spec' "$d/00_README.md"; then
+                NOPTR=$((NOPTR + 1)); echo "      ↳ 有 00_README 但缺父指针: ${d#$SPEC_DIR/}/00_README.md"
+            fi
+        done < <(find "$SUBROOT" -mindepth 1 -maxdepth 1 -type d)
+        if [ "$NORMD" -eq 0 ] && [ "$NOPTR" -eq 0 ]; then
+            echo -e "${GREEN}✅ 子 Spec 导航齐全（00_README + 父指针）${NC}"
+        else
+            [ "$NORMD" -gt 0 ] && echo -e "${YELLOW}⚠️  ${NORMD} 个子 Spec 无 00_README（存量可接受，新建应有）${NC}"
+            [ "$NOPTR" -gt 0 ] && echo -e "${YELLOW}⚠️  ${NOPTR} 个子 Spec 缺「> 父 Spec：」指针行（新建应有）${NC}"
+            WARNINGS=$((WARNINGS + 1))
+        fi
+    fi
+fi
+
 echo "==== 汇总 ===="
 if [ $ERRORS -eq 0 ] && [ $WARNINGS -eq 0 ]; then
     echo -e "${GREEN}✅ 全部通过${NC}"
