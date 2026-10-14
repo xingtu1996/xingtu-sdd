@@ -36,6 +36,7 @@
 | 006 | [npm 包发布 SOP](006-npm-publish-sop/case.md) | standard+操作 | 踩坑式发布→SOP 式发布：前置一次性、每次四步校验 | 20260902-npm包发布SOP |
 | 007 | [省 Token 实战包装](007-token-saver/case.md) | standard+资产 | 框架≠可复用资产：prompt+skill+config 三层包装层补强 | 20260906-省Token实战包装与Skill聚合 |
 | 008 | [运营日报升级](008-daily-ops-report/case.md) | standard+编排闭环 | 「明天发哪篇」→全矩阵调度台+真正闭环，专治有输入没输出 | 202609161130-运营日报升级_全矩阵调度与变现闭环 |
+| 009 | [回收站清空前的资产保全审计](009-trash-asset-audit/case.md) | light+五组核查 | 五组可复跑核查把「感觉不安」换成「逐项有据」：先查登记层再开内容层，实证命中未并入的 GOLDEN 资产 | 本地 specs「回收站资产保全审计」 |
 
 ## 全部候选索引（L1，一句话卡 · 目录名口径）
 
