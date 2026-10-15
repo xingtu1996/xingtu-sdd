@@ -467,21 +467,23 @@ CSS = """
 :root{--bg:#f4f6fa;--card:#fff;--card2:#f8fafc;--line:#e5e9f0;--line2:#eef2f7;
 --txt:#1f2937;--dim:#8b95a5;--acc:#2563eb;--acc2:#6366f1;
 --ok:#15803d;--warn:#b45309;--err:#dc2626;--todo:#94a3b8;--ing:#2563eb;--confirm:#d97706;--done:#15803d;
---r:12px;--gap:14px}
+--r:8px;--gap:14px}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font:14px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
 background:var(--bg);color:var(--txt);padding:22px}
 .wrap{max-width:1180px;margin:0 auto}
-header{background:linear-gradient(135deg,#3b82f6,#6366f1);border-radius:16px;padding:22px 28px;
+header{background:linear-gradient(120deg,#1e3a8a,#2563eb 55%,#4f46e5);border-radius:10px;padding:20px 26px;
 margin-bottom:var(--gap);position:relative;overflow:hidden;display:flex;gap:18px;align-items:center}
-header::after{content:'';position:absolute;right:-50px;top:-70px;width:210px;height:210px;
-border-radius:50%;background:rgba(255,255,255,.10)}
+header::after{content:'';position:absolute;right:-60px;top:-80px;width:200px;height:200px;
+border-radius:50%;background:rgba(255,255,255,.07)}
 header .hx{flex:1;min-width:0;position:relative;z-index:1}
-header h1{font-size:21px;font-weight:700;color:#fff;line-height:1.35}
-header .sub{color:#e0ecff;font-size:12.5px;margin-top:5px}
+header h1{font-size:20px;font-weight:700;color:#fff;line-height:1.35;letter-spacing:.2px}
+/* ⚠️ 类名必须叫 .hsub —— 通用 .sub 是「子 Spec 卡片」，带浅灰底；两处同名会把
+   头部副标题染成「浅底浅字」（2026-10-13 实测该 bug）。 */
+header .hsub{color:rgba(255,255,255,.88);font-size:12.5px;margin-top:6px}
 .badges{margin-top:11px;display:flex;gap:7px;flex-wrap:wrap}
-.badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.34);color:#fff;
-padding:3px 12px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.badge{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);color:#fff;
+padding:3px 10px;border-radius:5px;font-size:11.5px;font-weight:600;white-space:nowrap}
 .badge.done{background:#0d7a45;border-color:#12a35c}
 .badge.ing{background:#1d4ed8;border-color:#3b82f6}
 .badge.confirm{background:#a35a09;border-color:#d97706}
@@ -496,6 +498,7 @@ font-weight:700;font-size:15px;line-height:1.1;text-align:center}
 .ring i small{display:block;font-size:9.5px;font-weight:500;opacity:.85}
 .grid{display:grid;gap:var(--gap);margin-bottom:var(--gap)}
 .g4{grid-template-columns:repeat(4,1fr)}
+.gkpi{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
 @media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.g4{grid-template-columns:1fr}}
 .kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;
@@ -573,10 +576,10 @@ background:var(--card2);color:#64748b;font-weight:600}
 font-size:12.5px;color:#92400e}
 .note.red{background:#fef2f2;border-color:#fecaca;color:#991b1b}
 .muted{color:var(--dim);font-size:11.5px;line-height:1.7}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:var(--gap)}
-.toolbar a{padding:6px 13px;border-radius:999px;background:var(--card);border:1px solid var(--line);
-color:#475569;text-decoration:none;font-size:12px;font-weight:600}
-.toolbar a:hover{border-color:var(--acc);color:var(--acc)}
+.toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:var(--gap)}
+.toolbar a{padding:6px 12px;border-radius:6px;background:var(--card);border:1px solid var(--line);
+color:#475569;text-decoration:none;font-size:12px;font-weight:600;transition:.12s}
+.toolbar a:hover{border-color:var(--acc);color:var(--acc);background:#eff6ff}
 input.search{flex:1;min-width:220px;background:var(--card);border:1px solid var(--line);
 border-radius:10px;padding:8px 14px;font-size:13px;font-family:inherit;outline:none}
 input.search:focus{border-color:var(--acc)}
@@ -585,14 +588,57 @@ details summary::-webkit-details-marker{display:none}
 footer{margin-top:6px;text-align:center;color:var(--dim);font-size:11.5px;line-height:1.8;
 padding:16px;border-top:1px solid var(--line)}
 code{background:#eef2f7;padding:1px 6px;border-radius:5px;font-size:11.5px;font-family:ui-monospace,Menlo,monospace}
+/* ── spec 正文渲染（内容为主） ── */
+.doc{border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:13px;overflow:hidden}
+.doc>summary{cursor:pointer;padding:11px 16px;font-weight:700;font-size:13.5px;color:#111827;
+background:var(--card2);border-bottom:1px solid var(--line);display:flex;gap:9px;align-items:center}
+.doc>summary .num{background:#e0e7ff;color:var(--acc);border-radius:6px;padding:1px 8px;font-size:11.5px;font-weight:700}
+.doc>summary .rt{font-weight:400;color:var(--dim);font-size:11.5px;margin-left:auto}
+.doc .body{padding:14px 16px}
+.doc h3{font-size:13.5px;margin:16px 0 8px;color:#111827;padding-left:9px;border-left:3px solid var(--acc)}
+.doc h3:first-child{margin-top:0}
+.doc h4{font-size:12.5px;margin:12px 0 5px;color:#374151}
+.doc p{font-size:12.8px;color:#374151;margin:7px 0;line-height:1.7}
+.doc ul,.doc ol{margin:6px 0 6px 20px;font-size:12.8px;color:#374151;line-height:1.7}
+.doc li{margin:3px 0}
+.doc blockquote{border-left:3px solid #c7d2fe;background:#f8fafc;margin:8px 0;padding:8px 13px;
+font-size:12.5px;color:#475569;border-radius:0 8px 8px 0}
+.doc pre{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+overflow:auto;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;line-height:1.6;margin:8px 0;color:#334155}
+.doc hr{border:none;border-top:1px dashed var(--line);margin:14px 0}
+.doc .trunc{color:var(--dim);font-size:11.5px;margin-top:8px;padding-top:7px;border-top:1px dashed var(--line)}
+.docs{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:12.5px}
+.docs a{color:var(--acc);text-decoration:none}
+.docs .mdf{color:#334155;font-family:ui-monospace,Menlo,monospace;font-size:11.5px}
+/* ── 白盒摘要（5W1H · 一格一句） ── */
+.brief{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.bx{border:1px solid var(--line);border-radius:7px;background:var(--card);padding:10px 12px}
+.bh{font-size:12px;font-weight:700;color:#334155;display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.bk{background:#1d4ed8;color:#fff;border-radius:4px;padding:1px 7px;font-size:10.5px;
+font-weight:700;letter-spacing:.4px}
+.bb{font-size:12.5px;line-height:1.62;color:#374151}
+.bs{font-size:10.5px;color:var(--dim);margin-top:6px;padding-top:5px;border-top:1px dashed var(--line2)}
 """
+
+
+# 看板里的 ```mermaid 块 → 浏览器端渲染（CDN + 失败回退显示源码，绝不比"裸文本"更差）
+MERMAID_JS = """<script type="module">
+try {
+  const { default: mermaid } = await import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs");
+  mermaid.initialize({ startOnLoad: false, theme: "neutral", securityLevel: "loose" });
+  await mermaid.run({ querySelector: "pre.mermaid" });
+} catch (e) {
+  document.querySelectorAll("pre.mermaid").forEach(p => { p.style.color = "#b91c1c"; });
+  console.warn("mermaid 加载失败（CDN 不可达？）—— 已回退显示源码", e);
+}
+</script>"""
 
 
 def head(title, subtitle, badges, right="", toolbar=""):
     return ('<!DOCTYPE html>\n<html lang="zh-CN"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{esc(title)}</title><style>{CSS}</style></head><body><div class="wrap">'
-            f'<header><div class="hx"><h1>{esc(title)}</h1><div class="sub">{subtitle}</div>'
+            f'<header><div class="hx"><h1>{esc(title)}</h1><div class="hsub">{subtitle}</div>'
             f'<div class="badges">{badges}</div></div>{right}</header>{toolbar}')
 
 
@@ -601,7 +647,280 @@ def foot(extra=""):
             '派生视图，<b>真相源是那些文件本身</b>。只呈现可从本地痕迹推出的量：'
             '<b>不做工时 / 速度 / 效率</b>（推不出来），<b>不做累积流图</b>（无状态流转历史）。<br>'
             '重新生成：<code>python3 ~/.claude/skills/specs-engine/scripts/build-dashboard.py &lt;spec目录&gt;</code>'
-            f'{extra}</footer></div></body></html>')
+            f'{extra}</footer></div>{MERMAID_JS}</body></html>')
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# spec 正文渲染 —— 看板的主体是「spec 的内容」，不是组件盘点
+#   立场：用户打开看板想知道的是「这个 spec 讲了什么/进展到哪/关键数据是什么」，
+#   而不是「六个文件建没建、门禁过没过」。后者是 SDD 元数据，降级到页尾折叠。
+# ══════════════════════════════════════════════════════════════════════════
+DOC_ORDER = [("00", "00_README.md", "自述"), ("01", "01_analysis.md", "分析"),
+             ("02", "02_requirements.md", "需求"), ("03", "03_design.md", "设计"),
+             ("05", "05_validator.md", "验证"), ("04", "04_tasks.md", "任务")]
+CONTENT_CAP = 46000          # 正文总计上限（防超长 spec 撑爆看板）
+SECTION_CAP = 14             # 单文档最多渲染的 H2 段数
+
+
+def _inline(t):
+    """行内 markdown：`code` / **bold** / [txt](url) → html"""
+    s = esc(t)
+    s = re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
+    s = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", s)
+    s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r"<a href='\2'>\1</a>", s)
+    return s
+
+
+def _md_blocks(text):
+    """极简 markdown 行渲染：标题 / 表格 / 列表 / 引用 / 代码块 / 段落。
+    不做完整解析——目标是"打开就能读"，不是像素级还原。"""
+    out, lines, i = [], text.split("\n"), 0
+    in_code, buf, fence = False, [], ""
+    while i < len(lines):
+        raw = lines[i]
+        s = raw.rstrip()
+        if s.lstrip().startswith("```"):
+            if in_code:
+                if fence == "mermaid":
+                    # 必须转义：mermaid 读的是 textContent（自动解码），
+                    # 原始 <br/> 会被浏览器当元素解析而丢失；转义后 textContent 才是 `<br/>`
+                    out.append('<pre class="mermaid">' + esc("\n".join(buf)) + "</pre>")
+                else:
+                    out.append("<pre>" + esc("\n".join(buf)) + "</pre>")
+                buf, in_code, fence = [], False, ""
+            else:
+                in_code, fence = True, s.lstrip()[3:].strip().lower()
+            i += 1
+            continue
+        if in_code:
+            buf.append(raw)
+            i += 1
+            continue
+        # 表格：|...| 且次行是分隔行
+        if s.startswith("|") and i + 1 < len(lines) and re.match(r"^\|[\s:\-|]+\|$", lines[i + 1].strip()):
+            cells = [c.strip() for c in s.strip().strip("|").split("|")]
+            i += 2
+            rows = []
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                rows.append([c.strip() for c in lines[i].strip().strip("|").split("|")])
+                i += 1
+            out.append("<table><tr>" + "".join(f"<th>{_inline(c)}</th>" for c in cells) + "</tr>")
+            for r in rows:
+                out.append("<tr>" + "".join(f"<td>{_inline(c)}</td>" for c in r) + "</tr>")
+            out.append("</table>")
+            continue
+        m = re.match(r"^(#{4,6})\s+(.*)$", s)
+        if m:
+            lv = min(len(m.group(1)), 6)
+            out.append(f"<h{lv}>{_inline(m.group(2))}</h{lv}>")
+            i += 1
+            continue
+        if s.startswith(">"):
+            q = []
+            while i < len(lines) and lines[i].strip().startswith(">"):
+                q.append(lines[i].strip().lstrip(">").strip())
+                i += 1
+            out.append("<blockquote>" + _inline(" ".join(q)) + "</blockquote>")
+            continue
+        if re.match(r"^\s*[-*+]\s+", s):
+            items = []
+            while i < len(lines) and re.match(r"^\s*[-*+]\s+", lines[i]):
+                items.append(_inline(re.sub(r"^\s*[-*+]\s+", "", lines[i].strip())))
+                i += 1
+            out.append("<ul>" + "".join(f"<li>{x}</li>" for x in items) + "</ul>")
+            continue
+        if re.match(r"^\s*\d+[.)]\s+", s):
+            items = []
+            while i < len(lines) and re.match(r"^\s*\d+[.)]\s+", lines[i]):
+                items.append(_inline(re.sub(r"^\s*\d+[.)]\s+", "", lines[i].strip())))
+                i += 1
+            out.append("<ol>" + "".join(f"<li>{x}</li>" for x in items) + "</ol>")
+            continue
+        if s.strip() in ("---", "***", "___"):
+            out.append("<hr>")
+            i += 1
+            continue
+        if not s.strip() or s.lstrip().startswith("<!--"):
+            i += 1
+            continue
+        # 连续的普通行并成一段
+        para = [s.strip()]
+        i += 1
+        while i < len(lines) and lines[i].strip() and not re.match(
+                r"^\s*(#{1,6}\s|[-*+]\s|\d+[.)]\s|>|\||```|---|\*\*\*)", lines[i]):
+            para.append(lines[i].strip())
+            i += 1
+        out.append(f"<p>{_inline(' '.join(para))}</p>")
+    return "\n".join(out)
+
+
+def _doc_sections(body):
+    """按 H2 切段；首段（H1 前）单独返回。返回 [(小标题 or '', html)]"""
+    body = re.sub(r"^#\s+[^\n]*\n", "", body, count=1)          # 去掉 H1
+    parts = re.split(r"^##\s+", body, flags=re.M)
+    secs = []
+    if parts and parts[0].strip():
+        secs.append(("", _md_blocks(parts[0])))
+    for seg in parts[1:]:
+        nl = seg.find("\n")
+        head, rest = (seg[:nl].strip(), seg[nl + 1:]) if nl >= 0 else (seg.strip(), "")
+        secs.append((head, _md_blocks(rest)))
+    return [(t, x) for t, x in secs if x.strip()]
+
+
+def render_content(s):
+    """把 00~05 的正文渲染成卡片 —— 这是看板的主体。"""
+    d = s["path"]
+    docs, budget, total = [], CONTENT_CAP, 0
+    for num, fn, cn in DOC_ORDER:
+        p = os.path.join(d, fn)
+        if not os.path.isfile(p):
+            continue
+        secs = _doc_sections(read(p))
+        if not secs:
+            continue
+        keep, used, cut = [], 0, 0
+        for n, (t, x) in enumerate(secs):
+            if n >= SECTION_CAP or used + len(x) > 22000:
+                cut = len(secs) - n
+                break
+            keep.append((t, x))
+            used += len(x)
+        if total + used > budget:
+            cut += len(secs) - len(keep)
+            break
+        total += used
+        docs.append((num, cn, fn, keep, cut))
+
+    # deliverables 目录
+    dels = []
+    dd = os.path.join(d, "deliverables")
+    if os.path.isdir(dd):
+        for fn in sorted(os.listdir(dd)):
+            fp = os.path.join(dd, fn)
+            if os.path.isfile(fp) and fn.lower().endswith((".md", ".html")):
+                dels.append((fn, os.path.getsize(fp)))
+
+    h = ('<a id="content"></a><div class="card"><h2>Spec 内容'
+         '<span class="rt">主体 · 从 00~05 正文抽取，按决策顺序排列</span></h2>'
+         '<div class="muted" style="margin-bottom:11px">下面就是这份 spec '
+         '<b>讲了什么</b>（背景 / 结论 / 根因 / 方案 / 验收 / 任务）。'
+         '过程类图表（推进轨迹 · 事件流 · 门禁）留在页尾「过程与元数据」，需要时再展开。</div>')
+    for di, (num, cn, fn, secs, cut) in enumerate(docs):
+        cnt = sum(len(x) for _, x in secs)
+        h += (f'<details class="doc"{" open" if di == 0 else ""}>'
+              f'<summary><span class="num">{esc(num)}</span>'
+              f'{esc(cn)}<span class="rt">{esc(fn)} · {len(secs)} 段 · 约 {cnt // 1000 or 1}K 字符 · 点击展开</span></summary>'
+              '<div class="body">')
+        for t, x in secs:
+            h += (f"<h3>{_inline(t)}</h3>" if t else "") + x
+        if cut:
+            h += (f'<div class="trunc">… 另有 {cut} 段未在此展开（看板篇幅限制）—— '
+                  f'全文见 <code>{esc(fn)}</code></div>')
+        h += "</div></details>"
+    if not docs:
+        h += '<div class="note">未找到可渲染的 spec 正文（00~05 均为空或缺失）。</div>'
+    if dels:
+        items = []
+        for f, sz in dels:
+            kb = f"{sz // 1024 or 1} KB"
+            if f.lower().endswith(".html"):
+                items.append(f'<a href="deliverables/{esc(f)}">{esc(f)}</a> '
+                             f'<span class="muted">({kb})</span>')
+            else:
+                # .md 不挂链接：浏览器直开会显示纯文本，体验差（用户反馈）
+                items.append(f'<span class="mdf">{esc(f)}</span> '
+                             f'<span class="muted">({kb} · md 源文件)</span>')
+        h += ('<div class="docs"><b>交付物目录（' + str(len(dels)) + '）</b><br>'
+              + "　".join(items) + "</div>")
+    h += "</div>"
+    return h
+
+
+# ── 白盒摘要：把 5W + 进展/审查/决策/待办/并行 从正文里抽成置顶卡片 ──────────
+#   立场：看板的职责是「脱离组件也能看懂这份 spec」——背景、进展、审查状态、
+#   关键决策、待办、历史、并行计划，一眼可见；明细再往下翻正文。
+BRIEF = [
+    ("What",  "是什么",   r"一句话|结论先行|目标|概述"),
+    ("Why",   "为什么",   r"背景|根因|现象|为何|缘起|动机"),
+    ("Who",   "谁负责",   r"定责|相关方|责任|引入追溯|归因|干系"),
+    ("When",  "时间线",   r"时间线|变更历史|版本历史|里程碑"),
+    ("Where", "影响面",   r"影响面|影响范围|波及"),
+    ("How",   "怎么做",   r"^方案|修复方案|改法|对策|加固|设计目标"),
+]
+BRIEF_MAX = 230       # 每格摘要上限 —— 「摘要」只给一句，不做正文搬运
+CJK = re.compile(r"[一-鿿]")
+
+
+def _clean(t):
+    t = re.sub(r"<[^>]+>", "", t)
+    t = html.unescape(t)
+    t = re.sub(r"\*\*|`", "", t)
+    t = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def _lead(block, n=BRIEF_MAX):
+    """摘要抽取：优先取【首个实义段落】，退而取【首张表的第一行数据】。
+    硬门槛：中文 ≥ 8 字 —— 否则就是代码/路径/标识符碎片（曾抽出 "refundid"、
+    "SearchSourcingApplication.java:262" 这类噪声，用户实测反馈）。"""
+    for m in re.finditer(r"<p>(.*?)</p>", block, re.S):
+        s = _clean(m.group(1))
+        if len(CJK.findall(s)) >= 8:
+            return s[:n] + ("…" if len(s) > n else "")
+    for m in re.finditer(r"<table>(.*?)</table>", block, re.S):
+        rows = re.findall(r"<tr>(.*?)</tr>", m.group(1), re.S)
+        for r in rows[1:2]:                      # 跳过表头，取第一行数据
+            cells = [_clean(c) for c in re.findall(r"<t[dh]>(.*?)</t[dh]>", r, re.S)]
+            s = " ｜ ".join(c for c in cells if c)
+            if len(CJK.findall(s)) >= 8:
+                return s[:n] + ("…" if len(s) > n else "")
+    return ""
+
+
+def _head_sections(path):
+    """把一个 md 按 ## / ### 切成 [(标题, html)]"""
+    if not os.path.isfile(path):
+        return []
+    body = re.sub(r"^#\s+[^\n]*\n", "", read(path), count=1)
+    parts = re.split(r"^(#{2,3})\s+", body, flags=re.M)
+    secs = []
+    if parts and parts[0].strip():
+        secs.append(("", _md_blocks(parts[0])))
+    for k in range(1, len(parts) - 1, 2):
+        seg = parts[k + 1]
+        nl = seg.find("\n")
+        head, rest = (seg[:nl].strip(), seg[nl + 1:]) if nl >= 0 else (seg.strip(), "")
+        secs.append((head, _md_blocks(rest)))
+    return secs
+
+
+def render_brief(s):
+    pool = []
+    for fn in ("00_README.md", "01_analysis.md", "03_design.md", "02_requirements.md", "04_tasks.md"):
+        for t, x in _head_sections(os.path.join(s["path"], fn)):
+            if t:
+                pool.append((t, x))
+    cells = []
+    for key, cn, pat in BRIEF:
+        rx = re.compile(pat)
+        for t, x in pool:
+            if rx.search(t):
+                lead = _lead(x)
+                if lead:
+                    cells.append((key, cn, t, lead))
+                    break
+    if not cells:
+        return ""
+    h = ('<a id="brief"></a><div class="card"><h2>白盒摘要'
+         '<span class="rt">5W1H —— 一屏看懂这份 spec</span></h2><div class="brief">')
+    for key, cn, t, lead in cells:
+        h += (f'<div class="bx"><div class="bh"><span class="bk">{esc(key)}</span>{esc(cn)}</div>'
+              f'<div class="bb">{_inline(lead)}</div>'
+              f'<div class="bs">出自「{esc(t)}」</div></div>')
+    h += ('</div><div class="muted" style="margin-top:8px">'
+          '每格自动抽取正文首段（限 230 字）；完整内容见下方「Spec 内容」。</div></div>')
+    return h
 
 
 def render_spec(s):
@@ -620,33 +939,34 @@ def render_spec(s):
 
     nphase = sum(1 for st in s["stages"] if st["exists"])
     ring = f'<div class="ring" style="--p:{round(nphase / 5 * 100)}"><i>{nphase}/5<small>阶段</small></i></div>'
-    tb = ('<div class="toolbar"><a href="#track">推进轨迹</a><a href="#stage">阶段</a>'
-          + ('<a href="#front">依赖前沿</a>' if s["subs"] else "")
-          + ('<a href="#task">任务</a>' if s["todo_items"] or s["done_tasks"] else "")
-          + ('<a href="#log">事件流</a>' if s["events"] else "")
+    tb = ('<div class="toolbar"><a href="#brief">白盒摘要</a><a href="#content">Spec 内容</a>'
+          '<a href="#track">过程与元数据</a>'
           + ('<a href="#conti">断点</a>' if s["conti"] else "")
-          + '<a href="#comp">组件</a><a href="#gate">门禁</a></div>')
+          + '</div>')
 
     h = head(s["title"],
              f'{esc(s["name"])}　·　创建 {esc(s["created"] or "—")}　·　最后改动 {esc(s["mtime"])}',
              badges, ring, tb)
 
     # ---- KPI：全部是"过程"指标 ----
-    h += '<a id="kpi"></a><div class="grid g4">'
-    h += (f'<div class="kpi" style="--c:var(--acc2)"><b>{esc(current_stage(s))}</b>'
-          f'<span>当前阶段</span><em>{nphase}/5 阶段就位</em></div>')
+    # KPI 只留有信息的卡：空指标（无任务清单 / 无子 Spec）不占版面 —— 注意力宝贵
+    kpis = [f'<div class="kpi" style="--c:var(--acc2)"><b>{esc(current_stage(s))}</b>'
+            f'<span>当前阶段</span><em>{nphase}/5 阶段就位</em></div>']
     c = {"ok": "var(--ok)", "warn": "var(--warn)", "alarm": "var(--err)"}[stall_lv]
-    h += (f'<div class="kpi" style="--c:{c}"><b>{stall_d if stall_lv != "ok" or stall_d else 0}'
-          f'{" 天" if stall_lv != "ok" else "天"}</b><span>{"停滞" if stall_lv != "ok" else "距上次推进"}</span>'
-          f'<em>{esc(s["last_act_day"] or "—")}</em></div>')
+    kpis.append(f'<div class="kpi" style="--c:{c}">'
+                f'<b>{stall_d if stall_lv != "ok" or stall_d else 0} 天</b>'
+                f'<span>{"停滞" if stall_lv != "ok" else "距上次推进"}</span>'
+                f'<em>{esc(s["last_act_day"] or "—")}</em></div>')
     done, todo = s["done_tasks"], len(s["todo_items"])
     tot = done + todo
-    h += (f'<div class="kpi" style="--c:var(--acc)"><b>{done}/{tot if tot else "—"}</b><span>任务完成</span>'
-          f'<em>{"无任务清单" if not tot else str(todo) + " 项未打勾"}</em></div>')
+    if tot:
+        kpis.append(f'<div class="kpi" style="--c:var(--acc)"><b>{done}/{tot}</b><span>任务完成</span>'
+                    f'<em>{todo} 项未打勾</em></div>')
     op = sum(1 for x in s["subs"] if x["status"] != "✅")
-    h += (f'<div class="kpi" style="--c:{"var(--warn)" if op else "var(--ok)"}"><b>{op}</b>'
-          f'<span>子 Spec 未收口</span><em>共 {len(s["subs"])} 个</em></div>')
-    h += "</div>"
+    if s["subs"]:
+        kpis.append(f'<div class="kpi" style="--c:{"var(--warn)" if op else "var(--ok)"}"><b>{op}</b>'
+                    f'<span>子 Spec 未收口</span><em>共 {len(s["subs"])} 个</em></div>')
+    h += '<a id="kpi"></a><div class="grid gkpi">' + "".join(kpis) + "</div>"
 
     # ---- 卡点 ----
     if s["status"] in ("🔵", "🟡"):
@@ -664,7 +984,18 @@ def render_spec(s):
     if s["one"]:
         h += f'<div class="card"><h2>一句话</h2><div class="lead">{esc(s["one"])}</div></div>'
 
-    h += '<a id="track"></a>' + render_track(s)
+    # ---- 白盒摘要（置顶）----
+    h += render_brief(s)
+
+    # ---- spec 正文（主体）----
+    h += render_content(s)
+
+    # ---- 过程与元数据（默认折叠：点一下展开） ----
+    h += ('<a id="track"></a><details class="doc">'
+          '<summary><span class="num">图</span>过程与元数据（推进轨迹 · 阶段 · 事件流 · 组件 · 门禁）'
+          '<span class="rt">SDD 过程信息 —— 点击展开，主体内容在上方「Spec 内容」</span></summary>'
+          '<div class="body">')
+    h += render_track(s)
     h += '<a id="stage"></a>' + render_stages(s)
 
     if s["subs"]:
@@ -692,20 +1023,10 @@ def render_spec(s):
 
     h += render_conti(s)
 
-    # ---- 组件（降级：盘点，不是过程） ----
-    ncomp = sum(1 for c in s["comps"] if c["exists"])
-    h += (f'<a id="comp"></a><div class="card"><h2>组件 <span class="rt">{ncomp}/{len(s["comps"])} '
-          '· 盘点信息，非过程指标</span></h2><div class="comps">')
-    for c in s["comps"]:
-        miss = "" if c["exists"] else " miss"
-        stat = (f'{c["lines"]} {c["unit"]} · {c["kb"]} KB · {esc(dstr(c["ts"], False))}'
-                if c["exists"] else "未建")
-        hi = " hi" if (c["file"] == "execution-log.md" and c["kb"] > ELOG_WARN_KB) else ""
-        h += (f'<div class="comp{miss}"><div class="t"><span class="num">{esc(c["num"])}</span>{esc(c["cn"])}</div>'
-              f'<div class="fn">{esc(c["file"])}</div><div class="d">{esc(c["desc"])}</div>'
-              f'<div class="s{hi}">{stat}</div></div>')
-    h += "</div></div>"
-
+    # ---- 组件区块已移除（2026-10-13）----------------------------------------
+    # 用户定调：「脱离组件，直接通过 specs 的 html 了解 spec」。组件建没建属 SDD
+    # 自检、不是 spec 的内容；注意力宝贵，不占版面。门禁自检同理，留在下方
+    # 「过程与元数据」折叠里，需要时才展开。
     if s["gates"] or s["gate_na"]:
         ok = sum(1 for _, v in s["gates"] if v)
         h += f'<a id="gate"></a><div class="card"><h2>门禁自检'
@@ -721,6 +1042,8 @@ def render_spec(s):
             h += "</table>"
         h += ('<div class="muted" style="margin-top:9px">完整验证跑：'
               f'<code>bash ~/.claude/skills/specs-engine/scripts/validator-check.sh "{esc(s["path"])}"</code></div></div>')
+
+    h += "</div></details>"      # 关闭「过程与元数据」
 
     return h + foot()
 
