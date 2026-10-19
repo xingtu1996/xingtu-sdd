@@ -1,4 +1,4 @@
-# XingTu SDD · Spec-Driven Development Methodology
+# 行途技术 SDD · Spec-Driven Development Methodology
 
 > A reproducible AI engineering workflow: spec first, code second. Distilled from real practice.
 
@@ -6,7 +6,7 @@
 
 ## 🎯 What is this
 
-`xingtu-sdd` is the **Spec-Driven Development (SDD) methodology** repository of the XingTu open-source matrix. Core idea: **no specs, no code**. For any non-trivial task, write a Spec first — clarifying goals, constraints, and acceptance criteria — before writing code. This makes AI output predictable, auditable, and reproducible.
+`xingtu-sdd` is the **Spec-Driven Development (SDD) methodology** repository of the 行途技术 open-source matrix. Core idea: **no specs, no code**. For any non-trivial task, write a Spec first — clarifying goals, constraints, and acceptance criteria — before writing code. This makes AI output predictable, auditable, and reproducible.
 
 This repository aggregates Spec templates, workflows, and case studies polished through real project practice. It is the most methodology-heavy asset in the portfolio.
 

@@ -1,4 +1,4 @@
-# XingTu SDD · 规格驱动开发引擎
+# 行途技术 SDD · 规格驱动开发引擎
 
 > 一句话：**让 AI「先想清楚，再写代码」**——把需求固化为结构化 Spec（规格），验收标准先行，代码只是规格的执行产物。
 > 大白话：跟 AI 干活前先签一份「合同」（规格），写清要什么、怎么验收；AI 照做，做完拿合同逐条验收。可预期、可审计、可复现。
@@ -9,7 +9,7 @@
 
 - [Vibe coding 出来的代码没人看了：我花 spec 的时间比写代码还多](https://github.com/xingtu1996/xingtu-articles/blob/main/articles/2026/09/2026-09-23-vibe-coding-nobody-reads-code.md) —— 为什么需要规格驱动
 
-`xingtu-sdd` 是行途开源矩阵的 **SDD（Spec-Driven Development）方法论资产仓 + 可安装引擎**。核心：**no specs, no code**。任何复杂任务先写规格，明确目标/约束/验收标准，再动手编码。
+`xingtu-sdd` 是行途技术开源矩阵的 **SDD（Spec-Driven Development）方法论资产仓 + 可安装引擎**。核心：**no specs, no code**。任何复杂任务先写规格，明确目标/约束/验收标准，再动手编码。
 
 > **2026-09-07 升级**：从"内容方法论仓"升级为**可用的 SDD 引擎**（`specs-engine/`）——内置 scaffold 物化骨架、validator 静态门禁、编号制模板、教程样例。从 40+ 真实工程 Spec 实战蒸馏后去业务绑定。
 
@@ -98,9 +98,9 @@ execution-log.md    # 事件日志（append-only 事实源）
 
 ## 关于作者
 
-我是**行途**，一线技术人 + 仍在写代码。xingtu-sdd 是我在 Vibe coding 实践中沉淀的规格驱动开发骨架——AI 写代码越快，spec 越要先对齐。
+我是**行途技术**，一线技术人 + 仍在写代码。xingtu-sdd 是我在 Vibe coding 实践中沉淀的规格驱动开发骨架——AI 写代码越快，spec 越要先对齐。
 
-- 🔔 公众号 **「行途 XingTu」**：微信搜索关注，看 AI 工程化落地实战
+- 🔔 公众号 **「行途技术」**：微信搜索关注，看 AI 工程化落地实战
 - 🐙 GitHub：[@xingtu1996](https://github.com/xingtu1996)
 - 📦 仓库：[xingtu1996/xingtu-sdd](https://github.com/xingtu1996/xingtu-sdd)
 
@@ -109,21 +109,21 @@ execution-log.md    # 事件日志（append-only 事实源）
 
 ## 许可证与联系
 
-本仓库采用 **MIT License**。代码、模板、文档可自由使用、修改与商用，保留版权声明即可。署名：行途 / xingtu1996。出版合作 / 深度咨询请联系作者。
+本仓库采用 **MIT License**。代码、模板、文档可自由使用、修改与商用，保留版权声明即可。署名：行途技术 / xingtu1996。出版合作 / 深度咨询请联系作者。
 
-完整方法论深度篇与实战案例 → 《行途 AI 工程化手册》（出版筹备中）
-深度答疑 / 定制陪跑 → 公众号「行途 XingTu」留言
+完整方法论深度篇与实战案例 → 《行途技术 AI 工程化手册》（出版筹备中）
+深度答疑 / 定制陪跑 → 公众号「行途技术」留言
 
 ---
 
-## 👤 关于行途
+## 👤 关于行途技术
 
 一线 builder，仍在写代码。专注 AI 工具链与工程化落地，分享可抄作业的实战经验。
 
 - 𝕏 X：[@xingtu1996](https://x.com/xingtu1996)（AI工程化实战，build in public）
 - GitHub：[github.com/xingtu1996](https://github.com/xingtu1996)
 - 🌐 个人站：[xingtu1996.pages.dev](https://xingtu1996.pages.dev)
-- 📱 公众号：「行途 XingTu」（深度长文 + 可抄作业的实战经验）
+- 📱 公众号：「行途技术」（深度长文 + 可抄作业的实战经验）
 
 ## 🆕 v2：断代续传 × 并行 × 知识回流（2026-09-29）
 
