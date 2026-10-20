@@ -75,7 +75,9 @@ specs-engine/
 │                            #   + 00_README.subspec.md（子 Spec 导航骨架）
 ├── scripts/
 │   ├── scaffold.sh          # new：建 spec 骨架 + 索引加行；sub：建子 Spec + 父索引加行 + 写父指针
-│   ├── validator-check.sh   # 静态检查 validator 填充完整性（占位符残留真门禁）+ 子 Spec 索引漂移对账
+│   ├── validator-check.sh   # 静态门禁：内容（05_validator 章节/占位符/安全三条件）
+│   │                        #   + 结构 V-1~V-5（文件齐全按深度档 / 全文件占位符 / 产出表引用落地 /
+│   │                        #   execution-log 非空 / 子 Spec 索引漂移对账）；历史格式降级 WARN
 │   └── build-dashboard.py   # 看板组件：单 spec（默认）/ 全局（--all），从 .md 生成，不手维护
 └── examples/
     └── demo-bugfix/         # 一份填好的轻量 spec（教程锚点）

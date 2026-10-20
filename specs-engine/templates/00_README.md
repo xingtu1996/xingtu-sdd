@@ -14,6 +14,7 @@
 | [03_design.md](./03_design.md) | ⬜ | 架构设计 + 接口 |
 | [04_tasks.md](./04_tasks.md) | ⬜ | 任务清单 + 依赖图 |
 | [05_validator.md](./05_validator.md) | ⬜ | curl/SQL 验证（可执行） |
+| [deliverables/](./deliverables/README.md) | 🔄 | **产出物**（报告/对账/方案/SQL/交接件… —— 根目录只放组件，产出进这里） |
 | [execution-log.md](./execution-log.md) | 🔄 | 执行事件日志（append-only 事实源） |
 | [state.json](./state.json) | 🔄 | 机读状态机（`sdd.sh` 用；与 README 状态行同步，冲突以 execution-log 为准） |
 | [spec-dashboard.html](./spec-dashboard.html) | 🔄 | **看板**：组件填充度 / 门禁自检 / 日志时间线 / 未完任务 / 子 Spec —— 由脚本从本目录的 .md 生成，不是手维护 |

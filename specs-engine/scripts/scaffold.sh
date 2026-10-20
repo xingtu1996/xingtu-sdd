@@ -77,6 +77,9 @@ cmd_new() {
     for f in 00_README.md laws.md 01_analysis.md 02_requirements.md 03_design.md 04_tasks.md 05_validator.md execution-log.md; do
         cp "$TPL/$f" "$dir/" 2>/dev/null || echo "⚠️  模板缺失: $f" >&2
     done
+    # 产出物目录（spec 根只放"组件"，一切产出走 deliverables/）
+    mkdir -p "$dir/deliverables"
+    cp "$TPL/deliverables.README.md" "$dir/deliverables/README.md" 2>/dev/null || true
 
     local readme="$parent/README.md"
     if [ ! -f "$readme" ]; then
@@ -101,7 +104,29 @@ EOF
     elif ! grep -q '^| Spec |' "$readme"; then
         printf '\n## Spec 列表\n\n| Spec | 简述 | 状态 |\n|------|------|:---:|\n' >> "$readme"
     fi
-    printf '| [%s](./%s/) | %s | ⬜ |\n' "$base" "$base" "$name" >> "$readme"
+
+    # ── 索引行：插到「Spec 列表」表尾，**不是文件尾**（2026-10-15 修 BUG）──
+    # BUG：原来是 `printf ... >> "$readme"` —— **无条件追加到文件末尾**。
+    #      若 README 的索引表后面还有别的段落（版本历史 / 说明 / 其他表），
+    #      新索引行就飘到文件最后，与主表脱节、累积成冗余。
+    #      **实测复现 4 次**（2026-09-30 / 10-09 / 10-15 ×2），每次都要手工搬回去。
+    # 修法：定位 `| Spec |` 表头之后的最后一个表格行，把新行插在它后面。
+    if awk -v row="| [${base}](./${base}/) | ${name} | ⬜ |" '
+        /^\| Spec \|/ { inbd=1 }
+        inbd && /^\|/ { last=NR }
+        inbd && !/^\|/ { if (last) inbd=0 }
+        { buf[NR]=$0 }
+        END {
+            if (!last) exit 3
+            for (i=1; i<=NR; i++) { print buf[i]; if (i==last) print row }
+        }' "$readme" > "${readme}.tmp" && [ -s "${readme}.tmp" ]; then
+        mv "${readme}.tmp" "$readme"
+    else
+        # 兜底：找不到表（本不该发生）→ 退回追加，并**明确提示需手工搬回**，不静默
+        [ -f "${readme}.tmp" ] && mv "${readme}.tmp" "/tmp/scaffold-idx-fallback-$$.tmp" 2>/dev/null
+        printf '| [%s](./%s/) | %s | ⬜ |\n' "$base" "$base" "$name" >> "$readme"
+        echo "   ⚠️  未找到「Spec 列表」表 —— 索引行已追加到**文件尾**，请手工搬回主表"
+    fi
 
     echo "✅ Spec 骨架已建: $dir  (深度: $depth)"
     depth_hint "$depth"

@@ -36,6 +36,9 @@ description: Spec 驱动开发(SDD)方法论引擎——意图路由、先规格
 | research | 调研/探索/市场评估（无交付代码） | 01_analysis + findings | 不写 03/04/05；验收=结论可复现、来源可追溯 |
 
 > BDD 铁律：AI 定档并建议，**人确认后**执行。AI 不给自己当裁判。
+>
+> **裁剪声明义务**：轻量档删掉 02/03/04 时，必须在 `00_README` 写明「文档类型裁剪说明」（删了哪几个 + 为什么）。不声明 = 静默删节，`validator-check.sh` V-1 判 ERROR。
+> **校验器分级**：引擎格式缺必需文件 = ERROR；历史格式（README.md 时代）与存量 spec 的结构问题降为 WARN，不追溯罚款。
 
 ## 工作流
 
@@ -53,7 +56,7 @@ description: Spec 驱动开发(SDD)方法论引擎——意图路由、先规格
 - **仅挂子 Spec 时读**：`references/subspec.md`（拆不拆 / 怎么拆 / 父子链接 / 生命周期）
 - 跨会话/换 agent 接续：`references/continuity.md`（`state.json` 状态机 + 续传协议 + 假设台账）
 - 仅并行场景：`references/orchestration.md`（依赖 DAG + 契约优先 + §六 子 Spec 并行 + §七 worktree 真并行）
-- 写完 05_validator 跑：`scripts/validator-check.sh`（占位符残留 + **子 Spec 索引漂移对账**，全局单份）
+- 收口/提交前跑：`scripts/validator-check.sh`（全局单份）—— 内容门禁（05_validator 章节/占位符/安全三条件）+ **结构门禁 V-1~V-5**：文件齐全（按深度档）/ 全文件占位符 / 产出表引用落地 / execution-log 非空 / 子 Spec 索引漂移对账
 - **看板（spec 的标准组件之一）**：`python3 scripts/build-dashboard.py <spec目录>` → `<spec>/spec-dashboard.html`
   （组件填充度 / 门禁自检 / 日志时间线 / 未完任务 / 子 Spec；从目录里的 .md 生成，不手维护）
   全局列表模式：`... <specs目录> --all`
