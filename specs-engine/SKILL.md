@@ -54,9 +54,10 @@ description: Spec 驱动开发(SDD)方法论引擎——意图路由、先规格
 
 - spec 时读：`references/core.md`（三铁律 + 五阶段 + 文件规范 + 门禁）——唯一需读的方法论正文
 - **仅挂子 Spec 时读**：`references/subspec.md`（拆不拆 / 怎么拆 / 父子链接 / 生命周期）
+- **拿不准某份文件该放哪时读**：`references/artifacts.md`（`_prompt/` `_work/` `_archive/` 三目录判据 + 归档规则 + 权威排序）
 - 跨会话/换 agent 接续：`references/continuity.md`（`state.json` 状态机 + 续传协议 + 假设台账）
 - 仅并行场景：`references/orchestration.md`（依赖 DAG + 契约优先 + §六 子 Spec 并行 + §七 worktree 真并行）
-- 收口/提交前跑：`scripts/validator-check.sh`（全局单份）—— 内容门禁（05_validator 章节/占位符/安全三条件）+ **结构门禁 V-1~V-5**：文件齐全（按深度档）/ 全文件占位符 / 产出表引用落地 / execution-log 非空 / 子 Spec 索引漂移对账
+- 收口/提交前跑：`scripts/validator-check.sh`（全局单份）—— 内容门禁（05_validator 章节/占位符/安全三条件）+ **结构门禁 V-1~V-6**：文件齐全（按深度档）/ 全文件占位符 / 产出表引用落地 / execution-log 非空 / 子 Spec 索引漂移对账 / 归档索引对账
 - **看板（spec 的标准组件之一）**：`python3 scripts/build-dashboard.py <spec目录>` → `<spec>/spec-dashboard.html`
   （组件填充度 / 门禁自检 / 日志时间线 / 未完任务 / 子 Spec；从目录里的 .md 生成，不手维护）
   全局列表模式：`... <specs目录> --all`
@@ -71,6 +72,7 @@ scripts/sdd.sh start    <phase> [--worktree]   # 并行 phase（worktree 隔离�
 scripts/sdd.sh merge    <worktree_name>        # 合并回主线（先人工核对）
 scripts/sdd.sh dashboard <specs_parent>        # 跨 spec 聚合看板
 scripts/sdd.sh recall   <关键词>        # 检索 case-studies + copy-points 复用
+scripts/sdd.sh archive  <spec_dir> <file> --version V8 --reason "…"   # 归档一版（移动+登记+记账）
 ```
 
 派子 agent 时角色包见 `agents/README.md`（resume/scout/redteam/executor/archivist）。
@@ -80,7 +82,9 @@ scripts/sdd.sh recall   <关键词>        # 检索 case-studies + copy-points �
 ```bash
 # 每个新 Spec：父目录/README 索引自动建+加行
 # 前缀 {YYYYMMDDHHMM}[-{tool}]-{名}；多 agent 同空间务必带 --tool 以便区分/排序
-bash ~/.claude/skills/specs-engine/scripts/scaffold.sh new <specs父目录> <简述> [--depth light|standard|heavy] [--tool <agent>]
+bash ~/.claude/skills/specs-engine/scripts/scaffold.sh new <specs父目录> <简述> [--depth light|standard|heavy] [--tool <agent>] [--with-artifacts]
+
+# --with-artifacts：额外建 _prompt/ _work/ _archive/（长周期/多版本/对外交付时才用）
 
 # 子 Spec：建在 <父Spec>/sub-specs/ 下，父 README 子 Spec 索引段自动建+加行，子 00_README 自动写父指针
 # 子不建 laws.md（继承父）/ 不建 execution-log（记父的）—— 见 references/subspec.md

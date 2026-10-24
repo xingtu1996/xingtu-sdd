@@ -70,14 +70,18 @@ specs-engine/
 ├── SKILL.md                 # 入口：触发词 + 意图路由表 + 深度裁减表（SSOT）
 ├── references/
 │   ├── core.md              # 方法论正文：三铁律 + 五阶段 + 文件规范 + 门禁
+│   ├── artifacts.md         # 证据三目录判据（_prompt/_work/_archive）—— 拿不准某文件放哪时读
 │   └── orchestration.md     # 多 Spec 并行（仅并行场景读）
 ├── templates/               # 编号制 8 骨架：00_README / laws / 01_analysis ~ 05_validator / execution-log
 │                            #   + 00_README.subspec.md（子 Spec 导航骨架）
+│                            #   + _prompt / _work / _archive 三个 README 骨架（按需）
 ├── scripts/
 │   ├── scaffold.sh          # new：建 spec 骨架 + 索引加行；sub：建子 Spec + 父索引加行 + 写父指针
+│   │                        #   --with-artifacts：额外建 _prompt/_work/_archive 三目录
 │   ├── validator-check.sh   # 静态门禁：内容（05_validator 章节/占位符/安全三条件）
-│   │                        #   + 结构 V-1~V-5（文件齐全按深度档 / 全文件占位符 / 产出表引用落地 /
-│   │                        #   execution-log 非空 / 子 Spec 索引漂移对账）；历史格式降级 WARN
+│   │                        #   + 结构 V-1~V-6（文件齐全按深度档 / 全文件占位符 / 产出表引用落地 /
+│   │                        #   execution-log 非空 / 子 Spec 索引漂移对账 / 归档索引对账）；历史格式降级 WARN
+│   ├── sdd.sh               # 续传/状态/并行/看板/复用 + archive（归档一版：移动+登记+记账）
 │   └── build-dashboard.py   # 看板组件：单 spec（默认）/ 全局（--all），从 .md 生成，不手维护
 └── examples/
     └── demo-bugfix/         # 一份填好的轻量 spec（教程锚点）
@@ -99,9 +103,11 @@ specs-engine/
 
 - 2026-09-07 建：方法论从 40+ 真实 spec 实战蒸馏（电商供应链场景），去业务绑定后通用化。
 - 2026-10-09 补 **§十 子 Spec**：从某项目 **12 个真实子 Spec**（跨 2 个父 Spec）实证蒸馏 —— 四判据拆法、`sub-specs/` 目录约定、子不建 `laws.md`/`execution-log`（继承父）、父子双向链接、冲突以父为准、四处回流、人审粒度；新增 `scaffold.sh sub` 子命令与 validator 的**索引漂移对账**（该漂移在真实项目里 3 天被修正 3 次）。
-- **二期候选**：English README 钩子 / roadmap / dashboard 看板集成 / example 扩充（多深度样例 + **子 Spec 样例**）。
+- 2026-10-22 补 **证据三目录**：从一次真实对客交付（13 个版本、25 个归档文件）蒸馏 —— `_prompt` 存输入、`_work` 存过程、`_archive` 存历史；新增 `references/artifacts.md`、三份 README 模板、`scaffold.sh --with-artifacts`、validator **V-6 归档索引对账**、`sdd.sh archive`（移动+登记+记账）。触发原因：该交付里 `_archive/README` 停在 V7 而版本已到 V13、漏登 11 个 —— 没有机器检查的索引必然腐烂。
+- 2026-10-25 **回写真源仓**（spec `specs/202610250313-zcode-SDD引擎证据三目录回写与文档刷新`）：上条特性当时只落在部署副本、真源仓未回写，构成双向漂移（仓侧 privacy 修复也未同步到副本）。本轮双向合并收敛为三方一致，并立回写纪律：**改部署副本必须在同一会话回写真源仓**（Spec is Truth 的引擎侧自我执行）。
+- **二期候选**：English README 钩子 / roadmap / dashboard 看板集成 / example 扩充（多深度样例 + **子 Spec 样例** + **三目录样例**）。
 - **License**：随发布载体确定（默认 MIT/Apache 二选一，内容快照遵循载体协议）。发布渠道：可作独立 skill 开源，或并入既有开源矩阵仓。
 
 ## 相关
 
-- 姊妹文档：方法论演进与项目差异分析见 内部文档平台的 `specs-harness` spec（本项目为其收敛落地）。
+- 姊妹文档：方法论演进与项目差异分析见 内部文档平台 `specs-harness` spec（本项目为其收敛落地）。

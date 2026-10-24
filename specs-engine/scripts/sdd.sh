@@ -11,6 +11,8 @@
 #   sdd merge    <worktree_name>         合并并行 phase 回主线
 #   sdd dashboard <specs_parent>          跨 spec 聚合看板
 #   sdd recall   <关键词>                检索 case-studies 复用
+#   sdd archive  <spec_dir> <file> [--version Vx] [--reason "..."]
+#                                        归档一版：移入 _archive/ + README 加行 + execution-log 记账
 # ============================================================================
 set -euo pipefail
 
@@ -171,6 +173,67 @@ case "$cmd" in
     grep -ril "$kw" "$CASES" 2>/dev/null || echo "(无命中)"
     echo "---"
     grep -rh "$kw" "$CASES" 2>/dev/null | head -10 || true
+    ;;
+  archive)
+    dir="${1:?用法: sdd archive <spec_dir> <file> [--version Vx] [--reason \"...\"]}"; shift
+    file="${1:?缺少要归档的文件路径}"; shift
+    ver=""; reason="未注明"
+    while [ $# -gt 0 ]; do
+      case "$1" in
+        --version) ver="${2:-}"; shift 2 ;;
+        --reason)  reason="${2:-}"; shift 2 ;;
+        *) echo "❌ 未知参数: $1" >&2; exit 1 ;;
+      esac
+    done
+    ar="$dir/_archive"; arreadme="$ar/README.md"
+    if [ ! -f "$arreadme" ]; then
+      echo "❌ $arreadme 不存在 —— 先建 _archive/ 与 README（scaffold.sh new … --with-artifacts）" >&2; exit 1
+    fi
+    if [ ! -f "$file" ]; then
+      echo "❌ 文件不存在: $file" >&2; exit 1
+    fi
+    # 幂等：已在 _archive 内 → 跳过
+    if [ "$(cd "$(dirname "$file")" && pwd)" = "$(cd "$ar" && pwd)" ]; then
+      echo "ℹ️  已归档，跳过: $(basename "$file")"; exit 0
+    fi
+    base="$(basename "$file")"; dst="$ar/$base"
+    if [ -e "$dst" ]; then
+      echo "❌ 目标已存在，中止（不覆盖）: $dst" >&2; exit 1
+    fi
+    if [ -z "$ver" ]; then
+      ver=$(printf '%s' "$base" | grep -oE '[Vv][0-9]+' | head -1 | tr 'v' 'V' || true)
+    fi
+    if [ -z "$ver" ]; then
+      echo "❌ 无法从文件名推断版本，请用 --version 指定" >&2; exit 1
+    fi
+    stamp=$(date '+%Y-%m-%d')
+    mv "$file" "$dst"
+    # 索引表追加一行（插到表格最后一行之后，不追加到文件尾）
+    row="| $ver | \`$base\` | — | $reason | $stamp |"
+    if awk -v row="$row" '
+        /^\|/ { last=NR }
+        { buf[NR]=$0 }
+        END {
+          if (!last) { print "❌ 未找到索引表，请手工补行" > "/dev/stderr"; exit 1 }
+          for (i=1; i<=NR; i++) { print buf[i]; if (i==last) print row }
+        }' "$arreadme" > "${arreadme}.tmp"; then
+      mv "${arreadme}.tmp" "$arreadme"
+    else
+      rm -f "${arreadme}.tmp"
+      echo "⚠️  文件已移入 _archive，但索引行未写入 —— 请手工补：$row" >&2
+    fi
+    # 记账
+    log="$dir/execution-log.md"
+    if [ -f "$log" ]; then
+      printf '\n### %s · 归档 %s\n\n- 动作：`sdd archive` 移入 `_archive/` 并登记\n- 产物：`_archive/%s`（%s）\n- 关键：作废原因「%s」\n- 验证方式：`validator-check.sh` V-6 归档对账\n- 状态：✅\n' \
+        "$(date '+%Y-%m-%d %H:%M')" "$ver" "$base" "$ver" "$reason" >> "$log"
+    else
+      echo "⚠️  无 execution-log.md，跳过记账" >&2
+    fi
+    echo "✅ 已归档 ${base}（${ver}）"
+    echo "   ① _archive/$base"
+    echo "   ② _archive/README.md 已加行 — 作废原因：$reason"
+    echo "   ③ execution-log.md 已记账"
     ;;
   *) usage ;;
 esac

@@ -60,6 +60,18 @@ else
     exit 1
 fi
 
+# ---------- 0.5 类型识别：分析型 spec 允许裁掉代码型专属章节 ----------
+# 依据：haiting/.claude/rules/specs-rules.md §一「裁剪声明义务」——
+#   分析型 spec（调研/论证/会议应对/知识沉淀）没有数据库、没有 curl，
+#   强行写「数据准备 / 验证用例(SQL) / 数据一致性」就是为过门禁写废话。
+# 判据：00_README / README 里有「文档类型裁剪」声明 → 视为分析型。
+# 注意：只放宽「缺节」的判定等级，不改任何判据内容——代码型 spec 强度不变。
+if grep -qE '文档类型裁剪|分析型' "$MAIN_README" 2>/dev/null; then
+    SPEC_TYPE=analysis
+else
+    SPEC_TYPE=code
+fi
+
 # 状态（00_README/README 前 10 行状态行；取不到视为未知）
 STATUS=$(head -10 "$MAIN_README" | grep -oE '状态[:：][[:space:]]*[^ |]+' | head -1 | sed -E 's/状态[:：][[:space:]]*//' || true)
 [ -n "$STATUS" ] || STATUS="未知"
@@ -91,6 +103,8 @@ check_section() {   # $1=正则 $2=名称
         ok "$2"
     elif [ "$FORMAT" = legacy ]; then
         warn "$2 — 缺失（历史格式可接受，新 Spec 应补）"
+    elif [ "${SPEC_TYPE:-code}" = analysis ]; then
+        warn "$2 — 不适用（分析型 spec，已在 README 声明裁剪；欲按代码型验收请删除该声明）"
     else
         err "$2 — 缺失"
     fi
@@ -309,6 +323,48 @@ if [ -n "$SUBROOT" ]; then
         else
             [ "$NORMD" -gt 0 ] && warn "${NORMD} 个子 Spec 无 00_README（存量可接受，新建应有）"
             [ "$NOPTR" -gt 0 ] && warn "${NOPTR} 个子 Spec 缺「> 父 Spec：」指针行（新建应有）"
+        fi
+    fi
+fi
+
+# ---------- 7. V-6 归档索引对账（_archive/README ↔ 实有归档文件） ----------
+# 只在 spec 建了 _archive/ 时检查；没有则完全静默。
+# 判据见 references/artifacts.md §8。真实反例：某 spec 的 README 停在 V7 而版本已到 V13。
+if [ -d "$SPEC_DIR/_archive" ]; then
+    echo ""
+    echo "--- V-6 归档索引对账（_archive/README ↔ 实有归档文件） ---"
+    AR="$SPEC_DIR/_archive/README.md"
+    NFILES=$(find "$SPEC_DIR/_archive" -mindepth 1 -maxdepth 1 -type f ! -name 'README.md' 2>/dev/null | wc -l | tr -d ' ')
+    if [ ! -f "$AR" ]; then
+        warn "_archive/ 无 README.md — 没有索引的归档等于没有归档"
+    elif [ "$NFILES" -eq 0 ]; then
+        ok "归档目录为空（尚无历史版本），跳过对账"
+    else
+        # 已登记版本：表格第一列里的 V<数字> 与「初稿」
+        REG=$(awk -F'|' '/^\|/ { c=$2; gsub(/[ *]/,"",c); print c }' "$AR" 2>/dev/null \
+              | grep -oE 'V[0-9]+|初稿' | sort -u || true)
+        # 实有版本：归档文件名里的 v<数字>（统一大写）
+        ACT=$(ls -1 "$SPEC_DIR/_archive" 2>/dev/null | grep -oE '[Vv][0-9]+' | tr 'v' 'V' | sort -u || true)
+        if ls -1 "$SPEC_DIR/_archive" 2>/dev/null | grep -q '初稿'; then
+            ACT=$(printf '%s\n初稿' "$ACT" | grep . | sort -u)
+        fi
+        # 未登记文件
+        MISS=$(comm -23 <(printf '%s\n' "$ACT" | grep .) <(printf '%s\n' "$REG" | grep .) 2>/dev/null || true)
+        if [ -z "$MISS" ]; then
+            NREG=$(printf '%s\n' "$REG" | grep -c . || true)
+            ok "归档文件全部已登记（${NREG} 个版本标识）"
+        else
+            NMISS=$(printf '%s\n' "$MISS" | grep -c . || true)
+            warn "归档未登记 ${NMISS} 个版本：$(printf '%s\n' "$MISS" | tr '\n' ' ')— 在 _archive/README 表格补行（含作废原因）"
+        fi
+        # 现行行：必须指向 deliverables/ 下真实存在的文件
+        CUR=$(grep -E '现行' "$AR" | grep -oE '\.\./deliverables/[^ )|`]+' | head -1 || true)
+        if [ -z "$CUR" ]; then
+            warn "_archive/README 无指向 ../deliverables/ 的「现行」行 — 无法判断当前该用哪一版"
+        elif [ ! -f "$SPEC_DIR/_archive/$CUR" ]; then
+            err "「现行」行指向的文件不存在：$CUR"
+        else
+            ok "现行版指向正确：$CUR"
         fi
     fi
 fi

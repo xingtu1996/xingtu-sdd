@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SDD 引擎「证据三目录」回写真源仓 + 文档全面刷新</title><style>
+:root{--bg:#f4f6fa;--card:#fff;--card2:#f8fafc;--line:#e5e9f0;--line2:#eef2f7;
+--txt:#1f2937;--dim:#8b95a5;--acc:#2563eb;--acc2:#6366f1;
+--ok:#15803d;--warn:#b45309;--err:#dc2626;--todo:#94a3b8;--ing:#2563eb;--confirm:#d97706;--done:#15803d;
+--r:8px;--gap:14px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font:14px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+background:var(--bg);color:var(--txt);padding:22px}
+.wrap{max-width:1180px;margin:0 auto}
+header{background:linear-gradient(120deg,#1e3a8a,#2563eb 55%,#4f46e5);border-radius:10px;padding:20px 26px;
+margin-bottom:var(--gap);position:relative;overflow:hidden;display:flex;gap:18px;align-items:center}
+header::after{content:'';position:absolute;right:-60px;top:-80px;width:200px;height:200px;
+border-radius:50%;background:rgba(255,255,255,.07)}
+header .hx{flex:1;min-width:0;position:relative;z-index:1}
+header h1{font-size:20px;font-weight:700;color:#fff;line-height:1.35;letter-spacing:.2px}
+/* ⚠️ 类名必须叫 .hsub —— 通用 .sub 是「子 Spec 卡片」，带浅灰底；两处同名会把
+   头部副标题染成「浅底浅字」（2026-10-13 实测该 bug）。 */
+header .hsub{color:rgba(255,255,255,.88);font-size:12.5px;margin-top:6px}
+.badges{margin-top:11px;display:flex;gap:7px;flex-wrap:wrap}
+.badge{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);color:#fff;
+padding:3px 10px;border-radius:5px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.badge.done{background:#0d7a45;border-color:#12a35c}
+.badge.ing{background:#1d4ed8;border-color:#3b82f6}
+.badge.confirm{background:#a35a09;border-color:#d97706}
+.badge.todo{background:#64748b;border-color:#94a3b8}
+.badge.alarm{background:#9f1239;border-color:#e11d48}
+.ring{width:86px;height:86px;border-radius:50%;flex:none;position:relative;z-index:1;
+background:conic-gradient(#fff calc(var(--p,0)*1%), rgba(255,255,255,.22) 0)}
+.ring::before{content:'';position:absolute;inset:8px;border-radius:50%;
+background:linear-gradient(135deg,#3b82f6,#6366f1)}
+.ring i{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-style:normal;
+font-weight:700;font-size:15px;line-height:1.1;text-align:center}
+.ring i small{display:block;font-size:9.5px;font-weight:500;opacity:.85}
+.grid{display:grid;gap:var(--gap);margin-bottom:var(--gap)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.gkpi{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+@media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.g4{grid-template-columns:1fr}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;
+position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c,var(--acc))}
+.kpi b{display:block;font-size:22px;font-weight:700;line-height:1.2;color:var(--c,var(--txt))}
+.kpi span{font-size:12px;color:var(--dim)}
+.kpi em{font-style:normal;font-size:11.5px;color:var(--dim);display:block;margin-top:3px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+padding:15px 18px;margin-bottom:var(--gap)}
+.card>h2{font-size:13.5px;font-weight:700;color:var(--acc);margin-bottom:11px;
+display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card>h2 .rt{margin-left:auto;font-weight:500;font-size:11.5px;color:var(--dim)}
+.lead{font-size:13.5px;color:#374151;background:var(--card2);border-left:3px solid var(--acc);
+border-radius:0 8px 8px 0;padding:11px 15px}
+.track{display:flex;align-items:flex-end;gap:2px;height:74px;padding:0 0 0 1px}
+.track .d{flex:1;min-width:3px;height:5px;background:#e8edf4;border-radius:2px;
+display:flex;align-items:flex-end;transition:background .15s}
+.track .d.on{background:#dbeafe;height:100%}
+.track .d.on::after{content:'';display:block;width:100%;height:var(--h);border-radius:2px;
+background:linear-gradient(180deg,#3b82f6,#6366f1)}
+.trackx{display:flex;justify-content:space-between;color:var(--dim);font-size:10.5px;margin-top:4px}
+.stg{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+@media(max-width:760px){.stg{grid-template-columns:repeat(2,1fr)}}
+.stg .s2{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 8px;text-align:center}
+.stg .s2.on{border-color:#bbf7d0;background:#f0fdf4}
+.stg .s2 b{display:block;font-size:12.5px}
+.stg .s2 span{font-size:11px;color:var(--dim)}
+.stg .s2.on span{color:var(--ok)}
+.bar{height:9px;background:var(--line2);border-radius:99px;overflow:hidden;margin-bottom:8px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#3b82f6,#6366f1);border-radius:99px}
+.kvline{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:#4b5563}
+.kvline b{color:var(--txt)}
+.sub{background:var(--card2);border:1px solid var(--line);border-left:3px solid #c7d2fe;
+border-radius:0 10px 10px 0;padding:9px 13px;margin-bottom:7px}
+.sub .h{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sub .h b{font-size:12.5px}
+.sub .m{color:var(--dim);font-size:10.5px;font-family:ui-monospace,Menlo,monospace;margin-top:2px}
+.grp{font-size:11.5px;color:var(--dim);font-weight:600;margin:11px 0 6px}
+.dot{width:8px;height:8px;border-radius:50%;flex:none;display:inline-block}
+.tl{position:relative;padding-left:18px;max-height:340px;overflow:auto}
+.tl::before{content:'';position:absolute;left:4px;top:5px;bottom:5px;width:2px;background:var(--line)}
+.tl .it{position:relative;padding:5px 0;font-size:12.5px;color:#4b5563}
+.tl .it::before{content:'';position:absolute;left:-18px;top:11px;width:9px;height:9px;
+border-radius:50%;background:var(--acc);box-shadow:0 0 0 3px #fff}
+.tl .it.old::before{background:#cbd5e1}
+.tl .dd{display:inline-block;min-width:74px;color:var(--dim);font-family:ui-monospace,Menlo,monospace;font-size:11px}
+ul.clean{list-style:none;font-size:12.5px;max-height:280px;overflow:auto}
+ul.clean li{padding:5px 0;border-bottom:1px dashed var(--line2);color:#4b5563}
+ul.clean li:last-child{border:none}
+ul.clean li::before{content:'☐ ';color:var(--dim)}
+.comps{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.comp{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.comp.miss{background:#fcfcfd;border-style:dashed;opacity:.72}
+.comp .t{font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px}
+.comp .num{background:var(--line2);color:var(--acc);min-width:19px;height:19px;border-radius:5px;
+display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700}
+.comp.miss .num{color:var(--dim)}
+.comp .fn{color:var(--dim);font-size:10.5px;font-family:ui-monospace,Menlo,monospace;margin:2px 0 5px}
+.comp .d{color:#6b7280;font-size:11.5px}
+.comp .s{color:var(--dim);font-size:11px;margin-top:7px;padding-top:6px;border-top:1px dashed var(--line)}
+.comp .s.hi{color:var(--warn)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{background:var(--card2);color:#64748b;text-align:left;padding:7px 10px;font-weight:600;
+font-size:11.5px;border-bottom:1px solid var(--line)}
+td{padding:7px 10px;border-bottom:1px solid var(--line2)}
+tr:last-child td{border-bottom:none}
+td.g{color:var(--ok);font-weight:600}td.r{color:var(--err);font-weight:600}
+.flag{font-size:11px;padding:2px 9px;border-radius:6px;border:1px solid var(--line);
+background:var(--card2);color:#64748b;font-weight:600}
+.flag.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok)}
+.flag.warn{border-color:#fde68a;background:#fffbeb;color:var(--warn)}
+.flag.alarm{border-color:#fecaca;background:#fef2f2;color:var(--err)}
+.note{background:#fffbeb;border:1px solid #fde68a;border-radius:9px;padding:10px 14px;
+font-size:12.5px;color:#92400e}
+.note.red{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+.muted{color:var(--dim);font-size:11.5px;line-height:1.7}
+.toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:var(--gap)}
+.toolbar a{padding:6px 12px;border-radius:6px;background:var(--card);border:1px solid var(--line);
+color:#475569;text-decoration:none;font-size:12px;font-weight:600;transition:.12s}
+.toolbar a:hover{border-color:var(--acc);color:var(--acc);background:#eff6ff}
+input.search{flex:1;min-width:220px;background:var(--card);border:1px solid var(--line);
+border-radius:10px;padding:8px 14px;font-size:13px;font-family:inherit;outline:none}
+input.search:focus{border-color:var(--acc)}
+details summary{list-style:none}
+details summary::-webkit-details-marker{display:none}
+footer{margin-top:6px;text-align:center;color:var(--dim);font-size:11.5px;line-height:1.8;
+padding:16px;border-top:1px solid var(--line)}
+code{background:#eef2f7;padding:1px 6px;border-radius:5px;font-size:11.5px;font-family:ui-monospace,Menlo,monospace}
+/* ── spec 正文渲染（内容为主） ── */
+.doc{border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:13px;overflow:hidden}
+.doc>summary{cursor:pointer;padding:11px 16px;font-weight:700;font-size:13.5px;color:#111827;
+background:var(--card2);border-bottom:1px solid var(--line);display:flex;gap:9px;align-items:center}
+.doc>summary .num{background:#e0e7ff;color:var(--acc);border-radius:6px;padding:1px 8px;font-size:11.5px;font-weight:700}
+.doc>summary .rt{font-weight:400;color:var(--dim);font-size:11.5px;margin-left:auto}
+.doc .body{padding:14px 16px}
+.doc h3{font-size:13.5px;margin:16px 0 8px;color:#111827;padding-left:9px;border-left:3px solid var(--acc)}
+.doc h3:first-child{margin-top:0}
+.doc h4{font-size:12.5px;margin:12px 0 5px;color:#374151}
+.doc p{font-size:12.8px;color:#374151;margin:7px 0;line-height:1.7}
+.doc ul,.doc ol{margin:6px 0 6px 20px;font-size:12.8px;color:#374151;line-height:1.7}
+.doc li{margin:3px 0}
+.doc blockquote{border-left:3px solid #c7d2fe;background:#f8fafc;margin:8px 0;padding:8px 13px;
+font-size:12.5px;color:#475569;border-radius:0 8px 8px 0}
+.doc pre{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+overflow:auto;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;line-height:1.6;margin:8px 0;color:#334155}
+.doc hr{border:none;border-top:1px dashed var(--line);margin:14px 0}
+.doc .trunc{color:var(--dim);font-size:11.5px;margin-top:8px;padding-top:7px;border-top:1px dashed var(--line)}
+.docs{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:12.5px}
+.docs a{color:var(--acc);text-decoration:none}
+.docs .mdf{color:#334155;font-family:ui-monospace,Menlo,monospace;font-size:11.5px}
+/* ── 白盒摘要（5W1H · 一格一句） ── */
+.brief{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.bx{border:1px solid var(--line);border-radius:7px;background:var(--card);padding:10px 12px}
+.bh{font-size:12px;font-weight:700;color:#334155;display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.bk{background:#1d4ed8;color:#fff;border-radius:4px;padding:1px 7px;font-size:10.5px;
+font-weight:700;letter-spacing:.4px}
+.bb{font-size:12.5px;line-height:1.62;color:#374151}
+.bs{font-size:10.5px;color:var(--dim);margin-top:6px;padding-top:5px;border-top:1px dashed var(--line2)}
+</style></head><body><div class="wrap"><header><div class="hx"><h1>SDD 引擎「证据三目录」回写真源仓 + 文档全面刷新</h1><div class="hsub">202610250313-zcode-SDD引擎证据三目录回写与文档刷新　·　创建 2026-10-25　·　最后改动 2026-10-25 03:25</div><div class="badges"><span class="badge done">完成</span></div></div><div class="ring" style="--p:100"><i>5/5<small>阶段</small></i></div></header><div class="toolbar"><a href="#brief">白盒摘要</a><a href="#content">Spec 内容</a><a href="#track">过程与元数据</a></div><a id="kpi"></a><div class="grid gkpi"><div class="kpi" style="--c:var(--acc2)"><b>全部就位</b><span>当前阶段</span><em>5/5 阶段就位</em></div><div class="kpi" style="--c:var(--ok)"><b>0 天</b><span>距上次推进</span><em>2026-10-25</em></div><div class="kpi" style="--c:var(--acc)"><b>18/19</b><span>任务完成</span><em>1 项未打勾</em></div></div><div class="card"><h2>一句话</h2><div class="lead">标准档：跨模块（引擎多文件 + 文档 + 子模块），01~05 + execution-log 同步记账。</div></div><a id="content"></a><div class="card"><h2>Spec 内容<span class="rt">主体 · 从 00~05 正文抽取，按决策顺序排列</span></h2><div class="muted" style="margin-bottom:11px">下面就是这份 spec <b>讲了什么</b>（背景 / 结论 / 根因 / 方案 / 验收 / 任务）。过程类图表（推进轨迹 · 事件流 · 门禁）留在页尾「过程与元数据」，需要时再展开。</div><details class="doc" open><summary><span class="num">00</span>自述<span class="rt">00_README.md · 7 段 · 约 2K 字符 · 点击展开</span></summary><div class="body"><blockquote>Ticket: SDD-ENG-20261025 | 创建: 2026-10-25 03:13 | 状态: ✅ 关联: 行途工作区 <code>outputs/2026-10-25-SDD引擎升级分析简报.md</code>（分析底稿）</blockquote><h3>Spec 索引</h3><table><tr><th>文件</th><th>状态</th><th>说明</th></tr>
+<tr><td><a href='./00_README.md'>00_README.md</a></td><td>✅</td><td>本文件</td></tr>
+<tr><td><a href='./laws.md'>laws.md</a></td><td>✅</td><td>方法论薄快照（铁律+门禁，scaffold 自动落盘）</td></tr>
+<tr><td><a href='./01_analysis.md'>01_analysis.md</a></td><td>⬜</td><td>问题分析 + 影响面</td></tr>
+<tr><td><a href='./02_requirements.md'>02_requirements.md</a></td><td>⬜</td><td>验收标准 + 安全条件</td></tr>
+<tr><td><a href='./03_design.md'>03_design.md</a></td><td>⬜</td><td>架构设计 + 接口</td></tr>
+<tr><td><a href='./04_tasks.md'>04_tasks.md</a></td><td>⬜</td><td>任务清单 + 依赖图</td></tr>
+<tr><td><a href='./05_validator.md'>05_validator.md</a></td><td>⬜</td><td>可执行验证（bash/grep，按本仓技术栈裁剪）</td></tr>
+<tr><td><a href='./deliverables/README.md'>deliverables/</a></td><td>🔄</td><td><b>产出物</b>（合并对账表 / 案例定稿 / 巡检结果 —— 只放当前有效版本）</td></tr>
+<tr><td><a href='./execution-log.md'>execution-log.md</a></td><td>🔄</td><td>执行事件日志（append-only 事实源）</td></tr>
+<tr><td><a href='./state.json'>state.json</a></td><td>🔄</td><td>机读状态机（<code>sdd.sh</code> 用；冲突以 execution-log 为准）</td></tr>
+</table>
+<blockquote>方法论 SSOT：全局 specs-engine skill（本文件为落盘快照，冲突以全局为准）。</blockquote><h3>Spec 深度</h3><p>标准档：跨模块（引擎多文件 + 文档 + 子模块），01~05 + execution-log 同步记账。</p><h3>质量门禁</h3><blockquote>置 ✅ 前逐项过 —— 见同目录 <a href='./laws.md'>laws.md</a>。</blockquote><h3>交接与续传（跨会话/长 spec 必填）</h3><ul><li><b>① 被否决的方案及原因</b>：不写「副本自动同步工具」——一次性场景上工具=新复杂度源，改为纪律条目（见 03_design §四）。</li><li><b>② 现场证据原文</b>：diff -rq 输出与 mtime 已固化在 01_analysis §二；GitHub 沙箱内不可达（fetch 443 超时），push 留待网络恢复。</li><li><b>③ 用户纠偏原话</b>：boss 拍板「全量 P1-P3（推荐）」+「harness 同步收敛（推荐）」（2026-10-25 AskUserQuestion 留痕）。</li><li><b>④ 未写入 AC 的隐含约束</b>：本 spec 位于公开仓，正文与案例全程脱敏（不出现客户/内部项目代号）。</li><li>最近 session-record / 断点续传文件：行途工作区 CHANGELOG 2026-10-25 段。</li><li>下一步（下一个动作，一句话）：按 04_tasks Phase 1 执行双向合并。</li></ul><h3>复盘（置 ✅ 前必填）</h3><ul><li>总耗时：2026-10-25 03:13 → 03:55（约 42 分钟：分析会话考古 + scaffold + 四 Phase + 门禁收口）</li><li>踩坑：① cwd 残留导致「009 死链」误报（在 harness 旧钉副本里 ls；Write 先读后写护栏拦下误覆盖）——跨副本操作前必须确认 cwd；② 部署副本打磨的 build-dashboard.py 用了 py3.12+ 的 f-string 反斜杠写法，本机 py3.9 直接 SyntaxError——副本上的代码没回写也没自测，正是本 spec 要治的病；③ 合并 README 时 privacy 修复方向起初记反（修复在仓侧不在副本侧），assert 拦截后校正。</li><li>反哺落点：引擎 README 回写纪律条目；copy-points §二·补2 四条；行途工作区 CHANGELOG/产出索引留痕。</li></ul><h3>变更日志</h3><table><tr><th>日期</th><th>变更</th><th>作者</th></tr>
+<tr><td>2026-10-25 03:13</td><td>新建</td><td>zcode</td></tr>
+</table></div></details><details class="doc"><summary><span class="num">01</span>分析<span class="rt">01_analysis.md · 5 段 · 约 2K 字符 · 点击展开</span></summary><div class="body"><blockquote>Ticket: SDD-ENG-20261025 | 创建: 2026-10-25 03:13 | 状态: ✅</blockquote>
+<blockquote>📜 <b>Check</b>：本分析遵守同目录 <a href='./laws.md'>laws.md</a> 三铁律。</blockquote><h3>一、问题现状</h3><p>specs-engine 引擎在真实对客交付实践中打磨出「证据三目录」特性包（2026-10-22），但只落在了<b>部署副本</b>（全局 skill 目录），<b>真源仓未回写</b>——本项目最核心的主张就是反对双真源，引擎自身却出现了双真源漂移。同时文档层（README / 案例库 / 英文 README）落后引擎两版，另有一处案例死链与子模块旧钉。</p>
+<ul><li>发生了什么：2026-10-22 下午对客交付会话把特性写入全局 skill 副本（16:49-16:52），未回写真源仓；当晚主仓只提交了 privacy 修复（976c4c6，21:06），该修复也未同步到副本。</li><li>影响范围：引擎 12 个文件 + 文档 4 处 + 1 个 git 子模块。</li></ul><h3>二、证据（2026-10-25 实测）</h3><p>### 2.1 三处副本状态</p>
+<table><tr><th>副本</th><th>状态</th><th>mtime</th></tr>
+<tr><td>主仓（真源）@ 976c4c6</td><td>工作区干净；领先 origin/main 2 提交未推（GitHub 连接超时，push 留待网络恢复）；含 privacy 修复</td><td>10-22 21:06</td></tr>
+<tr><td>部署副本 <code>~/.claude/skills/specs-engine</code> ≡ <code>~/.zcode/skills/specs-engine</code></td><td><b>特性最全</b>（证据三目录全套）；缺 privacy 修复</td><td>10-22 16:52（scripts 18:22）</td></tr>
+<tr><td><code>xingtu-harness</code> 子模块 @ f3b8940</td><td>detached HEAD（10-12）+ 未提交 README 改动（&quot;行途→行途技术&quot;品牌统一，与主仓 3e5501a 同意图，属旧版上的未提交尝试）</td><td>脏</td></tr>
+</table>
+<p>### 2.2 部署副本领先真源仓的差异（diff -rq 实证）</p>
+<p>修改 8：<code>README.md</code> <code>SKILL.md</code> <code>references/core.md</code> <code>scripts/{build-dashboard.py,scaffold.sh,sdd.sh,validator-check.sh}</code> <code>templates/00_README.md</code> 新增 4：<code>references/artifacts.md</code> + <code>templates/{_prompt,_work,_archive}.README.md</code></p>
+<p>特性内容（「证据三目录」，蒸馏自一次对客交付：13 个版本、25 个归档文件，归档索引停在 V7 而实际到 V13、漏登 11 个）：</p>
+<ul><li><code>_prompt/</code>（输入）/ <code>_work/</code>（过程）/ <code>_archive/</code>（历史）三目录判据 + 权威排序（索引与 execution-log 冲突以日志为准）</li><li><code>scaffold.sh --with-artifacts</code> 按需建三目录</li><li>结构门禁 V-1~V-5 → <b>V-1~V-6</b>（归档索引对账）</li><li><code>sdd.sh archive</code> 子命令（移动+登记+记账）</li><li>核心教训：<b>没有机器检查的索引必然腐烂</b></li></ul>
+<p>### 2.3 打磨现场（会话考古，出处）</p>
+<ul><li>特性写入全局 skill：对客交付项目的 Claude Code 会话，2026-10-22 16:49-16:52（diff + mtime 交叉验证）。</li><li>引擎标准档全流程复用实证：另一项目会话用 <code>scaffold.sh new</code> + <code>validator-check.sh</code> 建双周汇报 spec（10-22）。</li><li>「SDD9」一词在全部本地会话转录中无实体（仅 base64 乱码误匹配），判为口述转写噪声，实指当前最新引擎。</li></ul><h3>三、影响面与根因</h3><ol><li><b>双真源腐烂进行中</b>：仓内 privacy 修复未同步到部署副本（反向漂移已发生），下次任何人改副本都会再分叉。</li><li><b>文档失真</b>：README 布局图/门禁口径停在 V-1~V-5 与无三目录状态；引擎 README 版本记录缺 10-22 条目。</li><li><b>案例库 009 死链（❌ 更正：初判有误）</b>：初判来自 cwd 残留——在 harness 旧钉副本（10-12，无 009）里 ls 所致。主仓实查 <code>case-studies/009-trash-asset-audit/case.md</code> 完整在位（8.5KB，10-14 落盘），<b>无死链</b>；教训：跨副本操作前先确认 cwd（与 B-050 同型）。</li><li><b>子模块旧钉</b>：harness 引用的引擎停在第 14 轮巡检态（10-12），且带脏改动。</li><li><b>流程根因</b>：特性在现场打磨缺少「收尾回写真源仓」步骤（此前 V-1~V-5 有回写先例 commit 0bfb9fb，本轮漏跑）。</li></ol><h3>四、定档</h3><p>标准档。不涉计费/库存/权限；但涉及公开仓内容变更 → 脱敏检查进验收。</p></div></details><details class="doc"><summary><span class="num">02</span>需求<span class="rt">02_requirements.md · 6 段 · 约 2K 字符 · 点击展开</span></summary><div class="body"><blockquote>Ticket: SDD-ENG-20261025 | 创建: 2026-10-25 03:13 | 状态: ✅</blockquote>
+<blockquote>📜 <b>Check</b>：需求不违反 <a href='./laws.md'>laws.md</a>。</blockquote><h3>一、用户故事</h3><ul><li>作为 SDD 引擎的维护者，我希望真源仓与部署副本内容一致，以便任何会话改引擎时不再产生双真源分叉。</li><li>作为开源仓读者，我希望 README / 案例 / 英文文档与引擎实际能力一致，以便按文档用起来不踩空。</li><li>作为案例库读者，我希望每个索引条目都有对应文件，以便不点死链。</li></ul><h3>二、范围</h3><p><b>做</b>：P1 引擎双向合并回写（8 修改 + 4 新增 + privacy 修复反向补齐到副本）；P2 Case 010 案例化 + copy-points 增补（009 死链初判已更正为误报，009 在位无需处理）；P3 README/引擎 README/SELF.md/README.en.md 刷新；P4 harness 子模块快进收敛。 <b>不做</b>：副本自动同步工具（被否决，见 03_design）；origin push（网络受限，留待恢复后人工）；009 案例改写（已在位，保持原样）。</p><h3>三、验收标准（AC）</h3><table><tr><th>#</th><th>标准</th><th>验证方式</th></tr>
+<tr><td>AC-1</td><td>主仓 <code>specs-engine/</code> 与两份部署副本三方一致（0 差异），且含证据三目录全套 + privacy 修复口径</td><td><code>diff -rq</code> 三两对比输出为空</td></tr>
+<tr><td>AC-2</td><td>本 spec 通过 <code>validator-check.sh</code> 全绿（ERROR=0）</td><td>跑脚本看退出码</td></tr>
+<tr><td>AC-3</td><td>根 README 与引擎 README 口径升级：出现 <code>artifacts.md</code>/<code>V-6</code>/<code>sdd.sh archive</code>/<code>--with-artifacts</code>/v2.1 小节；全仓无 <code>V-1~V-5</code> 旧口径残留</td><td>grep 计数断言</td></tr>
+<tr><td>AC-4</td><td><code>case-studies/010-*/case.md</code> 存在且过脱敏红线；<code>copy-points.md</code> 增补 ≥1 条；009 case.md 确认在位（更正后的验收口径）</td><td><code>test -f</code> + grep</td></tr>
+<tr><td>AC-5</td><td><code>README.en.md</code> 与 <code>SELF.md</code> 同步大版本要点（三目录 + V-6 各至少 1 处）</td><td>grep 计数断言</td></tr>
+<tr><td>AC-6</td><td>harness 子模块 HEAD = 主仓最新 commit、工作区 <code>git status --porcelain</code> 为空</td><td>git 命令断言</td></tr>
+<tr><td>AC-7</td><td>主仓 commit 用显式文件清单（禁 <code>git add -A</code>）；变更文件过 privacy 扫描（零命中）</td><td>git log + privacy_scan 退出码</td></tr>
+<tr><td>AC-8</td><td>execution-log 全程记账（Phase 完成/打回更正/纠偏落账）</td><td>回读日志非空且含各 Phase 条目</td></tr>
+</table><h3>四、约束</h3><ul><li>公开仓脱敏红线：正文与案例不出现客户名、内部项目代号、内部平台实名（沿用既有口径&quot;内部文档平台&quot;）、本地绝对路径中含用户名的形态。</li><li>主仓 commit 遵守 Conventional Commits 中文描述。</li></ul><h3>五、安全三条件</h3><table><tr><th>条件</th><th>本 spec 的落地</th></tr>
+<tr><td>退出</td><td>合并后 <code>diff -rq</code> 仍不一致（预期外差异）→ 中止，不 commit，上报根因</td></tr>
+<tr><td>幂等</td><td>同步以 diff 驱动、可整体重跑；重跑结果 idempotent（cp 覆盖 + 手工 merge 只作用于已 merge 基线）</td></tr>
+<tr><td>回滚</td><td>主仓单 commit 显式清单，可整体 <code>git revert</code>；子模块操作前记录原 SHA（f3b8940）与脏 diff 快照，可复位</td></tr>
+</table></div></details><details class="doc"><summary><span class="num">03</span>设计<span class="rt">03_design.md · 6 段 · 约 2K 字符 · 点击展开</span></summary><div class="body"><blockquote>Ticket: SDD-ENG-20261025 | 创建: 2026-10-25 03:13 | 状态: ✅</blockquote><h3>一、架构决策（最小集）</h3><table><tr><th>决策</th><th>选择</th><th>理由</th></tr>
+<tr><td>合并方向</td><td><b>双向合并</b>：部署副本特性 → 主仓；主仓 privacy 修复 → 部署副本，收敛为三方一致</td><td>单向覆盖会丢一侧修复</td></tr>
+<tr><td>README.md 处理</td><td>手工合并（副本版 + 仓内 privacy 行），再回灌两份副本</td><td>唯一双侧都有独立改动的文件</td></tr>
+<tr><td>其余 11 个文件</td><td>直接以部署副本版覆盖主仓，再回灌两份副本</td><td>副本为特性全集，仓侧无独立改动（diff 已证）</td></tr>
+<tr><td>同步工具</td><td><b>不写</b>自动同步脚本，改为在引擎 README 版本记录加回写纪律条目</td><td>一次性场景上工具=新复杂度源；纪律成本低且够用（不过度工程）</td></tr>
+<tr><td>Case 010</td><td>新增全文案例（现象→根因→引擎化→效果），客户信息零出现</td><td>案例库收录标准：真实跑通+可迁移+脱敏</td></tr>
+<tr><td>~~009 死链~~</td><td><b>更正：误报</b>（初判 cwd 残留在 harness 旧副本所致）；009 在位，零动作</td><td>先读后写护栏拦下误覆盖；教训入 01_analysis §三.3</td></tr>
+<tr><td>子模块收敛</td><td>主仓收口 commit 后，子模块 <code>git fetch</code>（同仓本地路径）→ checkout 主仓 HEAD → 记录复位信息</td><td>快进即收敛，脏改动已证与主仓提交同意图</td></tr>
+</table><h3>二、文件级合并对账表</h3><table><tr><th>文件</th><th>取哪边</th><th>理由</th></tr>
+<tr><td>specs-engine/README.md</td><td>副本版 + 追加仓内 privacy 行（&quot;内部工程平台&quot;→&quot;内部文档平台&quot;）</td><td>双向合并</td></tr>
+<tr><td>specs-engine/SKILL.md</td><td>副本</td><td>特性全集</td></tr>
+<tr><td>specs-engine/references/core.md</td><td>副本</td><td>特性全集</td></tr>
+<tr><td>specs-engine/references/artifacts.md</td><td>副本（新增）</td><td>特性全集</td></tr>
+<tr><td>specs-engine/scripts/*.sh</td><td>*.py ×4</td><td>副本</td><td>特性全集（V-6/--with-artifacts/archive 子命令）</td></tr>
+<tr><td>specs-engine/templates/00_README.md</td><td>副本</td><td>特性全集</td></tr>
+<tr><td>specs-engine/templates/_*.README.md ×3</td><td>副本（新增）</td><td>特性全集</td></tr>
+<tr><td>README.md（根）</td><td>仓版为基 + 布局图/门禁口径/v2.1 小节/二期候选更新</td><td>仓版已含 privacy 修复</td></tr>
+<tr><td>README.en.md / SELF.md</td><td>仓版为基 + 大版本要点增补</td><td>只加不删</td></tr>
+<tr><td>case-studies/README.md</td><td>仓版为基 + 010 行 + 009 修正</td><td>同上</td></tr>
+</table><h3>三、Case 010 结构设计</h3><p><code>case-studies/010-artifact-trio-dirs/case.md</code>：现象（归档索引停 V7 / 实际 V13 / 漏登 11）→ 根因（索引靠人手维护、无机器对账）→ 引擎化（三目录判据 + V-6 + <code>sdd.sh archive</code>）→ 效果（门禁可拦截漏登）。脱敏：只保留量级数字（13 版本/25 归档文件/11 漏登），客户/项目/平台信息一律不写。文尾挂「踩坑→规则反哺」与引擎双向指链（案例库收录标准第 4 条）。</p><h3>四、被否决方案</h3><ul><li><b>副本自动同步工具</b>（git hook / watch 脚本）：一次性欠账不该引入常驻机制；且 hook 在部分宿主不生效（工作区先例）。以纪律条目替代。</li><li><b>单向覆盖（仓→副本或副本→仓）</b>：必丢一侧修复，直接违背本 spec 动机。</li></ul><h3>五、风险</h3><ul><li>GitHub push 仍不可达 → 本地 commit 收口，push 列入待办（不阻塞 spec 收口）。</li><li>009 原文若不存在 → 占位说明方案兜底，索引不再撒谎。</li></ul></div></details><details class="doc"><summary><span class="num">05</span>验证<span class="rt">05_validator.md · 8 段 · 约 4K 字符 · 点击展开</span></summary><div class="body"><blockquote>Ticket: SDD-ENG-20261025 | 创建: 2026-10-25 03:13 | 状态: 🔄</blockquote>
+<blockquote>📜 本文件是<b>可执行验证脚本集</b>。失败 → 修 → 重跑，全过才可置 ✅。</blockquote><h3>一、数据准备</h3><p>无需 SQL。前置：主仓工作区含 Phase 1-4 全部变更；子模块已收敛。</p><h3>二、入口验证用例</h3><p>### TC-01: 三方副本一致性（AC-1）</p>
+<pre>R=/Users/lijiacheng/xingtu/github/xingtu-sdd/specs-engine
+diff -rq &quot;$R&quot; ~/.claude/skills/specs-engine | wc -l   # 预期 0
+diff -rq &quot;$R&quot; ~/.zcode/skills/specs-engine  | wc -l   # 预期 0</pre>
+<p><b>预期</b>：两个计数均为 0。</p>
+<p>### TC-02: 特性包与 privacy 口径同时在位（AC-1）</p>
+<pre>grep -c &quot;with-artifacts&quot; &quot;$R/scaffold.sh&quot;                 # 预期 ≥1
+grep -c &quot;V-6&quot; &quot;$R/scripts/validator-check.sh&quot;             # 预期 ≥1
+grep -c &quot;内部文档平台&quot; &quot;$R/README.md&quot;                      # 预期 =1（privacy 修复在位）
+grep -c &quot;内部工程平台&quot; &quot;$R/README.md&quot;                      # 预期 =0</pre><h3>三、一致性验证</h3><p>### 链 1: 文档口径与引擎能力一致（AC-3/AC-5）</p>
+<pre>G=/Users/liacheng/xingtu/github/xingtu-sdd
+grep -rc &quot;V-1~V-5&quot; &quot;$G/README.md&quot; &quot;$G/README.en.md&quot; &quot;$G/SELF.md&quot; &quot;$G/specs-engine/README.md&quot; &quot;$G/specs-engine/SKILL.md&quot;  # 预期全 0
+grep -c &quot;artifacts.md&quot; &quot;$G/README.md&quot;          # 预期 ≥1
+grep -c &quot;v2.1\|2\.1&quot; &quot;$G/README.md&quot; | head -1  # v2.1 小节存在
+grep -c &quot;_archive\|三目录\|artifact&quot; &quot;$G/README.en.md&quot;  # 预期 ≥1
+grep -c &quot;artifacts\|_archive\|三目录&quot; &quot;$G/SELF.md&quot;      # 预期 ≥1</pre>
+<p><b>预期</b>：全部满足预期值。</p>
+<p>### 链 2: 案例库落位（AC-4；009 死链初判已更正为误报，验收口径=确认在位）</p>
+<pre>ls &quot;$G/case-studies/010-artifact-trio-dirs/case.md&quot;   # 预期存在
+test -f &quot;$G/case-studies/009-trash-asset-audit/case.md&quot; &amp;&amp; echo &quot;009 在位&quot;   # 预期输出 009 在位
+grep -c &quot;010-artifact-trio-dirs&quot; &quot;$G/case-studies/README.md&quot;   # 预期 ≥1
+grep -c &quot;没有机器检查的索引必然腐烂&quot; &quot;$G/case-studies/copy-points.md&quot;  # 预期 ≥1</pre><h3>四、安全三条件验证（必做）</h3><p>### 4.1 退出条件</p>
+<table><tr><th>#</th><th>检查项</th><th>命令</th><th>预期</th></tr>
+<tr><td>1</td><td>预期外差异即中止</td><td>TC-01 非零时</td><td>不 commit、上报根因（流程性，本 spec 执行中已核）</td></tr>
+</table>
+<p>### 4.2 幂等条件</p>
+<table><tr><th>#</th><th>检查项</th><th>命令</th><th>预期</th></tr>
+<tr><td>1</td><td>同步可重跑</td><td>重跑 cp/merge 步骤后再跑 TC-01</td><td>仍 0 差异</td></tr>
+</table>
+<p>### 4.3 回滚条件</p>
+<table><tr><th>#</th><th>检查项</th><th>命令</th><th>预期</th></tr>
+<tr><td>1</td><td>主仓可整体回滚</td><td><code>git log --oneline -1</code>（显式清单单 commit）</td><td><code>git revert</code> 可复原</td></tr>
+<tr><td>2</td><td>子模块可复位</td><td>deliverables/ 内复位信息（原 SHA + 脏 diff 快照）</td><td>文件在位</td></tr>
+</table><h3>五、合规检查</h3><table><tr><th>#</th><th>检查项</th><th>命令</th><th>预期</th></tr>
+<tr><td>1</td><td>公开仓脱敏</td><td><code>python3 /Users/lijiacheng/xingtu/tools/privacy_scan.py --fail-fast</code>（扫变更文件）</td><td>退出码 0</td></tr>
+<tr><td>2</td><td>提交纪律</td><td><code>git log -1 --stat</code> 为显式文件清单，无 <code>add -A</code> 痕迹</td><td>通过</td></tr>
+<tr><td>3</td><td>客户/内部信息零出现</td><td>Case 010 与 spec 全文 grep 客户代号/内部项目名</td><td>0 命中</td></tr>
+</table><h3>六、合并后对账</h3><table><tr><th>AC#</th><th>结论（✅实现 / ⚠️跑偏 / 🔴风险）</th><th>证据</th></tr>
+<tr><td>AC-1</td><td>✅实现</td><td>TC-01 三方 diff = 0/0（2026-10-25 实测两轮）</td></tr>
+<tr><td>AC-2</td><td>✅实现</td><td>validator-check.sh 退出码 0，复跑「全部通过」</td></tr>
+<tr><td>AC-3</td><td>✅实现</td><td>artifacts.md×2 / v2.1×2 / en _archive×1 / SELF×1；V-1~V-5 残留仅 README.md×1 = v2.1 升级叙事（有意保留）</td></tr>
+<tr><td>AC-4</td><td>✅实现</td><td>010 case.md 在位；009 case.md 在位（死链初判已更正为误报）；copy-points 新词 4 处</td></tr>
+<tr><td>AC-5</td><td>✅实现</td><td>同 AC-3 grep 证据</td></tr>
+<tr><td>AC-6</td><td>✅实现</td><td>子模块 checkout 至本仓最新 commit（本提交），<code>git status --porcelain</code> 空；复位快照存 deliverables/</td></tr>
+<tr><td>AC-7</td><td>✅实现</td><td>git add 显式清单；privacy_scan --path 全绿（63 文件 0 命中）</td></tr>
+<tr><td>AC-8</td><td>✅实现</td><td>execution-log 4 条真实记录（开工/Phase1/Phase2+更正/收口）</td></tr>
+</table>
+<p>### 审核签字</p>
+<table><tr><th>项</th><th>值</th></tr>
+<tr><td>产品/需求视角审核（AC 对账签字）</td><td>boss（方案拍板留痕 2026-10-25 AskUserQuestion：全量 P1-P3 + harness 收敛）</td></tr>
+<tr><td>合并验收责任</td><td>zcode（主会话，磁盘凭证验收）</td></tr>
+<tr><td>发布责任</td><td>⚠️ push 待网络恢复（沙箱 443 超时），列入待办</td></tr>
+<tr><td>结论</td><td>✅ 可合并（2026-10-25）</td></tr>
+</table><h3>七、手工验证</h3><ul><li>[ ] Case 010 通读一遍，确认无客户可识别信息</li><li>[ ] 根 README 布局图与实际 <code>ls specs-engine</code> 一致</li></ul></div></details><details class="doc"><summary><span class="num">04</span>任务<span class="rt">04_tasks.md · 7 段 · 约 2K 字符 · 点击展开</span></summary><div class="body"><blockquote>Ticket: SDD-ENG-20261025 | 创建: 2026-10-25 03:13 | 状态: ✅</blockquote><h3>依赖关系</h3><pre>Phase 1 双向合并 → Phase 2 案例化 → Phase 3 文档刷新 → Phase 4 子模块收敛 → Phase 5 验证收口
+（1→2→3 严格串行：3 的口径依赖 1 的落盘；4 依赖主仓 commit 前置完成；5 收口全链）</pre><h3>Phase 1 引擎双向合并回写</h3><ul><li>[x] 1.1 主仓合入副本特性：11 文件按 03_design §二取副本版（含 4 新增）</li><li>[x] 1.2 <code>specs-engine/README.md</code> 取副本版后追加 privacy 修复（&quot;内部工程平台&quot;→&quot;内部文档平台&quot;；实测修复在仓侧，副本为旧词，03_design §二行方向按实际校正）</li><li>[x] 1.3 合并结果回灌两份部署副本（~/.claude 与 ~/.zcode）</li><li>[x] 1.4 <code>diff -rq</code> 三方两两对比 = 0 差异（实测 0/0；TC-02 口径计数 4/2/1/0 符合预期）</li><li>⏱ 完成时间：2026-10-25 03:2x</li></ul><h3>Phase 2 打磨案例化</h3><ul><li>[x] 2.1 ~~查 009 原文定死链处置~~ <b>更正：死链为误报</b>（cwd 残留查了 harness 旧副本）；主仓 009 case.md 在位，零动作</li><li>[x] 2.2 写 <code>case-studies/010-artifact-trio-dirs/case.md</code>（按 03_design §三，脱敏红线）</li><li>[ ] 2.3 <code>case-studies/README.md</code> 精选表加 010 行；<code>copy-points.md</code> 增补「没有机器检查的索引必然腐烂」等 ≥1 条</li><li>⏱ 完成时间：</li></ul><h3>Phase 3 文档全面刷新</h3><ul><li>[x] 3.1 根 <code>README.md</code>：布局图补三目录/artifacts.md/V-6/sdd.sh/archive；案例数 5→10；v2.1（10-22）小节；标准结构补 deliverables/ + 三目录行</li><li>[x] 3.2 根 <code>README.md</code>：快速开始补 --with-artifacts 示例（并入 v2.1 小节）</li><li>[x] 3.3 <code>SELF.md</code>：核心价值补第 6 条「谱系可交代（v2.1）」</li><li>[x] 3.4 <code>README.en.md</code>：中段重写（Usage/结构补三目录与 V-6/案例指针 10 篇）——原版仍停留在 cp _TEMPLATE 旧用法</li><li>[x] 3.5 引擎 <code>README.md</code>：补 2026-10-25 回写真源仓条目 + 回写纪律（10-22 条目随副本合并已在）</li><li>[x] 3.6 全仓 grep 校验：V-1~V-5 残留仅 README.md ×1 = v2.1 升级叙事（有意保留）；新口径全在位；009/010 案例在位</li><li>⏱ 完成时间：2026-10-25 03:4x</li></ul><h3>Phase 4 harness 子模块收敛</h3><ul><li>[x] 4.1 记录复位信息（原 SHA f3b8940 + 脏 diff + remote，存 deliverables/harness子模块复位信息.txt，68 行）</li><li>[x] 4.2 主仓 commit 后：子模块丢脏改动（快照已存）→ 本地路径 fetch 主仓 → checkout 至最新 commit，<code>git status --porcelain</code> = 空</li><li>⏱ 完成时间：2026-10-25 03:5x</li></ul><h3>Phase 5 验证收口</h3><ul><li>[x] 5.1 跑 <code>validator-check.sh</code>（本 spec）全绿（复跑「全部通过」，exit 0；首轮 4 警告已清：execution-log 模板残留 / 五文件头创建标记 / build-dashboard.py py3.9 f-string 兼容修复）</li><li>[x] 5.2 05_validator 全用例执行并回填结论（§六对账 8/8 ✅）</li><li>[x] 5.3 主仓 commit（显式文件清单，Conventional Commits 中文）</li><li>[x] 5.4 复盘 + 00_README 置 ✅；push ⚠️ 沙箱网络 443 超时未推，待网络恢复人工补推（领先 origin/main 3 提交）</li><li>⏱ 完成时间：2026-10-25 03:5x</li></ul></div></details><div class="docs"><b>交付物目录（1）</b><br><span class="mdf">README.md</span> <span class="muted">(1 KB · md 源文件)</span></div></div><a id="track"></a><details class="doc"><summary><span class="num">图</span>过程与元数据（推进轨迹 · 阶段 · 事件流 · 组件 · 门禁）<span class="rt">SDD 过程信息 —— 点击展开，主体内容在上方「Spec 内容」</span></summary><div class="body"><div class="card"><h2>推进轨迹<span class="rt">1 天跨度 · 活跃 1 天 · 空窗 0 天</span></h2><div class="track"><div class="d on" style="--h:100%" title="2026-10-25 周末：9 次改动/事件"></div></div><div class="trackx"><span>2026-10-25</span><span>2026-10-25</span></div><div class="muted" style="margin-top:8px">柱高 = 当天的事件条数 + 文件改动数（本地痕迹，不是工时）。空窗期说明这段时间没有痕迹，不代表没在工作。</div></div><a id="stage"></a><div class="card"><h2>阶段轨迹<span class="rt">按文件最后改动时间</span></h2><div class="stg"><div class="s2 on"><b>分析</b><span>10-25</span></div><div class="s2 on"><b>需求</b><span>10-25</span></div><div class="s2 on"><b>设计</b><span>10-25</span></div><div class="s2 on"><b>验证</b><span>10-25</span></div><div class="s2 on"><b>任务</b><span>10-25</span></div></div><div class="muted" style="margin-top:8px">当前阶段：<b>全部就位</b>（5/5 就位）</div></div><a id="task"></a><div class="card"><h2>任务进度 <span class="rt">use burnup（范围会变）</span></h2><div class="bar"><i style="width:95%"></i></div><div class="kvline"><span>已完成 <b>18</b></span><span>剩余 <b>1</b></span><span>合计 <b>19</b></span><span>95%</span></div><div class="muted" style="margin-top:6px">范围会随新指令增长，所以用 burnup（完成数 / 总数），不用 burndown —— 否则加需求会被误读成"生产力下降"。</div></div><div class="card"><h2>未完任务<span class="rt">1 项</span></h2><ul class="clean"><li>2.3 `case-studies/README.md` 精选表加 010 行；`copy-points.md` 增补「没有机器检查的索引必然腐烂」等 ≥1 条</li></ul></div><a id="gate"></a><div class="card"><h2>门禁自检<span class="rt"><span class="flag ok">8/8 通过</span></span></h2><table><tr><th>检查项</th><th style="width:80px">结果</th></tr><tr><td>数据准备</td><td class="g">✅ 通过</td></tr><tr><td>验证用例</td><td class="g">✅ 通过</td></tr><tr><td>数据一致性</td><td class="g">✅ 通过</td></tr><tr><td>合规检查</td><td class="g">✅ 通过</td></tr><tr><td>无占位符残留</td><td class="g">✅ 通过</td></tr><tr><td>退出条件</td><td class="g">✅ 通过</td></tr><tr><td>幂等条件</td><td class="g">✅ 通过</td></tr><tr><td>回滚条件</td><td class="g">✅ 通过</td></tr></table><div class="muted" style="margin-top:9px">完整验证跑：<code>bash ~/.claude/skills/specs-engine/scripts/validator-check.sh "specs/202610250313-zcode-SDD引擎证据三目录回写与文档刷新"</code></div></div></div></details><footer>看板由 <code>specs-engine/scripts/build-dashboard.py</code> 从本目录的 .md 生成 —— 派生视图，<b>真相源是那些文件本身</b>。只呈现可从本地痕迹推出的量：<b>不做工时 / 速度 / 效率</b>（推不出来），<b>不做累积流图</b>（无状态流转历史）。<br>重新生成：<code>python3 ~/.claude/skills/specs-engine/scripts/build-dashboard.py &lt;spec目录&gt;</code></footer></div><script type="module">
+try {
+  const { default: mermaid } = await import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs");
+  mermaid.initialize({ startOnLoad: false, theme: "neutral", securityLevel: "loose" });
+  await mermaid.run({ querySelector: "pre.mermaid" });
+} catch (e) {
+  document.querySelectorAll("pre.mermaid").forEach(p => { p.style.color = "#b91c1c"; });
+  console.warn("mermaid 加载失败（CDN 不可达？）—— 已回退显示源码", e);
+}
+</script></body></html>

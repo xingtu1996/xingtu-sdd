@@ -59,6 +59,10 @@ AI 按复杂度建议深度（轻量/标准/重量），**人确认后执行**�
 ├── README.md                              # Spec 索引（全部 spec 状态一览，scaffold 自动加行）
 └── {YYYYMMDDHHMM}-{tool}-{Ticket}-{domain}/  # 一个 Spec 一个目录（tool/Ticket 可省）
     ├── 00_README.md / laws.md / 01_analysis.md ... 05_validator.md / execution-log.md
+    ├── deliverables/          # 交付物：只放当前有效版本
+    ├── _prompt/               # 【按需】输入的来源（判据见 artifacts.md）
+    ├── _work/                 # 【按需】过程的证据
+    └── _archive/              # 【按需】历史版本 + 作废原因
 ```
 
 **目录命名** `{YYYYMMDDHHMM}-{tool}-{Ticket}-{domain}`：
@@ -116,6 +120,9 @@ AI 按复杂度建议深度（轻量/标准/重量），**人确认后执行**�
 
 ### execution-log.md
 append-only 事件日志 = **状态事实源**（00_README 状态行仅缓存视图）。粒度：Phase 完成/关键产物/打回更正（微操作不记）。五要素：时间|动作|产物路径+大小|验证方式|状态。并行推进时用 `execution-log/` 目录（一事件一文件防写冲突）。
+
+### 三个按需目录（`_prompt/` `_work/` `_archive/`）
+**不是每个 spec 都需要**，只在"长周期、多版本、有对外交付"时建。判据一句话：输入（`_prompt`）/ 由来（`_work`）/ 历史（`_archive`）。完整判据、边界样本、权威排序与归档命令见 [artifacts.md](./artifacts.md)（**拿不准某份文件放哪时才读**）。关键约束：`deliverables/` 只放当前有效版本；索引与 execution-log 冲突时以日志为准；`_archive/README` 的「作废原因」列必填。
 
 ## 七、与既有体系整合
 

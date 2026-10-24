@@ -51,13 +51,13 @@ bash ~/.claude/skills/specs-engine/scripts/scaffold.sh new .claude/specs {TICKET
 xingtu-sdd/
 ├── specs-engine/            # SDD 引擎（2026-09-07 起，可独立安装/分发）
 │   ├── SKILL.md             # Skill 入口：触发词 + 意图路由 + 深度裁减（SSOT）
-│   ├── references/          # 方法论：core(三铁律+五阶段+文件规范) / orchestration(并行)
-│   ├── templates/           # 编号制 8 骨架：00_README ~ 05_validator + execution-log + laws
-│   ├── scripts/             # scaffold.sh(new 建 Spec) + validator-check.sh(静态门禁)
-│   ├── examples/           # demo-bugfix：填好的轻量 Spec 样例
+│   ├── references/          # 方法论：core(三铁律+五阶段+文件规范) / artifacts(证据三目录判据) / continuity(断代续传) / orchestration(并行) / subspec(子 Spec)
+│   ├── templates/           # 编号制 8 骨架：00_README ~ 05_validator + execution-log + laws（+ _prompt/_work/_archive 三目录 README 按需骨架）
+│   ├── scripts/             # scaffold.sh(建 Spec) + validator-check.sh(静态门禁 V-1~V-6) + sdd.sh(续传/并行/看板/复用/归档) + build-dashboard.py(看板)
+│   ├── examples/            # demo-bugfix：填好的轻量 Spec 样例
 │   └── README.md            # 引擎使用手册
-├── case-studies/            # 🆕 实践案例库（L1 索引 + 精选 5 案例全文：真实 Spec 长什么样）
-├── specs/                   # 历史 Spec 目录（_TEMPLATE.legacy-20260907 = 旧空模板归档）
+├── case-studies/            # 🆕 实践案例库（L1 索引 + 精选 10 案例全文：真实 Spec 长什么样）
+├── specs/                   # Spec 归档（含本仓自身改造的活 spec；_TEMPLATE.legacy-20260907 = 旧空模板归档）
 ├── SELF.md / README.en.md / LICENSE
 ```
 
@@ -72,6 +72,8 @@ laws.md             # 方法论薄锚点（铁律/门禁，随 spec 落盘，自
 04_tasks.md         # 任务拆解 + 依赖图 + 时间戳
 05_validator.md     # 可执行验证（curl/SQL），写完必跑
 execution-log.md    # 事件日志（append-only 事实源）
+deliverables/       # 交付物：只放当前有效版本
+_prompt/ _work/ _archive/   # 【按需】输入 / 过程 / 历史三目录（判据见 references/artifacts.md）
 ```
 
 五阶段：**analysis → requirements → design → tasks → validator → Code**。代码是 validator 验证驱动的执行产物，失败修码重跑闭环。
@@ -141,3 +143,17 @@ bash specs-engine/scripts/sdd.sh recall   门禁           # 检索案例库复�
 - **agents/**：5 个可派子 agent 的角色包（resume/scout/redteam/executor/archivist）
 - **research 档**：调研类 spec 不写代码，只出可复现结论
 - **copy-points.md**：可直接抄的话术/金句库，复盘自动回流
+
+## 🆕 v2.1：证据三目录（2026-10-22）
+
+v2 解决跨会话与并行，v2.1 解决「谱系可交代」：一次对客交付迭代 13 版、归档 25 份文件，归档索引停在 V7、漏登 11 份——**没有机器检查的索引必然腐烂**。
+
+```bash
+bash specs-engine/scripts/scaffold.sh new specs {TICKET}-{简述} --with-artifacts   # 按需建 _prompt/_work/_archive
+bash specs-engine/scripts/sdd.sh archive specs/<dir> <file> --version V8 --reason "…"  # 移动+登记+记账原子完成
+```
+
+- **artifacts.md**：三目录判据——输入（`_prompt`）/ 由来（`_work`）/ 历史（`_archive`）+ 权威排序（索引与 execution-log 冲突以日志为准）
+- **V-6 归档索引对账**：validator 结构门禁 V-1~V-5 → **V-1~V-6**，漏登收口前必红
+- **sdd.sh archive**：归档一版 = 移动 + 登记 + 记账原子完成，让人没有「忘了登记」的机会
+- 实战案例：[Case 010 · 证据三目录](case-studies/010-artifact-trio-dirs/case.md)

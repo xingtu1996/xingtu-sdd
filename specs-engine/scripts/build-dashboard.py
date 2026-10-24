@@ -279,12 +279,25 @@ def parse_spec(d):
             "no_readme": not body}
 
 
+LEGACY_PHASES = ("analysis.md", "requirements.md", "design.md", "tasks.md", "validator.md")
+
+
 def is_spec_dir(d):
     if not (os.path.isfile(os.path.join(d, "00_README.md"))
             or os.path.isfile(os.path.join(d, "README.md"))):
         return False
-    return (any(os.path.isfile(os.path.join(d, f)) for f, _ in PHASES)
-            or any(os.path.isdir(os.path.join(d, x)) for x in ("sub-specs", "subspecs")))
+    if (any(os.path.isfile(os.path.join(d, f)) for f, _ in PHASES)
+            # 历史格式（README.md + analysis.md 无数字前缀）同样算 spec
+            or any(os.path.isfile(os.path.join(d, f)) for f in LEGACY_PHASES)
+            or any(os.path.isdir(os.path.join(d, x)) for x in ("sub-specs", "subspecs"))):
+        return True
+    # 文档型 spec：只有 README + 若干 .md，没有阶段骨架
+    try:
+        nmd = sum(1 for f in os.listdir(d)
+                  if f.endswith(".md") and os.path.isfile(os.path.join(d, f)))
+    except OSError:
+        return False
+    return nmd >= 2
 
 
 def scan(root):
@@ -425,9 +438,10 @@ def render_frontier(s):
     def card(x, tag="", tagcls="ok", extra=""):
         xc = {"⬜": "var(--todo)", "🔵": "var(--ing)", "🟡": "var(--confirm)", "✅": "var(--done)"}.get(
             x["status"], "var(--dim)")
+        tag_html = f'<span class="flag {tagcls}">{tag}</span>' if tag else ""
         return (f'<div class="sub"><div class="h"><span class="dot" style="background:{xc}"></span>'
                 f'<b>{esc(x["title"])}</b><span class="flag">{esc(x["sid"] or "-")}</span>'
-                f'{f"<span class=\"flag {tagcls}\">{tag}</span>" if tag else ""}'
+                f'{tag_html}'
                 f'<span class="muted">{x["age"]} 天前</span>{extra}</div>'
                 f'<div class="m">{esc(x["dir"])}</div></div>')
     if frontier:

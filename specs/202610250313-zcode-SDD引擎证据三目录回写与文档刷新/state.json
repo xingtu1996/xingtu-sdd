@@ -1,0 +1,28 @@
+{
+  "spec": "{{SPEC_DIR_NAME}}",
+  "title": "{{SPEC_TITLE}}",
+  "ticket": "{{TICKET}}",
+  "created": "{{YYYY-MM-DD HH:MM}}",
+  "updated": "{{YYYY-MM-DD HH:MM}}",
+  "depth": "standard",
+  "task_type": "feature",
+  "status": "pending",
+  "stage": "analysis",
+  "stages": {
+    "analysis": { "done": false, "updated": null, "note": "" },
+    "requirements": { "done": false, "updated": null, "note": "" },
+    "design": { "done": false, "updated": null, "note": "" },
+    "tasks": { "done": false, "updated": null, "note": "" },
+    "validating": { "done": false, "updated": null, "note": "" },
+    "executing": { "done": false, "updated": null, "note": "" }
+  },
+  "open_decisions": [
+    { "id": "D1", "question": "", "default": "", "decided": false }
+  ],
+  "hypotheses": [
+    { "id": "H1", "claim": "", "status": "open", "evidence": "" }
+  ],
+  "children_specs": [],
+  "artifacts_dir": ".",
+  "tail": ""
+}

@@ -21,19 +21,25 @@ TPL="$HERE/templates"
 usage() {
     cat >&2 <<'EOF'
 用法:
-  scaffold.sh new <specs父目录> <spec名> [--depth light|standard|heavy] [--tool <agent>]
+  scaffold.sh new <specs父目录> <spec名> [--depth light|standard|heavy] [--tool <agent>] [--with-artifacts]
   scaffold.sh sub <父Spec目录> <子Spec名> [--depth light|standard|heavy] [--tool <agent>]
+
+  --with-artifacts  额外建 _prompt/ _work/ _archive/ 三个证据目录（含 README 骨架）
+                    只在"长周期 / 多版本 / 有对外交付"时用，判据见 references/artifacts.md
 EOF
     exit 1
 }
 
 # 解析公共参数：$1=depth变量名 $2=tool变量名，其余为待解析参数
+# --with-artifacts 置全局 WITH_ARTIFACTS=1（建 _prompt/_work/_archive 三目录）
+WITH_ARTIFACTS=0
 parse_opts() {
     local _depth="$1" _tool="$2"; shift 2
     while [ $# -gt 0 ]; do
         case "$1" in
             --depth) eval "$_depth=\${2:-standard}"; shift 2 ;;
             --tool)  eval "$_tool=\${2:-}"; shift 2 ;;
+            --with-artifacts) WITH_ARTIFACTS=1; shift ;;
             *) echo "❌ 未知参数: $1" >&2; exit 1 ;;
         esac
     done
@@ -74,12 +80,22 @@ cmd_new() {
     local dir; dir="$(make_dir "$parent" "$name" "$tool")"
     local base; base="$(basename "$dir")"
     local f
-    for f in 00_README.md laws.md 01_analysis.md 02_requirements.md 03_design.md 04_tasks.md 05_validator.md execution-log.md; do
+    for f in 00_README.md laws.md 01_analysis.md 02_requirements.md 03_design.md 04_tasks.md 05_validator.md execution-log.md state.json; do
         cp "$TPL/$f" "$dir/" 2>/dev/null || echo "⚠️  模板缺失: $f" >&2
     done
     # 产出物目录（spec 根只放"组件"，一切产出走 deliverables/）
     mkdir -p "$dir/deliverables"
     cp "$TPL/deliverables.README.md" "$dir/deliverables/README.md" 2>/dev/null || true
+
+    # 证据目录（按需）：_prompt 输入来源 / _work 过程证据 / _archive 历史版本
+    if [ "$WITH_ARTIFACTS" = "1" ]; then
+        local d
+        for d in _prompt _work _archive; do
+            mkdir -p "$dir/$d"
+            cp "$TPL/$d.README.md" "$dir/$d/README.md" 2>/dev/null \
+                || echo "⚠️  模板缺失: $d.README.md" >&2
+        done
+    fi
 
     local readme="$parent/README.md"
     if [ ! -f "$readme" ]; then
@@ -130,6 +146,15 @@ EOF
 
     echo "✅ Spec 骨架已建: $dir  (深度: $depth)"
     depth_hint "$depth"
+
+    # 看板：建完立即生成一份（派生物，之后每次收口重跑即可）
+    if [ -f "$HERE/scripts/build-dashboard.py" ]; then
+        if python3 "$HERE/scripts/build-dashboard.py" "$dir" >/dev/null 2>&1; then
+            echo "   看板: $dir/spec-dashboard.html"
+        else
+            echo "   ⚠️  看板生成失败（可手工跑 build-dashboard.py）"
+        fi
+    fi
     echo "   ① 替换占位符 {TICKET}/{YYYY-MM-DD HH:MM}/{author} → 填 00_README 标题"
     echo "   ② 信息不全先澄清，execution-log 记开工首条（澄清状态）"
     echo "   ③ 完成 05_validator 后跑: bash ~/.claude/skills/specs-engine/scripts/validator-check.sh \"$dir\""

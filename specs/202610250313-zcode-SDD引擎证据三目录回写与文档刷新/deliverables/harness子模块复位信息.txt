@@ -1,0 +1,116 @@
+f3b8940fa4f45bf0be1d8b305afaefb99d1bc72e 2026-10-12 21:08:35 +0800 chore: specs-engine 两代合一收尾（巡检第14轮）
+diff --git a/README.en.md b/README.en.md
+index 22d8db5..f208167 100644
+--- a/README.en.md
++++ b/README.en.md
+@@ -1,4 +1,4 @@
+-# XingTu SDD · Spec-Driven Development Methodology
++# 行途技术 SDD · Spec-Driven Development Methodology
+ 
+ > A reproducible AI engineering workflow: spec first, code second. Distilled from real practice.
+ 
+@@ -6,7 +6,7 @@
+ 
+ ## 🎯 What is this
+ 
+-`xingtu-sdd` is the **Spec-Driven Development (SDD) methodology** repository of the XingTu open-source matrix. Core idea: **no specs, no code**. For any non-trivial task, write a Spec first — clarifying goals, constraints, and acceptance criteria — before writing code. This makes AI output predictable, auditable, and reproducible.
++`xingtu-sdd` is the **Spec-Driven Development (SDD) methodology** repository of the 行途技术 open-source matrix. Core idea: **no specs, no code**. For any non-trivial task, write a Spec first — clarifying goals, constraints, and acceptance criteria — before writing code. This makes AI output predictable, auditable, and reproducible.
+ 
+ This repository aggregates Spec templates, workflows, and case studies polished through real project practice. It is the most methodology-heavy asset in the portfolio.
+ 
+diff --git a/README.md b/README.md
+index 34e1548..2e9bb81 100644
+--- a/README.md
++++ b/README.md
+@@ -1,4 +1,4 @@
+-# XingTu SDD · 规格驱动开发引擎
++# 行途技术 SDD · 规格驱动开发引擎
+ 
+ > 一句话：**让 AI「先想清楚，再写代码」**——把需求固化为结构化 Spec（规格），验收标准先行，代码只是规格的执行产物。
+ > 大白话：跟 AI 干活前先签一份「合同」（规格），写清要什么、怎么验收；AI 照做，做完拿合同逐条验收。可预期、可审计、可复现。
+@@ -9,7 +9,7 @@
+ 
+ - [Vibe coding 出来的代码没人看了：我花 spec 的时间比写代码还多](https://github.com/xingtu1996/xingtu-articles/blob/main/articles/2026/09/2026-09-23-vibe-coding-nobody-reads-code.md) —— 为什么需要规格驱动
+ 
+-`xingtu-sdd` 是行途开源矩阵的 **SDD（Spec-Driven Development）方法论资产仓 + 可安装引擎**。核心：**no specs, no code**。任何复杂任务先写规格，明确目标/约束/验收标准，再动手编码。
++`xingtu-sdd` 是行途技术开源矩阵的 **SDD（Spec-Driven Development）方法论资产仓 + 可安装引擎**。核心：**no specs, no code**。任何复杂任务先写规格，明确目标/约束/验收标准，再动手编码。
+ 
+ > **2026-09-07 升级**：从"内容方法论仓"升级为**可用的 SDD 引擎**（`specs-engine/`）——内置 scaffold 物化骨架、validator 静态门禁、编号制模板、教程样例。从 40+ 真实工程 Spec 实战蒸馏后去业务绑定。
+ 
+@@ -98,7 +98,7 @@ execution-log.md    # 事件日志（append-only 事实源）
+ 
+ ## 关于作者
+ 
+-我是**行途**，一线技术人 + 仍在写代码。xingtu-sdd 是我在 Vibe coding 实践中沉淀的规格驱动开发骨架——AI 写代码越快，spec 越要先对齐。
++我是**行途技术**，一线技术人 + 仍在写代码。xingtu-sdd 是我在 Vibe coding 实践中沉淀的规格驱动开发骨架——AI 写代码越快，spec 越要先对齐。
+ 
+ - 🔔 公众号 **「行途技术手记」**：微信搜索关注，看 AI 工程化落地实战
+ - 🐙 GitHub：[@xingtu1996](https://github.com/xingtu1996)
+@@ -109,14 +109,14 @@ execution-log.md    # 事件日志（append-only 事实源）
+ 
+ ## 许可证与联系
+ 
+-本仓库采用 **MIT License**。代码、模板、文档可自由使用、修改与商用，保留版权声明即可。署名：行途 / xingtu1996。出版合作 / 深度咨询请联系作者。
++本仓库采用 **MIT License**。代码、模板、文档可自由使用、修改与商用，保留版权声明即可。署名：行途技术 / xingtu1996。出版合作 / 深度咨询请联系作者。
+ 
+-完整方法论深度篇与实战案例 → 《行途 AI 工程化手册》（出版筹备中）
++完整方法论深度篇与实战案例 → 《行途技术 AI 工程化手册》（出版筹备中）
+ 深度答疑 / 定制陪跑 → 公众号「行途技术手记」留言
+ 
+ ---
+ 
+-## 👤 关于行途
++## 👤 关于行途技术
+ 
+ 一线 builder，仍在写代码。专注 AI 工具链与工程化落地，分享可抄作业的实战经验。
+ 
+origin	git@github.com:xingtu1996/xingtu-sdd.git (fetch)
+origin	git@github.com:xingtu1996/xingtu-sdd.git (push)
+diff --git a/SELF.md b/SELF.md
+index 43206b7..7c729bb 100644
+--- a/SELF.md
++++ b/SELF.md
+@@ -1,6 +1,6 @@
+-# XingTu SDD · 专业自述
++# 行途技术 SDD · 专业自述
+ 
+-> 定位：行途开源矩阵的规格驱动开发（SDD）方法论资产仓，核心主张——no specs, no code，先规格、后代码，聚合 Spec 模板、流程与案例。
++> 定位：行途技术开源矩阵的规格驱动开发（SDD）方法论资产仓，核心主张——no specs, no code，先规格、后代码，聚合 Spec 模板、流程与案例。
+ 
+ ## 1. 这个项目是干什么的（作用）
+ 
+@@ -13,7 +13,7 @@
+   4. **质量门禁前置**：验收标准（05_validator）在编码前就定义，Agent 知道自己"做到什么算完"，减少无限迭代。
+   5. **蒸馏自真实实践**：spec 结构与流程来自真实项目的复盘，不是纸面理论。
+ 
+-## 2. 在行途 harness 中的定位
++## 2. 在行途技术 harness 中的定位
+ 
+ - **位置**：方法论层的可执行资产。harness 里 SDD 是"任务怎么被规格化地推进"的底层方法，向上支撑 workflows（编排多个任务），向下被 Coding Agent 在单个任务里执行。
+ - **协作关系**：
+diff --git a/case-studies/README.md b/case-studies/README.md
+index 1bb6b94..0727186 100644
+--- a/case-studies/README.md
++++ b/case-studies/README.md
+@@ -17,7 +17,7 @@
+ | 内部项目代号 | →「内部项目」 |
+ | 金额/账单 | → 量级表述（"量级"，不公开精确值） |
+ | 本地绝对路径 | → 通用化（`tools/...` 等相对形态） |
+-| 真名/邮箱/手机 | → XingTu（对外统一口径） |
++| 真名/邮箱/手机 | → 行途技术（对外统一口径） |
+ | 微信解密 / 数据库密钥类 | **一律不收**（红线，见下） |
+ 
+ ## 红线（绝不收录）
+diff --git a/case-studies/copy-points.md b/case-studies/copy-points.md
+index fc3db0d..2008262 100644
+--- a/case-studies/copy-points.md
++++ b/case-studies/copy-points.md
+@@ -1,7 +1,7 @@
+ # 可复用片段库（Copy Points）
+ 
+ > 与 case-studies 互补：case.md 记「怎么做的」，本库存「能直接抄的话」。
+-> 来源：行途 SDD 实战沉淀，脱敏后入库。新 spec 开工前 `sdd recall <关键词>` 先搜这里，避免重造金句/话术。
++> 来源：行途技术 SDD 实战沉淀，脱敏后入库。新 spec 开工前 `sdd recall <关键词>` 先搜这里，避免重造金句/话术。
+ > 维护：每完成一个 spec，把该 spec 里沉淀的可复用表达补到对应分类下，带出处 case 编号。
+ 
+ ## 一、对抗失控 / 模型控制类（SDD 内核话术）
