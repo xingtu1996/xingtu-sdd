@@ -13,7 +13,7 @@
 ### TC-01: 三方副本一致性（AC-1）
 
 ```bash
-R=/Users/lijiacheng/xingtu/github/xingtu-sdd/specs-engine
+R=<WORKSPACE_ROOT>/github/xingtu-sdd/specs-engine
 diff -rq "$R" ~/.claude/skills/specs-engine | wc -l   # 预期 0
 diff -rq "$R" ~/.zcode/skills/specs-engine  | wc -l   # 预期 0
 ```
@@ -26,7 +26,7 @@ diff -rq "$R" ~/.zcode/skills/specs-engine  | wc -l   # 预期 0
 grep -c "with-artifacts" "$R/scaffold.sh"                 # 预期 ≥1
 grep -c "V-6" "$R/scripts/validator-check.sh"             # 预期 ≥1
 grep -c "内部文档平台" "$R/README.md"                      # 预期 =1（privacy 修复在位）
-grep -c "内部工程平台" "$R/README.md"                      # 预期 =0
+grep -c "<旧内部平台名>" "$R/README.md"                      # 预期 =0
 ```
 
 ## 三、一致性验证
@@ -78,7 +78,7 @@ grep -c "没有机器检查的索引必然腐烂" "$G/case-studies/copy-points.m
 
 | # | 检查项 | 命令 | 预期 |
 |---|--------|------|------|
-| 1 | 公开仓脱敏 | `python3 /Users/lijiacheng/xingtu/tools/privacy_scan.py --fail-fast`（扫变更文件） | 退出码 0 |
+| 1 | 公开仓脱敏 | `python3 <WORKSPACE_ROOT>/tools/privacy_scan.py --fail-fast`（扫变更文件） | 退出码 0 |
 | 2 | 提交纪律 | `git log -1 --stat` 为显式文件清单，无 `add -A` 痕迹 | 通过 |
 | 3 | 客户/内部信息零出现 | Case 010 与 spec 全文 grep 客户代号/内部项目名 | 0 命中 |
 

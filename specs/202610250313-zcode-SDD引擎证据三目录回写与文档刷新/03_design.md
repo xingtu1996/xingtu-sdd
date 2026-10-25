@@ -18,7 +18,7 @@
 
 | 文件 | 取哪边 | 理由 |
 |------|--------|------|
-| specs-engine/README.md | 副本版 + 追加仓内 privacy 行（"内部工程平台"→"内部文档平台"） | 双向合并 |
+| specs-engine/README.md | 副本版 + 追加仓内 privacy 行（旧称→"内部文档平台"） | 双向合并 |
 | specs-engine/SKILL.md | 副本 | 特性全集 |
 | specs-engine/references/core.md | 副本 | 特性全集 |
 | specs-engine/references/artifacts.md | 副本（新增） | 特性全集 |

@@ -23,7 +23,7 @@
 
 - 动作：部署副本 11 文件 → 主仓（SKILL/core/artifacts.md/scripts×4/templates×4）；specs-engine/README.md 取副本版后打 privacy 补丁（方向校正：修复在仓侧，副本为旧词）；合并结果回灌 ~/.claude 与 ~/.zcode 两副本
 - 产物：specs-engine/ 12 文件（diff 基线 8 改 4 增）+ 两副本同步
-- 验证：TC-01 diff -rq 三方 = 0/0；TC-02 计数 with-artifacts=4、V-6=2、内部文档平台=1、内部工程平台=0
+- 验证：TC-01 diff -rq 三方 = 0/0；TC-02 计数 with-artifacts=4、V-6=2、内部文档平台=1、旧称=0
 - 状态：✅ 通过，进 Phase 2
 
 ## 2026-10-25 03:3x | Phase 2 完成（案例化）+ 一处更正落账
