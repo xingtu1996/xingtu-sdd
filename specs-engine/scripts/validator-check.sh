@@ -61,7 +61,7 @@ else
 fi
 
 # ---------- 0.5 类型识别：分析型 spec 允许裁掉代码型专属章节 ----------
-# 依据：haiting/.claude/rules/specs-rules.md §一「裁剪声明义务」——
+# 依据：~/.claude/rules/specs-rules.md §一「裁剪声明义务」——
 #   分析型 spec（调研/论证/会议应对/知识沉淀）没有数据库、没有 curl，
 #   强行写「数据准备 / 验证用例(SQL) / 数据一致性」就是为过门禁写废话。
 # 判据：00_README / README 里有「文档类型裁剪」声明 → 视为分析型。
