@@ -32,3 +32,4 @@ logs/
 *.backup
 .backups/
 .trash/
+*.bak-*
