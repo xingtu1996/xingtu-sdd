@@ -156,7 +156,7 @@ github/ 下 48 个仓全部切回 main 并与远端同步。本轮处理：
 
 - 行途内容生产（公众号文章）：gpt-6-luna + priority 直连可用，1M context 够塞 DESIGN.md + 发布包全文 + 多平台变体
 - 建议把 `reasoning_effort` 从 medium 提到 high——叙事骨架选择、层层递进逻辑需要更强推理，这是治"逻辑不顺"的模型侧配套
-- shell_environment_policy 里 Claude 系变量全部指向第三方代理 `codemax.co-mall.com` 的 `deepseek-v4-flash[1M]`，稳定性不如 OpenAI 直连；关键发布任务走 gpt-6-luna，别走第三方代理
+- shell_environment_policy 里 Claude 系变量全部指向第三方代理 `<内部LLM代理域名>` 的 `deepseek-v4-flash[1M]`，稳定性不如 OpenAI 直连；关键发布任务走 gpt-6-luna，别走第三方代理
 
 **问：learning 库怎么沉淀**
 
