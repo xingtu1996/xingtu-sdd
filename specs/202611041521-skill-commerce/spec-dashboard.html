@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>技能商业化：盘点 → 脱敏入库 → SEO/GEO/AGO 优化 → 多市场变现</title><style>
+:root{--bg:#f4f6fa;--card:#fff;--card2:#f8fafc;--line:#e5e9f0;--line2:#eef2f7;
+--txt:#1f2937;--dim:#8b95a5;--acc:#2563eb;--acc2:#6366f1;
+--ok:#15803d;--warn:#b45309;--err:#dc2626;--todo:#94a3b8;--ing:#2563eb;--confirm:#d97706;--done:#15803d;
+--r:8px;--gap:14px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font:14px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+background:var(--bg);color:var(--txt);padding:22px}
+.wrap{max-width:1180px;margin:0 auto}
+header{background:linear-gradient(120deg,#1e3a8a,#2563eb 55%,#4f46e5);border-radius:10px;padding:20px 26px;
+margin-bottom:var(--gap);position:relative;overflow:hidden;display:flex;gap:18px;align-items:center}
+header::after{content:'';position:absolute;right:-60px;top:-80px;width:200px;height:200px;
+border-radius:50%;background:rgba(255,255,255,.07)}
+header .hx{flex:1;min-width:0;position:relative;z-index:1}
+header h1{font-size:20px;font-weight:700;color:#fff;line-height:1.35;letter-spacing:.2px}
+/* ⚠️ 类名必须叫 .hsub —— 通用 .sub 是「子 Spec 卡片」，带浅灰底；两处同名会把
+   头部副标题染成「浅底浅字」（2026-10-13 实测该 bug）。 */
+header .hsub{color:rgba(255,255,255,.88);font-size:12.5px;margin-top:6px}
+.badges{margin-top:11px;display:flex;gap:7px;flex-wrap:wrap}
+.badge{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);color:#fff;
+padding:3px 10px;border-radius:5px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.badge.done{background:#0d7a45;border-color:#12a35c}
+.badge.ing{background:#1d4ed8;border-color:#3b82f6}
+.badge.confirm{background:#a35a09;border-color:#d97706}
+.badge.todo{background:#64748b;border-color:#94a3b8}
+.badge.alarm{background:#9f1239;border-color:#e11d48}
+.ring{width:86px;height:86px;border-radius:50%;flex:none;position:relative;z-index:1;
+background:conic-gradient(#fff calc(var(--p,0)*1%), rgba(255,255,255,.22) 0)}
+.ring::before{content:'';position:absolute;inset:8px;border-radius:50%;
+background:linear-gradient(135deg,#3b82f6,#6366f1)}
+.ring i{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-style:normal;
+font-weight:700;font-size:15px;line-height:1.1;text-align:center}
+.ring i small{display:block;font-size:9.5px;font-weight:500;opacity:.85}
+.grid{display:grid;gap:var(--gap);margin-bottom:var(--gap)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.gkpi{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+@media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.g4{grid-template-columns:1fr}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;
+position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c,var(--acc))}
+.kpi b{display:block;font-size:22px;font-weight:700;line-height:1.2;color:var(--c,var(--txt))}
+.kpi span{font-size:12px;color:var(--dim)}
+.kpi em{font-style:normal;font-size:11.5px;color:var(--dim);display:block;margin-top:3px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+padding:15px 18px;margin-bottom:var(--gap)}
+.card>h2{font-size:13.5px;font-weight:700;color:var(--acc);margin-bottom:11px;
+display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card>h2 .rt{margin-left:auto;font-weight:500;font-size:11.5px;color:var(--dim)}
+.lead{font-size:13.5px;color:#374151;background:var(--card2);border-left:3px solid var(--acc);
+border-radius:0 8px 8px 0;padding:11px 15px}
+.track{display:flex;align-items:flex-end;gap:2px;height:74px;padding:0 0 0 1px}
+.track .d{flex:1;min-width:3px;height:5px;background:#e8edf4;border-radius:2px;
+display:flex;align-items:flex-end;transition:background .15s}
+.track .d.on{background:#dbeafe;height:100%}
+.track .d.on::after{content:'';display:block;width:100%;height:var(--h);border-radius:2px;
+background:linear-gradient(180deg,#3b82f6,#6366f1)}
+.trackx{display:flex;justify-content:space-between;color:var(--dim);font-size:10.5px;margin-top:4px}
+.stg{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+@media(max-width:760px){.stg{grid-template-columns:repeat(2,1fr)}}
+.stg .s2{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 8px;text-align:center}
+.stg .s2.on{border-color:#bbf7d0;background:#f0fdf4}
+.stg .s2 b{display:block;font-size:12.5px}
+.stg .s2 span{font-size:11px;color:var(--dim)}
+.stg .s2.on span{color:var(--ok)}
+.bar{height:9px;background:var(--line2);border-radius:99px;overflow:hidden;margin-bottom:8px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#3b82f6,#6366f1);border-radius:99px}
+.kvline{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:#4b5563}
+.kvline b{color:var(--txt)}
+.sub{background:var(--card2);border:1px solid var(--line);border-left:3px solid #c7d2fe;
+border-radius:0 10px 10px 0;padding:9px 13px;margin-bottom:7px}
+.sub .h{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sub .h b{font-size:12.5px}
+.sub .m{color:var(--dim);font-size:10.5px;font-family:ui-monospace,Menlo,monospace;margin-top:2px}
+.grp{font-size:11.5px;color:var(--dim);font-weight:600;margin:11px 0 6px}
+.dot{width:8px;height:8px;border-radius:50%;flex:none;display:inline-block}
+.tl{position:relative;padding-left:18px;max-height:340px;overflow:auto}
+.tl::before{content:'';position:absolute;left:4px;top:5px;bottom:5px;width:2px;background:var(--line)}
+.tl .it{position:relative;padding:5px 0;font-size:12.5px;color:#4b5563}
+.tl .it::before{content:'';position:absolute;left:-18px;top:11px;width:9px;height:9px;
+border-radius:50%;background:var(--acc);box-shadow:0 0 0 3px #fff}
+.tl .it.old::before{background:#cbd5e1}
+.tl .dd{display:inline-block;min-width:74px;color:var(--dim);font-family:ui-monospace,Menlo,monospace;font-size:11px}
+ul.clean{list-style:none;font-size:12.5px;max-height:280px;overflow:auto}
+ul.clean li{padding:5px 0;border-bottom:1px dashed var(--line2);color:#4b5563}
+ul.clean li:last-child{border:none}
+ul.clean li::before{content:'☐ ';color:var(--dim)}
+.comps{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.comp{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.comp.miss{background:#fcfcfd;border-style:dashed;opacity:.72}
+.comp .t{font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px}
+.comp .num{background:var(--line2);color:var(--acc);min-width:19px;height:19px;border-radius:5px;
+display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700}
+.comp.miss .num{color:var(--dim)}
+.comp .fn{color:var(--dim);font-size:10.5px;font-family:ui-monospace,Menlo,monospace;margin:2px 0 5px}
+.comp .d{color:#6b7280;font-size:11.5px}
+.comp .s{color:var(--dim);font-size:11px;margin-top:7px;padding-top:6px;border-top:1px dashed var(--line)}
+.comp .s.hi{color:var(--warn)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{background:var(--card2);color:#64748b;text-align:left;padding:7px 10px;font-weight:600;
+font-size:11.5px;border-bottom:1px solid var(--line)}
+td{padding:7px 10px;border-bottom:1px solid var(--line2)}
+tr:last-child td{border-bottom:none}
+td.g{color:var(--ok);font-weight:600}td.r{color:var(--err);font-weight:600}
+.flag{font-size:11px;padding:2px 9px;border-radius:6px;border:1px solid var(--line);
+background:var(--card2);color:#64748b;font-weight:600}
+.flag.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok)}
+.flag.warn{border-color:#fde68a;background:#fffbeb;color:var(--warn)}
+.flag.alarm{border-color:#fecaca;background:#fef2f2;color:var(--err)}
+.note{background:#fffbeb;border:1px solid #fde68a;border-radius:9px;padding:10px 14px;
+font-size:12.5px;color:#92400e}
+.note.red{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+.muted{color:var(--dim);font-size:11.5px;line-height:1.7}
+.toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:var(--gap)}
+.toolbar a{padding:6px 12px;border-radius:6px;background:var(--card);border:1px solid var(--line);
+color:#475569;text-decoration:none;font-size:12px;font-weight:600;transition:.12s}
+.toolbar a:hover{border-color:var(--acc);color:var(--acc);background:#eff6ff}
+input.search{flex:1;min-width:220px;background:var(--card);border:1px solid var(--line);
+border-radius:10px;padding:8px 14px;font-size:13px;font-family:inherit;outline:none}
+input.search:focus{border-color:var(--acc)}
+details summary{list-style:none}
+details summary::-webkit-details-marker{display:none}
+footer{margin-top:6px;text-align:center;color:var(--dim);font-size:11.5px;line-height:1.8;
+padding:16px;border-top:1px solid var(--line)}
+code{background:#eef2f7;padding:1px 6px;border-radius:5px;font-size:11.5px;font-family:ui-monospace,Menlo,monospace}
+/* ── spec 正文渲染（内容为主） ── */
+.doc{border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:13px;overflow:hidden}
+.doc>summary{cursor:pointer;padding:11px 16px;font-weight:700;font-size:13.5px;color:#111827;
+background:var(--card2);border-bottom:1px solid var(--line);display:flex;gap:9px;align-items:center}
+.doc>summary .num{background:#e0e7ff;color:var(--acc);border-radius:6px;padding:1px 8px;font-size:11.5px;font-weight:700}
+.doc>summary .rt{font-weight:400;color:var(--dim);font-size:11.5px;margin-left:auto}
+.doc .body{padding:14px 16px}
+.doc h3{font-size:13.5px;margin:16px 0 8px;color:#111827;padding-left:9px;border-left:3px solid var(--acc)}
+.doc h3:first-child{margin-top:0}
+.doc h4{font-size:12.5px;margin:12px 0 5px;color:#374151}
+.doc p{font-size:12.8px;color:#374151;margin:7px 0;line-height:1.7}
+.doc ul,.doc ol{margin:6px 0 6px 20px;font-size:12.8px;color:#374151;line-height:1.7}
+.doc li{margin:3px 0}
+.doc blockquote{border-left:3px solid #c7d2fe;background:#f8fafc;margin:8px 0;padding:8px 13px;
+font-size:12.5px;color:#475569;border-radius:0 8px 8px 0}
+.doc pre{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+overflow:auto;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;line-height:1.6;margin:8px 0;color:#334155}
+.doc hr{border:none;border-top:1px dashed var(--line);margin:14px 0}
+.doc .trunc{color:var(--dim);font-size:11.5px;margin-top:8px;padding-top:7px;border-top:1px dashed var(--line)}
+.docs{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:12.5px}
+.docs a{color:var(--acc);text-decoration:none}
+.docs .mdf{color:#334155;font-family:ui-monospace,Menlo,monospace;font-size:11.5px}
+/* ── 白盒摘要（5W1H · 一格一句） ── */
+.brief{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.bx{border:1px solid var(--line);border-radius:7px;background:var(--card);padding:10px 12px}
+.bh{font-size:12px;font-weight:700;color:#334155;display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.bk{background:#1d4ed8;color:#fff;border-radius:4px;padding:1px 7px;font-size:10.5px;
+font-weight:700;letter-spacing:.4px}
+.bb{font-size:12.5px;line-height:1.62;color:#374151}
+.bs{font-size:10.5px;color:var(--dim);margin-top:6px;padding-top:5px;border-top:1px dashed var(--line2)}
+</style></head><body><div class="wrap"><header><div class="hx"><h1>技能商业化：盘点 → 脱敏入库 → SEO/GEO/AGO 优化 → 多市场变现</h1><div class="hsub">.　·　创建 2026-11-04　·　最后改动 2026-11-04 15:28</div><div class="badges"><span class="badge todo">待启动</span></div></div><div class="ring" style="--p:100"><i>5/5<small>阶段</small></i></div></header><div class="toolbar"><a href="#brief">白盒摘要</a><a href="#content">Spec 内容</a><a href="#track">过程与元数据</a></div><a id="kpi"></a><div class="grid gkpi"><div class="kpi" style="--c:var(--acc2)"><b>全部就位</b><span>当前阶段</span><em>5/5 阶段就位</em></div><div class="kpi" style="--c:var(--ok)"><b>0 天</b><span>距上次推进</span><em>2026-11-04</em></div><div class="kpi" style="--c:var(--acc)"><b>6/26</b><span>任务完成</span><em>20 项未打勾</em></div></div><div class="card"><h2>一句话</h2><div class="lead">把四池技能资产中「换个项目还有意义」的部分，系统化脱敏维护到公开仓 `xingtu-skills`，做 SEO/GEO/AGO 三层优化提升外部可发现性，并上架 WorkBuddy / 小红书 RedSkill / Claude 生态三个市场跑通 0→1 收入。</div></div><a id="brief"></a><div class="card"><h2>白盒摘要<span class="rt">5W1H —— 一屏看懂这份 spec</span></h2><div class="brief"><div class="bx"><div class="bh"><span class="bk">What</span>是什么</div><div class="bb">把四池技能资产中「换个项目还有意义」的部分，系统化脱敏维护到公开仓 xingtu-skills，做 SEO/GEO/AGO 三层优化提升外部可发现性，并上架 WorkBuddy / 小红书 RedSkill / Claude 生态三个市场跑通 0→1 收入。</div><div class="bs">出自「一句话目标」</div></div><div class="bx"><div class="bh"><span class="bk">Where</span>影响面</div><div class="bb">公开仓 xingtu-skills ｜ README/marketplace.json/技能内容将批量修改 ｜ 🟡 中（改坏影响对外形象）</div><div class="bs">出自「三、影响面评估」</div></div></div><div class="muted" style="margin-top:8px">每格自动抽取正文首段（限 230 字）；完整内容见下方「Spec 内容」。</div></div><a id="content"></a><div class="card"><h2>Spec 内容<span class="rt">主体 · 从 00~05 正文抽取，按决策顺序排列</span></h2><div class="muted" style="margin-bottom:11px">下面就是这份 spec <b>讲了什么</b>（背景 / 结论 / 根因 / 方案 / 验收 / 任务）。过程类图表（推进轨迹 · 事件流 · 门禁）留在页尾「过程与元数据」，需要时再展开。</div><details class="doc" open><summary><span class="num">00</span>自述<span class="rt">00_README.md · 8 段 · 约 3K 字符 · 点击展开</span></summary><div class="body"><blockquote>Ticket: SKC-001 | 创建: 2026-11-04 15:21 | 状态: 🔄 执行中 关联: boss 2026-11-04 口头授权（原话存 <code>_prompt/boss-instruction.md</code>）</blockquote><h3>一句话目标</h3><p>把四池技能资产中「换个项目还有意义」的部分，系统化脱敏维护到公开仓 <code>xingtu-skills</code>，做 SEO/GEO/AGO 三层优化提升外部可发现性，并上架 WorkBuddy / 小红书 RedSkill / Claude 生态三个市场跑通 0→1 收入。</p><h3>Spec 索引</h3><table><tr><th>文件</th><th>状态</th><th>说明</th></tr>
+<tr><td><a href='./00_README.md'>00_README.md</a></td><td>✅</td><td>本文件</td></tr>
+<tr><td><a href='./laws.md'>laws.md</a></td><td>✅</td><td>方法论薄快照（铁律+门禁，scaffold 自动落盘）</td></tr>
+<tr><td><a href='./01_analysis.md'>01_analysis.md</a></td><td>⬜</td><td>问题分析 + 影响面</td></tr>
+<tr><td><a href='./02_requirements.md'>02_requirements.md</a></td><td>⬜</td><td>验收标准 + 安全条件</td></tr>
+<tr><td><a href='./03_design.md'>03_design.md</a></td><td>⬜</td><td>架构设计 + 接口</td></tr>
+<tr><td><a href='./04_tasks.md'>04_tasks.md</a></td><td>⬜</td><td>任务清单 + 依赖图</td></tr>
+<tr><td><a href='./05_validator.md'>05_validator.md</a></td><td>⬜</td><td>curl/SQL 验证（可执行）</td></tr>
+<tr><td><a href='./deliverables/README.md'>deliverables/</a></td><td>🔄</td><td><b>产出物</b>（报告/对账/方案/SQL/交接件… —— 根目录只放组件，<b>只放当前有效版本</b>，产出进这里）</td></tr>
+<tr><td><a href='./_prompt/README.md'>_prompt/</a></td><td>—</td><td>【按需】输入的来源：用户原话 / 一手邮件 / 审阅 prompt。判据：「缺了这段就复现不出同一个结论」。不需要则删本行</td></tr>
+<tr><td><a href='./_work/README.md'>_work/</a></td><td>—</td><td>【按需】过程的证据：审查 / 实测 / plan / diff / 裁剪记录 / 内部注记。判据：「这是交付物的由来，不是交付物」。不需要则删本行</td></tr>
+<tr><td><a href='./_archive/README.md'>_archive/</a></td><td>—</td><td>【按需】产出的谱系：历史版本 + 作废原因。判据：「曾经在 deliverables、现在不在」。不需要则删本行</td></tr>
+<tr><td><a href='./execution-log.md'>execution-log.md</a></td><td>🔄</td><td>执行事件日志（append-only 事实源）</td></tr>
+<tr><td><a href='./state.json'>state.json</a></td><td>🔄</td><td>机读状态机（<code>sdd.sh</code> 用；与 README 状态行同步，冲突以 execution-log 为准）</td></tr>
+<tr><td><a href='./spec-dashboard.html'>spec-dashboard.html</a></td><td>🔄</td><td><b>看板</b>：组件填充度 / 门禁自检 / 日志时间线 / 未完任务 / 子 Spec —— 由脚本从本目录的 .md 生成，不是手维护</td></tr>
+</table>
+<blockquote>方法论 SSOT：全局 specs-engine skill（本文件为落盘快照，冲突以全局为准）。</blockquote><h3>Spec 深度</h3><blockquote>删除某深度不用的骨架文件时，同步删上方索引对应行，保持零断链。</blockquote>
+<table><tr><th>深度</th><th>场景</th><th>必填</th></tr>
+<tr><td><b>轻量</b></td><td>单文件 Bug、配置调整</td><td>01_analysis + 05_validator（02/03/04 可删）</td></tr>
+<tr><td><b>标准</b></td><td>功能开发、跨模块修改</td><td>01~05 + execution-log 同步记账</td></tr>
+<tr><td><b>重量</b></td><td>架构改造、计费/库存/权限</td><td>同标准 + 方案对比 + 暂停点</td></tr>
+</table><h3>质量门禁</h3><blockquote>置 ✅ 前逐项过 —— 见同目录 <a href='./laws.md'>laws.md</a>。核心：铁律 / 安全三条件 / 级联影响 / 测试 / execution-log / ✅ 三前置。</blockquote><h3>交接与续传（跨会话/长 spec 必填；首次续接时若为空，先补齐再动手）</h3><blockquote>agent 接手续跑本 spec 时先读本节 + execution-log。方法论语：specs-engine references/core.md §七-B。 <b>只记不可从产物重建的部分</b> —— spec 正文/代码里已有的不重复写（记录越多 = 上下文税）。四类必填：</blockquote>
+<ul><li><b>① 被否决的方案及原因</b>：代码里只剩活下来的那个，看不出为什么不是别的</li><li><b>② 现场证据原文</b>：日志/SQL/报错摘要 + 时间戳 —— 环境一变就重跑不出来</li><li><b>③ 用户纠偏原话</b>：最高密度的 why；逐字引，勿转述</li><li><b>④ 未写入 AC 的隐含约束</b>：业务常识/前提（如&quot;接入即消耗&quot;）</li></ul>
+<ul><li>最近 session-record / 断点续传文件：本会话 2026-11-04；state.json.tail</li><li>下一步（下一个动作，一句话）：P1 逐技能打标产出 deliverables/triage.md；🔴 阻塞 D3 收款主体身份隔离需 boss 拍板</li><li>① 被否决的方案：全量 138 改造（工作量失控）与纯 SEO 等自然流量（扣子教训）均否决，选分档漏斗</li><li>② 现场证据原文：skill_pool_audit 输出（138/漂移8/未登记1/红线0）；三平台变现事实见 _prompt/</li><li>③ 用户纠偏原话：无（新 spec）</li><li>④ 未写入 AC 的隐含约束：公众号日更不断（基建时间盒）；对外发布/收款属 boss 拍板事项，AI 不代签</li></ul><h3>复盘（置 ✅ 前必填）</h3><blockquote>数据取自 tasks.md 效能时间戳；发现沉淀到项目回溯目录。</blockquote>
+<ul><li>总耗时：</li><li>踩坑：</li><li>反哺落点：</li></ul><h3>变更日志</h3><table><tr><th>日期</th><th>变更</th><th>作者</th></tr>
+<tr><td>2026-11-04 15:21</td><td>新建（scaffold + 01~05 全量填充）</td><td>小研</td></tr>
+</table></div></details><details class="doc"><summary><span class="num">01</span>分析<span class="rt">01_analysis.md · 8 段 · 约 2K 字符 · 点击展开</span></summary><div class="body"><blockquote>创建: 2026-11-04 15:30 | &gt; 用途：问题分析 + 影响面（Phase 前置必读）</blockquote>
+<blockquote>Ticket: SKC-001 | 日期: 2026-11-04 15:30 | 状态: ✅</blockquote>
+<blockquote>📜 <b>Check</b>：本分析遵守同目录 <a href='./laws.md'>laws.md</a> 三铁律。本项目为内容/资产类工程，技术栈影响面按资产面裁剪。</blockquote><h3>一、问题现状</h3><ul><li>四池技能共 <b>231 个实体</b>（agents 58 真身 / wb_user 94 / 项目级 29 / claude 镜像 50），公开仓 <code>github/xingtu-skills</code> 已维护 <b>138 个</b>（2026-11-04 skill_pool_audit.py 实测，红线扫描 0 命中）</li><li>公开仓只有一个出口形态：GitHub 免费分发。<b>收入通道 = 0</b></li><li>已知基线缺陷：8 个 claude 镜像与上游漂移；1 个技能（doubao-app-layer-archive）未登记进 marketplace.json</li><li>boss 触发（2026-11-04）：WorkBuddy 上线收入变现 + 小红书 RedSkill 内测，窗口期打开</li></ul><h3>二、根因分析</h3><p>### 直接原因</p>
+<p>技能从未被当作「可售资产」盘点过——现有四池差集四分类（GENERIC-KEEP/公司专属/官方样例/个人红线）只回答「能不能公开」，不回答「能不能卖」。</p>
+<p>### 根本原因</p>
+<p>缺一条「公开 → 优化 → 上架 → 收款」的完整管线；且扣子技能商店的前车之鉴证明：<b>没有内容流量配合的技能市场 = 卖不动</b>，必须把内容侧（公众号/小红书）纳入管线设计。</p><h3>三、影响面评估</h3><table><tr><th>影响维度</th><th>发现</th><th>风险等级</th></tr>
+<tr><td>公开仓 xingtu-skills</td><td>README/marketplace.json/技能内容将批量修改</td><td>🟡 中（改坏影响对外形象）</td></tr>
+<tr><td>脱敏纪律（SAF-010）</td><td>上市场前必过 47 词红线 grep + privacy_scan</td><td>🔴 高（违者=身份泄露）</td></tr>
+<tr><td>精力边界</td><td>公众号日更不可断，基建修复设时间盒</td><td>🟡 中</td></tr>
+<tr><td>身份隔离</td><td>市场账号主体须与雇主身份物理隔离</td><td>🔴 高</td></tr>
+<tr><td>定价不可逆</td><td>WorkBuddy 付费方式上架后不可更改</td><td>🟡 中</td></tr>
+</table><h3>四、方案对比</h3><table><tr><th>方案</th><th>改动范围</th><th>风险</th><th>推荐</th></tr>
+<tr><td>A: 全量 138 技能改造上架</td><td>极大，脱敏+剥离依赖工作量失控</td><td>高</td><td>❌</td></tr>
+<tr><td>B: 分档漏斗——A档通用件先上，B档公众号系列择优剥离，C档不卖</td><td>可控，首批评审 5 个以内</td><td>低</td><td>✅</td></tr>
+<tr><td>C: 只做 SEO 优化等自然流量</td><td>零上架动作</td><td>扣子教训=卖不动</td><td>❌</td></tr>
+</table><h3>四-B、并行性分析</h3><table><tr><th>判断项</th><th>结论</th></tr>
+<tr><td>复杂度等级</td><td>M</td></tr>
+<tr><td>拆分粒度</td><td>Phase 级</td></tr>
+<tr><td>并行单元数</td><td>2（盘点分档 ∥ 市场账号开通准备）</td></tr>
+<tr><td>依赖分类</td><td>SEO/GEO/AGO 优化依赖分档结论 → 串行</td></tr>
+<tr><td>形态选择</td><td>前期串行，扩量期（多技能批量改造）可并行</td></tr>
+<tr><td>文件冲突验证</td><td>不涉及（不同技能目录互不相交）✓</td></tr>
+</table><h3>五、安全条件初判</h3><table><tr><th>条件</th><th>判断</th></tr>
+<tr><td><b>退出条件</b></td><td>单技能改造时间盒 ≤ 半天；上架审核 2 轮不过即弃该技能换下一个</td></tr>
+<tr><td><b>幂等条件</b></td><td>上架/登记动作均以 marketplace/平台后台状态为准，重复执行不重复建品</td></tr>
+<tr><td><b>回滚条件</b></td><td>git revert 公开仓改动；平台侧下架资产（WorkBuddy 支持下架）</td></tr>
+</table><h3>六、参考资料</h3><ul><li>市场查证快照：<code>_prompt/boss-instruction.md</code>（2026-11-04，含三平台状态与扣子教训）</li><li>四池盘点工具：<code>tools/skill_pool_audit.py</code></li><li>脱敏闸门：<code>rules/RULES.md</code> SAF-010 / 公开仓 <code>redline</code> 守卫链</li></ul></div></details><details class="doc"><summary><span class="num">02</span>需求<span class="rt">02_requirements.md · 7 段 · 约 2K 字符 · 点击展开</span></summary><div class="body"><blockquote>创建: 2026-11-04 15:30 | &gt; 用途：8 条验收标准 + 安全三条件</blockquote>
+<blockquote>Ticket: SKC-001 | 日期: 2026-11-04 15:30 | 状态: ✅</blockquote>
+<blockquote>📜 <b>Check</b>：需求遵守同目录 <a href='./laws.md'>laws.md</a>。涉及对外发布/收款，安全三条件硬性必填。</blockquote><h3>一、用户故事</h3><ul><li>作为 boss，我希望技能资产能自动产生收入，以便沉淀的方法论变成「数字资产复利」而不是纯投入</li><li>作为 boss，我希望公开仓在搜索引擎/AI 引擎/Agent 目录三层都可被发现，以便不依赖单一市场分发</li><li>作为潜在用户，我希望一眼看懂某个技能解决我什么问题、怎么安装，以便 5 分钟内决定是否使用/购买</li></ul><h3>二、验收标准</h3><table><tr><th>#</th><th>验收标准</th><th>验证方式</th><th>优先级</th></tr>
+<tr><td>AC-1</td><td>138 个公开技能全部完成 A/B/C 三档打标，产出 <code>deliverables/triage.md</code>（含改造成本与首批推荐）</td><td>文件审查</td><td>P0</td></tr>
+<tr><td>AC-2</td><td>至少 1 个 A 档技能完成改造并上架 WorkBuddy 审核通过（免费版），达成「收入变现」开通条件</td><td>平台后台截图</td><td>P0</td></tr>
+<tr><td>AC-3</td><td>开通收款账户后，第 2 个技能以付费形式上架（定价写入 spec 后再发布，付费方式一经选择不可逆）</td><td>平台后台</td><td>P0</td></tr>
+<tr><td>AC-4</td><td>公开仓 marketplace.json 全量登记（含 doubao-app-layer-archive 补登记），SKILL.md description 符合 AGO 触发词规范（含中英触发词 + 场景描述）</td><td>脚本扫描</td><td>P1</td></tr>
+<tr><td>AC-5</td><td>README 完成 GEO 结构化改造（问题→方案→安装→证据四段式，含 FAQ），提交 claudemarketplaces.com 目录登记</td><td>人工+目录收录确认</td><td>P1</td></tr>
+<tr><td>AC-6</td><td>小红书 RedSkill 资格核实（粉丝≥1000），若达标提交首个 MD 格式技能</td><td>平台后台</td><td>P2</td></tr>
+<tr><td>AC-7</td><td>首笔收入到账或 30 天观察期结论（含各渠道曝光/调用/转化数据）</td><td>数据对账</td><td>P2</td></tr>
+<tr><td>AC-8</td><td>全程零红线违规：privacy_scan 全绿 + 47 词 grep 0 命中（每批改动后必跑）</td><td>脚本</td><td>P0（一票否决）</td></tr>
+</table><h3>三、影响范围</h3><table><tr><th>模块</th><th>变更类型</th><th>说明</th></tr>
+<tr><td>github/xingtu-skills</td><td>修改/新增</td><td>README、marketplace.json、部分技能内容剥离改造</td></tr>
+<tr><td>WorkBuddy 开放平台</td><td>新增</td><td>开发者认证、技能发布、收款签约</td></tr>
+<tr><td>小红书创作服务平台</td><td>新增（视资格）</td><td>RedSkill 上传</td></tr>
+<tr><td>公众号内容侧</td><td>修改</td><td>技能种草类选题进入排期（走既有稿件管线，不新增通道）</td></tr>
+</table><h3>四、非功能需求</h3><ul><li><b>兼容性</b>：改造不得破坏本地四池既有引用（守卫链 15 处品牌词技能改名需同步）</li><li><b>幂等性</b>：上架/登记动作可重复执行不重复建品</li><li><b>身份安全</b>：所有平台注册、收款、提现信息与雇主身份物理隔离（SAF-010 延伸）</li></ul><h3>五、安全条件（必填）</h3><table><tr><th>条件</th><th>说明</th><th>具体措施</th></tr>
+<tr><td><b>退出条件</b></td><td>单技能改造 ≤ 半天；审核 2 轮不过换下一个；30 天零收入进入策略复盘而非加码</td><td>记入 execution-log</td></tr>
+<tr><td><b>幂等条件</b></td><td>上架以平台唯一资产 ID 为准</td><td>建品前查重</td></tr>
+<tr><td><b>回滚条件</b></td><td>公开仓改动 git revert；平台资产下架；付费方式错误=不可逆 → 定价必须 spec 留痕后再操作</td><td>每次发布前 dry-run 清单</td></tr>
+</table><h3>六、扩展</h3><p>### 6.4 度量和监控</p>
+<table><tr><th>指标</th><th>观察阈值</th><th>监控方式</th></tr>
+<tr><td>WorkBuddy 技能曝光/调用</td><td>首月 0 调用=触发复盘</td><td>平台运营数据页</td></tr>
+<tr><td>小红书 RedSkill 笔记转化</td><td>使用数 &lt;10 则换选题形态</td><td>笔记数据</td></tr>
+<tr><td>公开仓 GitHub 星标/clone</td><td>月度盘点</td><td>skill_pool_audit 月度体检</td></tr>
+<tr><td>收入</td><td>30 天 0 收入 → 复盘</td><td>平台账单</td></tr>
+</table></div></details><details class="doc"><summary><span class="num">03</span>设计<span class="rt">03_design.md · 7 段 · 约 3K 字符 · 点击展开</span></summary><div class="body"><blockquote>创建: 2026-11-04 15:30 | &gt; 用途：SEO/GEO/AGO 三层设计 + 上架管线</blockquote>
+<blockquote>Ticket: SKC-001 | 日期: 2026-11-04 15:35 | 状态: ✅</blockquote><h3>一、架构决策（最小集）</h3><table><tr><th>决策</th><th>选择</th><th>理由</th></tr>
+<tr><td>分档策略</td><td>A/B/C 三档漏斗（见 01_analysis §三）</td><td>全量改造工作量失控，先跑通单点再扩量</td></tr>
+<tr><td>首发市场</td><td>WorkBuddy（免费版过审→开通变现→付费上架）</td><td>唯一&quot;上架即收款&quot;通道；1% 服务费；个人可开通</td></tr>
+<tr><td>流量策略</td><td>内容侧联动（公众号稿型「我造的坐标系」+ 小红书种草）</td><td>扣子教训：市场不分发流量，必须自带</td></tr>
+<tr><td>优化分层</td><td>SEO/GEO/AGO 三层各对应一种发现方</td><td>三种引擎抓取逻辑不同，不能一套优化打天下</td></tr>
+</table><h3>二、三层优化设计（本 spec 的核心技术方案）</h3><p>### 层 1 · SEO（搜索引擎 = 传统流量）</p>
+<p>对象：Google/Bing/百度 + GitHub 站内搜索。落点：README、仓库名、topics。</p>
+<ul><li>README 标题与 H2 含<b>真实可搜索实体</b>（工具名/平台名/具体数字）——与 boss 已拍板的「外部可发现型判据」同构</li><li>仓库 topics 补齐：<code>claude-skills</code> <code>agent-skills</code> <code>wechat</code> <code>wechat-official-account</code> <code>写作</code> <code>排版</code> 等</li><li>每技能一个独立 README 段落锚点，长尾关键词覆盖「如何给公众号排版」「AI 去味」等中文长尾</li></ul>
+<p>### 层 2 · GEO（生成式引擎优化 = AI 引用）</p>
+<p>对象：ChatGPT/豆包/元宝/Perplexity 等生成引擎的回答引用。落点：README 结构化。</p>
+<ul><li>四段式骨架：<b>问题 → 方案 → 安装 → 证据</b>（证据=实测数字/截图，符合 BUL-003）</li><li>FAQ 段（生成引擎偏爱抓 FAQ 进答案）</li><li>事实句独立成行、带数字、带日期——提高被引用概率</li><li>仓库明示 License 与引用格式（<code>引用本文：xingtu-skills repo</code>）</li></ul>
+<p>### 层 3 · AGO（Agent 优化 = 让 Agent 主动装）</p>
+<p>对象：Claude Code / OpenClaw / WorkBuddy 等 Agent 的自动发现与安装。</p>
+<ul><li><b>SKILL.md description 工程</b>：中英双语触发词 + 「Use when...」场景句 + 与相邻技能的区分句（description 是 Agent 决定是否激活的唯一依据）</li><li><b>marketplace.json 全量登记</b>（补 doubao-app-layer-archive 缺口），条目含 keywords</li><li>第三方目录登记：claudemarketplaces.com（Claude 生态最大目录）、ClawHub（小红书生态兼容面）</li><li>安装路径极简：README 顶层放一键安装命令（<code>npx</code> / git clone 一行式）</li></ul><h3>三、上架管线（单技能改造 SOP）</h3><pre>C 档淘汰 → A 档候选 → ①依赖剥离（tools/*.py 内联或删引用、路径参数化）
+  → ②脱敏闸门（privacy_scan --fail-fast + 47 词 grep）
+  → ③WorkBuddy 打包（zip：SKILL.md + 资源，≤ 限制）
+  → ④发布管理提交审核（免费版）
+  → ⑤过审后：第 1 个用于开通收款，第 2 个开付费（定价先写入 03_design 留痕）
+  → ⑥内容侧联动：公众号选题池加「技能发布」稿型</pre><h3>四、数据流</h3><pre>四池真身(~/.agents) ──diff──→ 公开仓 xingtu-skills/skills/
+                                   │
+                     ┌─────────────┼─────────────┐
+                  SEO 层        GEO 层         AGO 层
+                 (README/topics) (FAQ/证据)   (description/目录登记)
+                                   │
+                        ┌──────────┴──────────┐
+                   WorkBuddy 上架        小红书 RedSkill
+                   (免费过审→付费)        (MD 技能挂笔记)
+                                   │
+                          收入 → 30 天观察期复盘</pre><h3>五、首批候选（P2 执行时逐个过闸门，名单以 triage.md 终评为准）</h3><table><tr><th>候选</th><th>目标市场</th><th>定价假设</th><th>改造点</th></tr>
+<tr><td>de-ai-flavor</td><td>WorkBuddy</td><td>免费版（开通用）</td><td>删行途案例、守卫词通用化</td></tr>
+<tr><td>concept-anchor-figure</td><td>WorkBuddy</td><td>¥9.9-19.9 买断</td><td>删品牌 palette 依赖，参数化</td></tr>
+<tr><td>svgtopng-cn-fonts</td><td>WorkBuddy</td><td>¥9.9 买断</td><td>中文 SVG 转 PNG 刚需，已是自包含配方</td></tr>
+<tr><td>caveman（压缩沟通）</td><td>Claude 生态/WorkBuddy</td><td>免费+口碑</td><td>基本即插即用</td></tr>
+<tr><td>wechat-draft-api</td><td>WorkBuddy</td><td>¥19.9-49.9 买断</td><td>B 档剥离样板：删 boss 专属流程</td></tr>
+</table>
+<blockquote>定价决策（D2）必须在 WorkBuddy 后台勾选付费方式<b>之前</b>落盘本文件并经 boss 确认——付费方式上架后不可修改。</blockquote><h3>六、文档回写清单</h3><table><tr><th>#</th><th>文档</th><th>需要更新？</th><th>变更内容</th></tr>
+<tr><td>1</td><td><code>laws.md</code></td><td>否</td><td>无新铁律</td></tr>
+<tr><td>2</td><td>CHANGELOG.md（主区）</td><td>是</td><td>spec 新建登记</td></tr>
+<tr><td>3</td><td>产出索引.md</td><td>是</td><td>spec + triage.md 登记</td></tr>
+<tr><td>4</td><td>memory（工作区）</td><td>是</td><td>新增长期工作线「技能商业化」</td></tr>
+<tr><td>5</td><td>xingtu-skills README</td><td>是（P4）</td><td>GEO 结构化改造</td></tr>
+</table></div></details><details class="doc"><summary><span class="num">05</span>验证<span class="rt">05_validator.md · 8 段 · 约 3K 字符 · 点击展开</span></summary><div class="body"><blockquote>创建: 2026-11-04 15:30 | &gt; 用途：可执行验证脚本集</blockquote>
+<blockquote>Ticket: SKC-001 | 日期: 2026-11-04 15:40 | 状态: ✅（每 Phase 执行后重跑）</blockquote>
+<blockquote>📜 本项目为资产/内容类工程，无 SQL/微服务——验证以脚本闸门 + 平台后台凭证为主。</blockquote><h3>一、数据准备</h3><blockquote>本项目为资产/内容类工程，无数据库。测试数据 = 技能文件本体 + 平台后台账号状态，随用随在，无需预置。</blockquote><h3>二、本地闸门验证用例</h3><p>### TC-01: 脱敏闸门（AC-8，一票否决，每批改动必跑）</p>
+<pre>python3 /Users/&lt;user&gt;/xingtu/tools/privacy_scan.py --fail-fast
+cd /Users/&lt;user&gt;/xingtu/github/xingtu-skills &amp;&amp; python3 tools/redline_scan.py 2&gt;/dev/null || grep -rEf .redline_words.txt skills/ --include=&quot;*.md&quot; -l | head</pre>
+<p><b>预期</b>：privacy_scan 全绿；红线词 0 命中文件。</p>
+<p>### TC-02: marketplace 全量登记（AC-4）</p>
+<pre>cd /Users/&lt;user&gt;/xingtu/github/xingtu-skills &amp;&amp; ls skills/ | wc -l &amp;&amp; python3 -c &quot;
+import json,pathlib
+mk=json.load(open(&#x27;.claude-plugin/marketplace.json&#x27;)) if pathlib.Path(&#x27;.claude-plugin/marketplace.json&#x27;).exists() else None
+print(&#x27;registered:&#x27;, mk and len(mk.get(&#x27;plugins&#x27;,[])))&quot;</pre>
+<p><b>预期</b>：skills 目录数 == marketplace 登记数（当前 138 vs 137，修复后对齐）。</p>
+<p>### TC-03: SKILL.md description AGO 规范（AC-4）</p>
+<pre>cd /Users/&lt;user&gt;/xingtu/github/xingtu-skills &amp;&amp; for s in skills/*/; do
+  f=&quot;$s/SKILL.md&quot;; [ -f &quot;$f&quot; ] || continue
+  desc=$(awk &#x27;/^description:/{flag=1} flag&amp;&amp;/^---$/{exit} flag&#x27; &quot;$f&quot; | wc -c)
+  len=${desc:-0}; [ &quot;$len&quot; -lt 20 ] &amp;&amp; echo &quot;WEAK: $s&quot;
+done | head -20</pre>
+<p><b>预期</b>：<code>WEAK</code> 输出为空或全部列入 3.3 修补清单（description ≥ 20 字符且含触发词/场景句）。</p>
+<p>### TC-04: 四池体检不回退（兼容性）</p>
+<pre>python3 /Users/&lt;user&gt;/xingtu/tools/skill_pool_audit.py 2&gt;&amp;1 | grep -E &quot;漂移|未登记|命中&quot;</pre>
+<p><b>预期</b>：漂移数不增加；未登记归零；红线命中 0。</p><h3>三、数据一致性验证</h3><blockquote>无 DB 写入，无双写链路。一致性对账对象改为「公开仓 ↔ marketplace ↔ 平台上架资产」三方对齐：skills/ 目录数 = marketplace 登记数（TC-02）；上架技能 = 03_design §五候选表留痕条目。30 天收口时逐条 AC 对账填 §六。</blockquote><h3>四、安全三条件验证</h3><p>### 4.1 退出条件</p>
+<table><tr><th>#</th><th>检查项</th><th>方式</th><th>预期</th></tr>
+<tr><td>1</td><td>单技能改造 ≤ 半天</td><td>execution-log 时间戳</td><td>超时即记录弃选</td></tr>
+<tr><td>2</td><td>审核 2 轮不过即换</td><td>平台审核记录</td><td>第 3 轮不存在</td></tr>
+</table>
+<p>### 4.2 幂等条件</p>
+<table><tr><th>#</th><th>检查项</th><th>方式</th><th>预期</th></tr>
+<tr><td>1</td><td>平台资产不重复建品</td><td>发布前查 WorkBuddy「发布管理」列表</td><td>同名技能唯一</td></tr>
+<tr><td>2</td><td>重复跑 TC-01~04 结果一致</td><td>重跑</td><td>纯读，无副作用</td></tr>
+</table>
+<p>### 4.3 回滚条件</p>
+<table><tr><th>#</th><th>检查项</th><th>方式</th><th>预期</th></tr>
+<tr><td>1</td><td>公开仓改动可回滚</td><td>每批改动独立 commit</td><td>git revert 可用</td></tr>
+<tr><td>2</td><td>定价不可逆前置留痕</td><td>03_design §五 有定价记录且 boss 确认在先</td><td>勾选付费前记录存在</td></tr>
+</table><h3>五、合规检查</h3><table><tr><th>#</th><th>检查项</th><th>命令/方式</th><th>预期</th></tr>
+<tr><td>1</td><td>身份隔离</td><td>平台注册信息核查</td><td>无雇主姓名/邮箱/手机号</td></tr>
+<tr><td>2</td><td>铁律对照</td><td>laws.md + SAF-010</td><td>零违规</td></tr>
+<tr><td>3</td><td>原创声明</td><td>上架原创声明勾选仅限完全自研技能</td><td>无搬运/借鉴来源混入</td></tr>
+</table><h3>六、合并后对账（30 天观察期收口时逐条填）</h3><table><tr><th>AC#</th><th>结论</th><th>证据</th></tr>
+<tr><td>AC-1~8</td><td>⬜</td><td>⬜</td></tr>
+</table>
+<p>### 审核签字</p>
+<table><tr><th>项</th><th>值</th></tr>
+<tr><td>产品/需求视角审核（AC 对账签字）</td><td>待收口</td></tr>
+<tr><td>合并验收责任</td><td>小研</td></tr>
+<tr><td>发布责任</td><td>boss（对外动作最终确认）</td></tr>
+<tr><td>结论</td><td>⬜</td></tr>
+</table><h3>七、手工验证</h3><ul><li>[ ] WorkBuddy 技能页面对外展示效果（手机端实看）</li><li>[ ] 小红书 RedSkill 组件挂载后笔记实机预览</li></ul></div></details><details class="doc"><summary><span class="num">04</span>任务<span class="rt">04_tasks.md · 9 段 · 约 2K 字符 · 点击展开</span></summary><div class="body"><blockquote>创建: 2026-11-04 15:30 | &gt; 用途：6 Phase 任务清单 + 依赖图</blockquote>
+<blockquote>Ticket: SKC-001 | 日期: 2026-11-04 15:35 | 状态: 🔄</blockquote><h3>依赖关系</h3><pre>P0 安全前置 → P1 盘点分档 ──┬→ P3 SEO/GEO/AGO 优化（依赖分档结论）
+                            ├→ P2 首批改造上架（依赖首批名单）
+                            └→ P4 内容联动（依赖上架产物存在）
+P3 ∥ P2 可并行；P5 观察期收口</pre><h3>Phase 0: 安全前置（必做）</h3><ul><li>[x] 0.1 对照 laws.md 确认不违反护栏（脱敏红线/对外动作授权已获 boss 口头授权）</li><li>[x] 0.2 安全三条件确认（02_requirements §五）</li><li>[x] 0.3 文档回写清单更新（03_design §六）</li><li>[ ] 0.4 🔴 收款/注册主体身份隔离方案确认（需 boss 拍板：用哪个手机号/身份注册 WorkBuddy 开发者）——<b>唯一阻塞项，P2 开始前必须关闭</b></li><li>[x] 0.5 续接前置：新 spec，无前序会话</li></ul><h3>Phase 1: 盘点分档（AC-1）</h3><ul><li>[x] 1.1 逐个扫描 138 个公开技能（启发式扫描：A49/B44/C45）：依赖引用 / tools 绑定 / 行途专属逻辑 → 打标 A/B/C</li><li>[x] 1.2 产出 <code>deliverables/triage.md</code>（v1，待署名行人工终评）：全量分档表 + 改造成本估计 + 首批 5 个推荐名单</li><li>[ ] 1.3 boss 确认首批名单（决策点 D1）</li><li>[ ] 1.4 顺手修复基线缺陷：doubao-app-layer-archive 补 marketplace 登记（半小时内）</li></ul><h3>Phase 2: 首批改造上架（AC-2/AC-3，依赖 0.4+1.3）</h3><ul><li>[ ] 2.1 WorkBuddy 开发者认证（个人认证）</li><li>[ ] 2.2 技能 #1 改造：依赖剥离 → 脱敏闸门 → 打包 → 免费上架过审</li><li>[ ] 2.3 满足「≥1 过审」后开通收款账户 + 微信签约</li><li>[ ] 2.4 定价决策落盘 03_design §五（决策点 D2，付费方式不可逆）</li><li>[ ] 2.5 技能 #2 付费上架</li><li>[ ] 2.6 Claude 生态：claudemarketplaces.com 提交登记</li></ul><h3>Phase 3: SEO/GEO/AGO 专题优化（AC-4/AC-5，与 P2 并行）</h3><ul><li>[ ] 3.1 SEO：仓库 topics 补齐 + README 关键词/长尾覆盖改造</li><li>[ ] 3.2 GEO：README 四段式 + FAQ 段改造（证据段用实测数字）</li><li>[ ] 3.3 AGO：全量 SKILL.md description 触发词规范扫描（脚本化 checklist）→ 低分技能批量修补</li><li>[ ] 3.4 首批上架技能的 README 单独强化（一技能一锚点段）</li><li>[ ] 3.5 优化前后基线记录（GitHub 访问数据/目录收录状态）供 30 天对比</li></ul><h3>Phase 4: 内容侧联动（AC-6，依赖 P2 有产物）</h3><ul><li>[ ] 4.1 小红书账号资格核实（粉丝≥1000/注册≥6月）</li><li>[ ] 4.2 达标则 RedSkill 提交首个 MD 技能 + 种草笔记草稿（进待发布池，走既有管线）</li><li>[ ] 4.3 公众号选题池加「技能发布」稿型候选（我造的坐标系变体）</li></ul><h3>Phase 5: 观察期收口（AC-7）</h3><ul><li>[ ] 5.1 30 天数据拉取：各渠道曝光/调用/转化/收入</li><li>[ ] 5.2 复盘结论回写本 spec + daily-judgment-brief 判据沉淀</li><li>[ ] 5.3 扩量决策：继续批量改造（B 档公众号系列）或调整策略</li></ul><h3>覆盖矩阵</h3><table><tr><th>验收标准</th><th>验证产物</th><th>覆盖状态</th></tr>
+<tr><td>AC-1</td><td>deliverables/triage.md</td><td>⬜</td></tr>
+<tr><td>AC-2/3</td><td>WorkBuddy 后台截图</td><td>⬜</td></tr>
+<tr><td>AC-4</td><td>AGO 扫描脚本输出</td><td>⬜</td></tr>
+<tr><td>AC-5</td><td>README diff + 目录收录</td><td>⬜</td></tr>
+<tr><td>AC-6</td><td>小红书后台</td><td>⬜</td></tr>
+<tr><td>AC-7</td><td>30 天数据对账</td><td>⬜</td></tr>
+<tr><td>AC-8</td><td>privacy_scan/grep 输出（每批改动）</td><td>⬜</td></tr>
+</table></div></details><div class="docs"><b>交付物目录（3）</b><br><span class="mdf">README.md</span> <span class="muted">(1 KB · md 源文件)</span>　<span class="mdf">gpt-research-prompt.md</span> <span class="muted">(3 KB · md 源文件)</span>　<span class="mdf">triage.md</span> <span class="muted">(8 KB · md 源文件)</span></div></div><a id="track"></a><details class="doc"><summary><span class="num">图</span>过程与元数据（推进轨迹 · 阶段 · 事件流 · 组件 · 门禁）<span class="rt">SDD 过程信息 —— 点击展开，主体内容在上方「Spec 内容」</span></summary><div class="body"><div class="card"><h2>推进轨迹<span class="rt">1 天跨度 · 活跃 1 天 · 空窗 0 天</span></h2><div class="track"><div class="d on" style="--h:100%" title="2026-11-04：14 次改动/事件"></div></div><div class="trackx"><span>2026-11-04</span><span>2026-11-04</span></div><div class="muted" style="margin-top:8px">柱高 = 当天的事件条数 + 文件改动数（本地痕迹，不是工时）。空窗期说明这段时间没有痕迹，不代表没在工作。</div></div><a id="stage"></a><div class="card"><h2>阶段轨迹<span class="rt">按文件最后改动时间</span></h2><div class="stg"><div class="s2 on"><b>分析</b><span>11-04</span></div><div class="s2 on"><b>需求</b><span>11-04</span></div><div class="s2 on"><b>设计</b><span>11-04</span></div><div class="s2 on"><b>验证</b><span>11-04</span></div><div class="s2 on"><b>任务</b><span>11-04</span></div></div><div class="muted" style="margin-top:8px">当前阶段：<b>全部就位</b>（5/5 就位）</div></div><a id="task"></a><div class="card"><h2>任务进度 <span class="rt">use burnup（范围会变）</span></h2><div class="bar"><i style="width:23%"></i></div><div class="kvline"><span>已完成 <b>6</b></span><span>剩余 <b>20</b></span><span>合计 <b>26</b></span><span>23%</span></div><div class="muted" style="margin-top:6px">范围会随新指令增长，所以用 burnup（完成数 / 总数），不用 burndown —— 否则加需求会被误读成"生产力下降"。</div></div><a id="log"></a><div class="card"><h2>事件流<span class="rt">execution-log · 5 条，最新在上</span></h2><div class="tl"><div class="it"><span class="dd">11-04 16:00</span>Phase 1 · triage.md v1 落盘</div><div class="it"><span class="dd">11-04 15:31</span>决策 · boss 拍板 A 方案</div><div class="it"><span class="dd">11-04 15:45</span>决策记录</div><div class="it"><span class="dd">11-04 15:45</span>Phase 0/骨架 · spec 骨架 + 01~05 全量落盘</div><div class="it"><span class="dd">11-04 15:21</span>澄清状态（开工首条）</div></div></div><div class="card"><h2>未完任务<span class="rt">20 项</span></h2><ul class="clean"><li>0.4 🔴 收款/注册主体身份隔离方案确认（需 boss 拍板：用哪个手机号/身份注册 WorkBuddy 开发者）——**唯一阻塞项，P2 开始前必须关闭**</li><li>1.3 boss 确认首批名单（决策点 D1）</li><li>1.4 顺手修复基线缺陷：doubao-app-layer-archive 补 marketplace 登记（半小时内）</li><li>2.1 WorkBuddy 开发者认证（个人认证）</li><li>2.2 技能 #1 改造：依赖剥离 → 脱敏闸门 → 打包 → 免费上架过审</li><li>2.3 满足「≥1 过审」后开通收款账户 + 微信签约</li><li>2.4 定价决策落盘 03_design §五（决策点 D2，付费方式不可逆）</li><li>2.5 技能 #2 付费上架</li><li>2.6 Claude 生态：claudemarketplaces.com 提交登记</li><li>3.1 SEO：仓库 topics 补齐 + README 关键词/长尾覆盖改造</li><li>3.2 GEO：README 四段式 + FAQ 段改造（证据段用实测数字）</li><li>3.3 AGO：全量 SKILL.md description 触发词规范扫描（脚本化 checklist）→ 低分技能批量修补</li><li>3.4 首批上架技能的 README 单独强化（一技能一锚点段）</li><li>3.5 优化前后基线记录（GitHub 访问数据/目录收录状态）供 30 天对比</li><li>4.1 小红书账号资格核实（粉丝≥1000/注册≥6月）</li><li>4.2 达标则 RedSkill 提交首个 MD 技能 + 种草笔记草稿（进待发布池，走既有管线）</li><li>4.3 公众号选题池加「技能发布」稿型候选（我造的坐标系变体）</li><li>5.1 30 天数据拉取：各渠道曝光/调用/转化/收入</li><li>5.2 复盘结论回写本 spec + daily-judgment-brief 判据沉淀</li><li>5.3 扩量决策：继续批量改造（B 档公众号系列）或调整策略</li></ul></div><a id="gate"></a><div class="card"><h2>门禁自检<span class="rt"><span class="flag ok">8/8 通过</span></span></h2><table><tr><th>检查项</th><th style="width:80px">结果</th></tr><tr><td>数据准备</td><td class="g">✅ 通过</td></tr><tr><td>验证用例</td><td class="g">✅ 通过</td></tr><tr><td>数据一致性</td><td class="g">✅ 通过</td></tr><tr><td>合规检查</td><td class="g">✅ 通过</td></tr><tr><td>无占位符残留</td><td class="g">✅ 通过</td></tr><tr><td>退出条件</td><td class="g">✅ 通过</td></tr><tr><td>幂等条件</td><td class="g">✅ 通过</td></tr><tr><td>回滚条件</td><td class="g">✅ 通过</td></tr></table><div class="muted" style="margin-top:9px">完整验证跑：<code>bash ~/.claude/skills/specs-engine/scripts/validator-check.sh "."</code></div></div></div></details><footer>看板由 <code>specs-engine/scripts/build-dashboard.py</code> 从本目录的 .md 生成 —— 派生视图，<b>真相源是那些文件本身</b>。只呈现可从本地痕迹推出的量：<b>不做工时 / 速度 / 效率</b>（推不出来），<b>不做累积流图</b>（无状态流转历史）。<br>重新生成：<code>python3 ~/.claude/skills/specs-engine/scripts/build-dashboard.py &lt;spec目录&gt;</code></footer></div><script type="module">
+try {
+  const { default: mermaid } = await import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs");
+  mermaid.initialize({ startOnLoad: false, theme: "neutral", securityLevel: "loose" });
+  await mermaid.run({ querySelector: "pre.mermaid" });
+} catch (e) {
+  document.querySelectorAll("pre.mermaid").forEach(p => { p.style.color = "#b91c1c"; });
+  console.warn("mermaid 加载失败（CDN 不可达？）—— 已回退显示源码", e);
+}
+</script></body></html>

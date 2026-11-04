@@ -1,0 +1,80 @@
+{
+  "spec": "202611041521-skill-commerce",
+  "title": "技能商业化：盘点 → 脱敏入库 → SEO/GEO/AGO 优化 → 多市场变现",
+  "ticket": "SKC-001",
+  "created": "2026-11-04 15:21",
+  "updated": "2026-11-04 16:00",
+  "depth": "standard",
+  "task_type": "feature",
+  "status": "in-progress",
+  "stage": "executing",
+  "stages": {
+    "analysis": {
+      "done": true,
+      "updated": "2026-11-04 15:30",
+      "note": "231 实体盘点 + A/B/C 三档 + 市场事实"
+    },
+    "requirements": {
+      "done": true,
+      "updated": "2026-11-04 15:30",
+      "note": "8 条 AC，AC-8 一票否决"
+    },
+    "design": {
+      "done": true,
+      "updated": "2026-11-04 15:35",
+      "note": "三层优化 + 上架管线 + 首批候选"
+    },
+    "tasks": {
+      "done": true,
+      "updated": "2026-11-04 15:35",
+      "note": "6 Phase，0.4 身份隔离为阻塞项"
+    },
+    "validating": {
+      "done": true,
+      "updated": "2026-11-04 15:40",
+      "note": "4 TC + 安全三条件适配资产类工程"
+    },
+    "executing": {
+      "done": false,
+      "updated": "2026-11-04 15:45",
+      "note": "P1 v1 完成，P2 前置阻塞 D3"
+    }
+  },
+  "open_decisions": [
+    {
+      "id": "D1",
+      "question": "首批上架技能名单（triage.md 产出后）",
+      "default": "de-ai-flavor / concept-anchor-figure / svgtopng-cn-fonts（boss 批 A 方案，以终评为准）",
+      "decided": true
+    },
+    {
+      "id": "D2",
+      "question": "付费定价与买断/订阅（🔴 上架后不可改）",
+      "default": "9.9-49.9 买断，按技能定",
+      "decided": false
+    },
+    {
+      "id": "D3",
+      "question": "WorkBuddy 开发者/收款注册主体（身份隔离）",
+      "default": "待 boss 拍板",
+      "decided": false
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H1",
+      "claim": "WorkBuddy 上架免费技能过审后即可开通收款",
+      "status": "open",
+      "evidence": "2026-11-04 官方流程文"
+    },
+    {
+      "id": "H2",
+      "claim": "技能变现必须内容流量联动（扣子教训）",
+      "status": "open",
+      "evidence": "扣子商店开发者月入<三位数案例"
+    }
+  ],
+  "children_specs": [],
+  "artifacts_dir": ".",
+  "tail": "triage.md v1 落盘（A49/B44/C45）；首批3技能改造点定位；GPT 检索提示词已交付 boss；待：人工终评/改造执行/D3 拍板/push 授权"
+}
