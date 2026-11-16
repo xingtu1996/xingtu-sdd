@@ -24,14 +24,14 @@ usage() {
   scaffold.sh new <specs父目录> <spec名> [--depth light|standard|heavy] [--tool <agent>] [--with-artifacts]
   scaffold.sh sub <父Spec目录> <子Spec名> [--depth light|standard|heavy] [--tool <agent>]
 
-  --with-artifacts  额外建 _prompt/ _work/ _archive/ 三个证据目录（含 README 骨架）
+  --with-artifacts  额外建 _prompt/ _work/ _archive/ references/ 四个目录（含 README 骨架）
                     只在"长周期 / 多版本 / 有对外交付"时用，判据见 references/artifacts.md
 EOF
     exit 1
 }
 
 # 解析公共参数：$1=depth变量名 $2=tool变量名，其余为待解析参数
-# --with-artifacts 置全局 WITH_ARTIFACTS=1（建 _prompt/_work/_archive 三目录）
+# --with-artifacts 置全局 WITH_ARTIFACTS=1（建 _prompt/_work/_archive/references 四目录）
 WITH_ARTIFACTS=0
 parse_opts() {
     local _depth="$1" _tool="$2"; shift 2
@@ -87,10 +87,10 @@ cmd_new() {
     mkdir -p "$dir/deliverables"
     cp "$TPL/deliverables.README.md" "$dir/deliverables/README.md" 2>/dev/null || true
 
-    # 证据目录（按需）：_prompt 输入来源 / _work 过程证据 / _archive 历史版本
+    # 证据目录（按需）：_prompt 输入来源 / _work 过程证据 / _archive 历史版本 / references 跨章节基准
     if [ "$WITH_ARTIFACTS" = "1" ]; then
         local d
-        for d in _prompt _work _archive; do
+        for d in _prompt _work _archive references; do
             mkdir -p "$dir/$d"
             cp "$TPL/$d.README.md" "$dir/$d/README.md" 2>/dev/null \
                 || echo "⚠️  模板缺失: $d.README.md" >&2
